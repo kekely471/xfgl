@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/ace/js/echarts.js" type="text/javascript"></script>
+    <title>Title</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: #F3F3F3;
+        }
+
+        .box1 {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            background: #0D45AC;
+            margin: 30px auto 20px;
+        }
+
+        .box1Left {
+            display: inline-block;
+            width: 14%;
+            vertical-align: middle;
+            margin-top: -2px;
+        }
+
+        .box1Right {
+            float: right;
+            width: 84%;
+            height: 100%;
+            line-height: 40px;
+            color: #ffffff;
+            font-size: 16px;
+            background: #0D45AC;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+
+        #box1Right > [carousel-item] > * {
+            color: #ffffff;
+            background-color: transparent;
+        }
+
+        #box1Right > [carousel-item]:before {
+            display: none;
+        }
+
+        .box2Left {
+            float: left;
+            width: 380px;
+        }
+
+        .box2Block {
+            width: 100%;
+            height: 109px;
+            margin-bottom: 20px;
+            background: url("${ctx.contextPath}/layui/commons/images/bg_lan.png") no-repeat;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+
+        .img1 {
+            float: left;
+            width: 80px;
+            margin: 14px 30px 14px 30px;
+        }
+
+        .textBox {
+            color: #FFFFFF;
+            padding-top: 25px;
+        }
+
+        .pBox1 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .pBox2 {
+            font-size: 14px;
+        }
+
+        .pBox2 span {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 2px;
+
+        }
+
+        .box2Right {
+            float: left;
+            width: 780px;
+            margin-left: 20px;
+        }
+
+        .box2Top {
+            position: relative;
+            width: 100%;
+            height: 40px;
+            background: url("${ctx.contextPath}/layui/commons/images/bg_tit_xiao.png") no-repeat;
+            -webkit-background-size: contain;
+            background-size: contain;
+        }
+
+        .box2Top span {
+            display: inline-block;
+            line-height: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-left: 18px;
+        }
+
+        .box2Top div {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 400px;
+            height: 36px;
+            background: #c8dbf8;
+            opacity: 50%;
+        }
+
+        .box2Chart {
+            width: 100%;
+            height: 198px;
+            background: #FFFFFF;
+        }
+
+        .box3 {
+            width: 100%;
+            height: 430px;
+            margin-bottom: 20px;
+        }
+
+        .box3Left {
+            float: left;
+            width: 380px;
+            height: 100%;
+            background: #ffffff;
+        }
+
+        .box3Right {
+            float: left;
+            width: 780px;
+            margin-left: 20px;
+        }
+
+        .box3Top {
+            position: relative;
+            width: 100%;
+            height: 40px;
+            background: url("${ctx.contextPath}/layui/commons/images/bg_tit_xiao.png") no-repeat;
+            -webkit-background-size: contain;
+            background-size: contain;
+        }
+
+        .box3Top span {
+            display: inline-block;
+            line-height: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-left: 18px;
+        }
+
+        .box3Top span.more {
+            float: right;
+            line-height: 45px;
+            color: #0D45AC;
+            font-size: 14px;
+            font-weight: 400;
+            margin-right: 17px;
+            cursor: pointer;
+        }
+
+        .box3Top div {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 400px;
+            height: 36px;
+            background: #c8dbf8;
+            opacity: 50%;
+        }
+
+        .list {
+            margin: 9px 20px 0 20px;
+        }
+
+        .list > li {
+            height: 40px;
+            line-height: 40px;
+            padding: 0 10px 0 6px;
+            background: #ffffff;
+        }
+
+        .list > li:nth-child(even) {
+            background: rgba(13, 69, 172, 0.05);
+        }
+
+        .liLeft {
+            float: left;
+            position: relative;
+            padding-left: 12px;
+            color: #333333;
+            font-size: 16px;
+        }
+
+        .liLeft:before {
+            position: absolute;
+            top: 16px;
+            left: 0;
+            display: block;
+            content: '';
+            width: 6px;
+            height: 6px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            background: #0D45AC;
+        }
+
+        .liRight {
+            float: right;
+            color: #666666;
+            font-size: 14px;
+        }
+
+        .box3Chart {
+            width: 100%;
+            height: 390px;
+            background: #FFFFFF;
+        }
+
+        .selectBox {
+            float: right;
+            height: 32px;
+            margin-top: 22px;
+            margin-right: 37px;
+        }
+
+        /*.selectBox select{
+            float: right;
+            margin-left: 10px;
+            width: 120px;
+            height: 32px;
+            line-height: 32px;
+            border: 1px solid #E2E2E2;
+            background: #ffffff;
+        }*/
+        #box3Chart {
+            width: 100%;
+            height: 336px;
+        }
+
+        .box1:after, .box2:after, .box2Block:after, .box3:after, .box3Chart:after {
+            display: block;
+            content: '';
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+<div style="min-width: 1200px;">
+    <div style="width: 1180px;margin: 0 auto;">
+        <div class="box1">
+            <img class="box1Left" src="${ctx.contextPath}/layui/commons/images/laba.png"/>
+            <div class="box1Right layui-carousel" id="box1Right">
+                <div carousel-item style="height: 40px !important;">
+                    <div>全单位注意：即日起，每天仍要配戴口罩！注意外来人员，注意个人防护，严防新冠病毒！</div>
+                    <div>全单位注意：即日起，！！！</div>
+                </div>
+            </div>
+        </div>
+        <div class="box2">
+            <div class="box2Left">
+                <div class="box2Block">
+                    <img src="${ctx.contextPath}/layui/commons/images/icon_shenhe.png" class="img1"/>
+                    <div class="textBox">
+                        <p class="pBox1">审核、待办</p>
+                        <p class="pBox2"><span>151</span>个未处理</p>
+                    </div>
+                </div>
+                <div class="box2Block"
+                     style="background: url('${ctx.contextPath}/layui/commons/images/bg_huang.png') no-repeat;-webkit-background-size: cover;background-size: cover;">
+                    <img src="${ctx.contextPath}/layui/commons/images/icon_banjie.png" class="img1"/>
+                    <div class="textBox">
+                        <p class="pBox1">已办结</p>
+                        <p class="pBox2"><span>151</span>个已办结</p>
+                    </div>
+                </div>
+            </div>
+            <div class="box2Right">
+                <div class="box2Top"><span>在位率统计</span>
+                    <div></div>
+                </div>
+                <div class="box2Chart" id="box2Chart"></div>
+            </div>
+        </div>
+        <div class="box3">
+            <div class="box3Left">
+                <div class="box3Top">
+                    <span>通知公告</span>
+                    <span class="more">更多></span>
+                </div>
+                <ul class="list">
+                    <li>
+                        <div class="liLeft">保障生产安全，注意火灾隐患</div>
+                        <div class="liRight">2020-4-27</div>
+                    </li>
+                    <li>
+                        <div class="liLeft">明日检查，请各单位注意！</div>
+                        <div class="liRight">2020-4-23</div>
+                    </li>
+                    <li>
+                        <div class="liLeft">注意个人防护！预防新冠肺炎</div>
+                        <div class="liRight">2020-4-20</div>
+                    </li>
+                    <li>
+                        <div class="liLeft">保障生产安全，注意火灾隐患</div>
+                        <div class="liRight">2020-4-17</div>
+                    </li>
+                    <li>
+                        <div class="liLeft">美国这两项数据暴增!令人心惊</div>
+                        <div class="liRight">2020-4-16</div>
+                    </li>
+                    <li>
+                        <div class="liLeft">保障生产安全，注意火灾隐患</div>
+                        <div class="liRight">2020-4-27</div>
+                    </li>
+                    <li>
+                        <div class="liLeft">明日检查，请各单位注意！</div>
+                        <div class="liRight">2020-4-23</div>
+                    </li>
+                    <li>
+                        <div class="liLeft">注意个人防护！预防新冠肺炎</div>
+                        <div class="liRight">2020-4-20</div>
+                    </li>
+                    <li>
+                        <div class="liLeft">保障生产安全，注意火灾隐患</div>
+                        <div class="liRight">2020-4-17</div>
+                    </li>
+                    <li>
+                        <div class="liLeft">美国这两项数据暴增!令人心惊</div>
+                        <div class="liRight">2020-4-16</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="box3Right">
+                <div class="box3Top">
+                    <span>请假通知</span>
+                    <div></div>
+                </div>
+                <div class="box3Chart">
+                    <div class="selectBox">
+                        <form class="layui-form">
+<!--                            <div class="layui-form-item">-->
+<!--                                <div class="layui-inline" style="width: 120px !important;">-->
+<!--                                    <select name="selectTime" id="selectTime" lay-filter="selectTime"-->
+<!--                                            lay-verify="required">-->
+<!--                                        <option value="3">最近三个月</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                                <div class="layui-inline" style="width: 120px !important;">-->
+<!--                                    <select name="selectTeam" id="selectTeam" lay-filter="selectTeam"-->
+<!--                                            lay-verify="required">-->
+<!--                                        <option value="">选择队伍</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                        </form>
+                    </div>
+                    <div id="box3Chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var zwldw = new Array();zwlzw = new Array();zwlbzw = new Array();zwlzwl = new Array();
+    layui.use(['carousel', 'form', 'laydate'], function () {
+        var form = layui.form,
+            laydate = layui.laydate,
+            carousel = layui.carousel;
+
+        // 检查通报轮播
+        carousel.render({
+            elem: '#box1Right'
+            , width: '84%' // 设置容器宽度
+            , height: '40px'
+            , arrow: 'none' // 不显示箭头
+            , anim: 'updown' // 切换动画方式
+            , indicator: 'none'
+            , autoplay: true
+        });
+        //初始化数据
+        initData();
+        // 初始化柱形图
+        initBar();
+
+        // 初始化折线图
+        initLine();
+    });
+
+    function initData() {
+
+        var ajax = new Ajax("leave/getpageZWL", function (ret) {
+            if(ret && ret.dataset && ret.dataset.rows && ret.dataset.rows.length>0){
+                var parentData=ret.dataset.rows;
+                parentData.forEach((item,index,array)=>{
+                    //执行代码
+                    zwldw.push(item.DEPTNAME);
+                    zwlzw.push(item.zwcount);
+                    zwlbzw.push(item.bzwcount);
+                    zwlzwl.push(item.zwl);
+
+                })
+
+            }
+        });
+        ajax.setAsync(false);
+        ajax.submit();
+
+
+
+    }
+
+
+    // 柱形图，初始化echarts图表
+    function initBar() {
+        var myChart = echarts.init(document.getElementById('box2Chart'));
+
+// 指定图表的配置项和数据
+        option = {
+            title: {
+                text: "",
+                textStyle: {
+                    color: "#436EEE",
+                    fontSize: 17
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {
+                data: [
+                    {
+                        name: '政策法规',
+                        icon: 'circle',
+                        textStyle: {
+                            color: 'red',  // 单独设置某一个图列的颜色
+                            backgroundColor: '#fff' // 单独设置某一个图列的字体背景色
+                        }
+                    },
+                    {
+                        name: '经办规程',
+                        icon: 'circle',
+                        textStyle: {
+                            color: 'red',  // 单独设置某一个图列的颜色
+                            backgroundColor: '#fff' // 单独设置某一个图列的字体背景色
+                        }
+                    }
+                ]
+            },
+            //x轴显示
+            xAxis: {
+                data: zwldw,
+                show: true,  // 是否显示
+                position: 'bottom',  // x轴的位置
+                offset: 0, // x轴相对于默认位置的偏移
+                type: 'category',   // 轴类型， 默认为 'category'
+                name: '月份',    // 轴名称
+                nameLocation: 'end',  // 轴名称相对位置
+                nameTextStyle: {   // 坐标轴名称样式
+                    color: 'red',
+                    padding: [5, 0, 0, -5]
+                },
+                nameGap: 15, // 坐标轴名称与轴线之间的距离
+                nameRotate: 0,  // 坐标轴名字旋转
+                axisLine: {       // 坐标轴 轴线
+                    show: true,  // 是否显示
+                    symbol: ['none', 'arrow'],  // 是否显示轴线箭头
+                    symbolSize: [8, 8], // 箭头大小
+                    symbolOffset: [0, 7],  // 箭头位置
+                    // ------   线 ---------
+                    lineStyle: {
+                        color: 'blue',
+                        width: 1,
+                        type: 'solid'
+                    }
+                },
+                axisTick: {    // 坐标轴 刻度
+                    show: true,  // 是否显示
+                    inside: true,  // 是否朝内
+                    length: 3,     // 长度
+                    lineStyle: {   // 默认取轴线的样式
+                        color: 'red',
+                        width: 1,
+                        type: 'solid'
+                    }
+                },
+                axisLabel: {    // 坐标轴标签
+                    show: true,  // 是否显示
+                    inside: false, // 是否朝内
+                    rotate: 0, // 旋转角度
+                    margin: 5, // 刻度标签与轴线之间的距离
+                    color: 'red'  // 默认取轴线的颜色
+                },
+                splitLine: {    // gird区域中的分割线
+                    show: false,  // 是否显示
+                    lineStyle: {
+                        // color: 'red',
+                        // width: 1,
+                        // type: 'solid'
+                    }
+                },
+                splitArea: {    // 网格区域
+                    show: false  // 是否显示，默认为false
+                },
+                // show: false
+            },
+            //   ------   y轴  ----------
+            yAxis: {
+                show: true,  // 是否显示
+                position: 'left', // y轴位置
+                offset: 0, // y轴相对于默认位置的偏移
+                type: 'value',  // 轴类型，默认为 ‘category’
+                name: '销量',   // 轴名称
+                nameLocation: 'end', // 轴名称相对位置value
+                nameTextStyle: {    // 坐标轴名称样式
+                    color: '#fff',
+                    padding: [5, 0, 0, 5]  // 坐标轴名称相对位置
+                },
+                nameGap: 15, // 坐标轴名称与轴线之间的距离
+                nameRotate: 270,  // 坐标轴名字旋转
+
+                axisLine: {    // 坐标轴 轴线
+                    show: true,  // 是否显示
+                    //  -----   箭头 -----
+                    symbol: ['none', 'arrow'],  // 是否显示轴线箭头
+                    symbolSize: [8, 8],  // 箭头大小
+                    symbolOffset: [0, 7], // 箭头位置
+
+                    // ----- 线 -------
+                    lineStyle: {
+                        color: 'blue',
+                        width: 1,
+                        type: 'solid'
+                    }
+                },
+                axisTick: {      // 坐标轴的刻度
+                    show: true,    // 是否显示
+                    inside: true,  // 是否朝内
+                    length: 3,      // 长度
+                    lineStyle: {
+                        color: 'red',  // 默认取轴线的颜色
+                        width: 1,
+                        type: 'solid'
+                    }
+                },
+                axisLabel: {      // 坐标轴的标签
+                    show: true,    // 是否显示
+                    inside: false,  // 是否朝内
+                    rotate: 0,     // 旋转角度
+                    margin: 8,     // 刻度标签与轴线之间的距离
+                    color: 'red',  // 默认轴线的颜色
+                },
+                splitLine: {    // gird 区域中的分割线
+                    show: true,   // 是否显示
+                    lineStyle: {
+                        color: '#666',
+                        width: 1,
+                        type: 'dashed'
+                    }
+                },
+                splitArea: {     // 网格区域
+                    show: false   // 是否显示，默认为false
+                }
+            },
+            tooltip: {
+                position: ['50%', '50%'],
+                padding: [5, 10]
+            },
+            grid: {
+                left: '0%'
+            },
+            series: [
+                {
+                    name: "在位",
+                    type: "bar",
+                    stack: "业务",//折叠显示
+                    data: zwlzw,
+                    barWidth: 25,
+                    //显示颜色
+                    itemStyle: {
+                        normal: {color: "blue"}
+                    },
+                    label: {   // 图形上的文本标签
+                        show: false,
+                        position: 'insideTop', // 相对位置
+                        rotate: 0,  // 旋转角度
+                        color: '#eee'
+                    }
+                },
+                {
+                    name: "不在位",
+                    type: "bar",
+                    stack: "业务",
+                    data: zwlbzw,
+                    barWidth: 25,
+                    label: {   // 图形上的文本标签
+                        show: false,
+                        position: 'insideTop', // 相对位置
+                        rotate: 0,  // 旋转角度
+                        color: '#eee'
+                    },
+                    itemStyle: {
+                        normal: {color: "#FF8849"}
+                    }
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    }
+
+    // 初始化折线
+    function initLine() {
+        // 折线图，初始化echarts图表
+        var myChart1 = echarts.init(document.getElementById('box3Chart'));
+        // 加载
+        var option1 = {
+            grid: { // 控制边距
+                left: '20px',
+                top: '20px',
+                right: '20px',
+                bottom: '20px',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: true,
+                data: zwldw,
+                axisTick: { // y轴刻度线
+                    show: false
+                },
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: '#999999'
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#E2E2E2', // 颜色
+                        width: 1 // 粗细
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value',
+                splitLine: {     //网格线
+                    show: false
+                },
+                axisTick: { // y轴刻度线
+                    show: false
+                },
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: '#999999'
+                    }
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#E2E2E2', // 颜色
+                        width: 1 // 粗细
+                    }
+                }
+            },
+            series: [{
+                data: zwlzwl,
+                type: 'line',
+                symbol: 'circle', // 实心点
+                symbolSize: 8, // 设定实心点的大小
+                smooth: true, // 曲线变平滑
+                itemStyle: {
+                    normal: {
+                        color: '#0D45AC',
+                        lineStyle: {
+                            width: 3,
+                            type: 'solid',
+                            color: '#0D45AC'
+                        }
+                    }
+                }
+            }]
+        };
+        myChart1.setOption(option1);
+    }
+
+</script>
+</body>
+</html>

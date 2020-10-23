@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+<style>
+    .layui-form-label {width: 100px;}
+    .layui-input-block {margin-left: 130px;}
+</style>
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>登录账号</label>
+                <div class="layui-input-block">
+                    <input type="text" lay-verify="required"
+                           value="${Session.loginuser.username}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>旧密码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="oldpassword" lay-verify="required" placeholder="密码"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>新密码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="password" lay-verify="required" placeholder="密码"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>新密码确认</label>
+                <div class="layui-input-block">
+                    <input type="text" name="password2" lay-verify="required" placeholder="密码确认"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var index = parent.layer.getFrameIndex(window.name);
+
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+
+        //监听提交
+        form.on('submit()', function (data) {
+            var datas = data.field;
+            var ajax = new Ajax("account/updatePwd", function (data) {
+                if (data.code == 1) {
+                    layer.alert("操作成功!", {icon: 1}, function () {
+                        parent.layer.close(index);
+                    });
+                } else {
+                    layer.alert(data.msg, {icon: 2});
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
+
+    function mySubmit() {
+        $("#tj").click();
+    }
+
+
+</script>
+</body>
+
+</html>

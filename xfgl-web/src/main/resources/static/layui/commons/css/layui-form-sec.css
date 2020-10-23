@@ -1,0 +1,17 @@
+.contentBox{width: 80%; margin: 0px auto;}
+.formBox {
+    padding: 30px;
+    background: #fff;
+    margin: 20px 0;
+}
+
+.contentBox .layui-form-label{width:110px;padding: 8px 15px;background:#f2f2f2;border-style:solid;border-color:#e6e6e6;border-width:1px 0 1px 1px;box-sizing:border-box;}
+.layui-input, .layui-select, .layui-textarea{border-radius: 0;}
+
+.redLabel{color: red;margin: 5px;}
+
+.formBox .layui-form-item { box-sizing: border-box;float: left;  clear: inherit;}
+.layui-td-1{width: 100%;}
+.layui-td-2{width: 50%;}
+.label {color: #FFF;  display: inline-block;line-height: 1.15; height: 20px;font-size: 12px;padding: .3em .6em }
+.label.label-success {background-color: #82AF6F;}

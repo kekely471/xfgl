@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+<body class="layui-layout-body">
+<div style="padding: 15px;">
+    <div class="extList-search">
+        <!--按钮区域-->
+        <div class="layui-btn-group" style="height: 35px;">
+        </div>
+        <div class="layui-form-item extList-search-box">
+            <form class="layui-form" style="display: inline-block;">
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label">关键字：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="key_name" id="key_name" placeholder="字典值/名称/标识/标识名称" >
+                    </div>
+                </div>
+            </form>
+
+            <!--工具栏区域-->
+            <div class="layui-inline extList-sm-icon" title="搜索" onclick="search()"><i class="layui-icon layui-icon-search"></i></div>
+            <div class="layui-inline extList-sm-icon" title="刷新" onclick="refreshPage()"><i class="layui-icon layui-icon-refresh"></i></div>
+        </div>
+
+
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script>
+    initBtns();
+    var table, tableIns, openType = 1;
+    var _type_code = "${type_code}";//字典类型调用
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    if (_type_code == "") {
+        _type_code = "0";
+    }
+    layui.use('table', function () {
+        table = layui.table;
+        var pageHeight = $(window).height() - 30 - 38;
+        tableIns = table.render({
+            id: "tab_list"
+            , elem: '#tab_dg'
+            , height: pageHeight
+            , limit: Math.floor(pageHeight / 40 - 2)
+            , url: Apps.ContextPath + 'dict/sys/list' //数据接口
+            , page: true //开启分页
+            , where: {"v": Date.parse(new Date()),"type_code":_type_code}
+            , autoSort: false
+            , cols: [[ //表头
+                {type: 'checkbox', fixed: 'left', checkbox: false}
+                , {title: '序号', width: 70, align: 'center', type: 'numbers', fixed: 'left', unresize: true}
+                , {field: 'ID', title: '编号', width: 80, align: 'center',hide:true}
+                , {
+                    field: 'NAME', title: '字典名称', width: 130, align: 'left', templet: function (res) {
+                        return '<a href="#" class="layui-table-link" onclick="viewOne(' + res.ID + ')">' + res.NAME + '</a>';
+                    }
+                }
+                , {field: 'VALUE', title: '字典值', width: 80, align: 'center'}
+                , {field: 'TYPENAME', title: '标识名称', width: 150, align: 'left'}
+                , {field: 'TYPE_CODE', title: '字典标识', width: 200, align: 'left'}
+                , {field: 'CN', title: '字典简称', width: 177, align: 'center'}
+                , {field: 'EXT1', title: '扩展一', width: 120, align: 'left'}
+                , {field: 'EXT2', title: '扩展二', width: 120, align: 'left'}
+                , {field: 'EXT3', title: '扩展三', width: 120, align: 'left'}
+                , {field: 'SORT', title: '排序号', width: 80, align: 'center'}
+                , {
+                    field: 'STATUS', title: '状态', width: 80, align: 'center', templet: function (res) {
+                        var _source = getSSourceDate("data_status", 0);
+                        return init_rows(_source, res.STATUS);
+                    }
+                }
+            ]]
+            , done: function (res, curr, count) {
+                $("[data-field='id']").css('display', 'none');
+            }
+        });
+        //监听排序事件
+        table.on('sort(test)', function (obj) { //实现服务端排序
+            table.reload('tab_list', {
+                initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                    field: obj.field //排序字段
+                    , order: obj.type //排序方式
+                }
+            });
+        });
+    });
+
+
+    function buttonEvents(type) {
+        var check = table.checkStatus('tab_list');
+        //用于判断为查看详情还是编辑的状态
+        var param = {
+            type: 2,
+            area: ['600px', '80%'],
+            title: '系统字典表单',
+            fixed: false, //不固定
+            content: Apps.ContextPath + "dict/sys/add/" + _type_code,
+        };
+        if (type == "add") {
+            openPage(openType, type, param);
+        } else if (check.data.length != 1 && type == 'edit') {
+            layer.msg("请选择一行数据！", function () {
+            })
+        } else if (type == "edit") {
+            param.content = Apps.ContextPath + 'dict/sys/add/0/'+ check.data[0].ID;
+            openPage(openType, type, param);
+        } else if (type == "del") {
+            rowsDel("dict/sys/del", check.data, "你确定删除所选数据吗?");//刪除事件
+        } else if (type == 'realDel') {
+            rowsDel("dict/sys/realDel", check.data, "彻底删除数据后无法恢复，确定要彻底删除所选数据?");
+        }
+    }
+
+    function viewOne(id) {
+        //用于判断为查看详情还是编辑的状态
+        var type = 'edit';
+        var param = {
+            type: 2,
+            area: ['600px', '80%'],
+            title: '系统字典表单',
+            fixed: false, //不固定
+            btn:["取消"],
+            content: Apps.ContextPath + 'dict/sys/add/0/'+ id+"?isView=true"
+        };
+        openPage(openType, type, param);
+    }
+
+    function search() {
+        tableIns.reload({
+            where:{"key_name":$("#key_name").val()},
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        })
+    }
+
+    //回车搜索
+    $(document).keyup(function(event){
+        if(event.keyCode ==13){
+            tableIns.reload({
+                where:{"key_name":$("#key_name").val()},
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            })
+        }
+    });
+</script>
+</body>
+</html>

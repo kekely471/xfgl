@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+
+<body id="messageBody">
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-1" style="display:none;">
+                <label class="layui-form-label"><span class="redLabel">*</span>通知编号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id" placeholder="请输入通知编号"  value="${MESSAGE.ID}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>通知标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" placeholder="请输入通知标题"  value="${MESSAGE.TITLE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1" id="tag_ids">
+                <label class="layui-form-label">接收方</label>
+                <div class="layui-input-block" id="tag_ids1">
+
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">消息类型</label>
+                <div class="layui-input-block">
+                    <select name="message_type" id="message_type" lay-verify="required" selectValue = "${MESSAGE.MESSAGE_TYPE}">
+                        <option value="">请选择消息类型</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"></span>内容</label>
+                <div class="layui-input-block">
+                    <textarea name="content" id="content" lay-verify="" maxlength="300" placeholder="请输入内容"  autocomplete="off" class="layui-textarea">${MESSAGE.CONTENT}</textarea>
+                </div>
+            </div>
+            <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    layui.config({
+        base:'${ctx.contextPath}/layui/layui_extends/'
+    });
+    var index = parent.layer.getFrameIndex(window.name);
+    var _id = "${id}";
+    var isView = "${isView}";
+    var receive_ids = "${receiver}";
+    layui.use(['form','layer','selectM'], function() {
+        var form = layui.form;
+        var layer = layui.layer;
+        var selectM = layui.selectM;
+        //初始化下拉框 傳值為name
+        initSelectBox("message_type", 'common/dict/business','{"type_code":"message_type"}','VALUE','NAME');
+        //监听提交
+        form.on('submit()', function(data) {
+            var datas = data.field;
+            var ajax = new Ajax("message/save",function(data){
+                if(judgeRight(data)){
+                    layer.alert("操作成功!",{icon:1},function(){
+                        parent.tableIns.reload({where:{"v":Date.parse(new Date())}});
+                        parent.layer.close(index);
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+
+        //多选标签-所有配置
+        var tagIns2 = selectM({
+            //元素容器【必填】
+            elem: '#tag_ids1'
+            //候选数据【必填】
+            ,data: "message/list/user"
+            //默认值
+            ,selected: receive_ids.split(",")
+            //最多选中个数，默认X
+            //,max : X
+            //input的name 不设置与选择器相同(去#.)
+            ,name: 'receive_id'
+            //值的分隔符
+            ,delimiter: '+'
+            //候选项数据的键名
+            ,field: {idName:'ID',titleName:'NAME'}
+        });
+        if(isView){
+            $('#messageBody').find('input,text,select,textarea').attr('disabled',true);
+            $('#tag_ids').hide();
+        }
+        form.render();
+    });
+
+    function mySubmit(){
+        $("#tj").click();
+    }
+</script>
+</body>
+
+</html>

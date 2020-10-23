@@ -1,0 +1,55 @@
+/*皮肤样式*/
+.layui-layout-admin .layui-header{background-color:#3a6da4;}
+.layui-layout-admin .layui-logo{color:#fff;}
+.layui-nav .layui-this:after, .layui-nav-bar, .layui-nav-tree .layui-nav-itemed:after {background-color: #649aff;}
+.kit-nav .layui-this, .layui-layout-left .layui-nav-item:hover{background-color:rgba(82,144,211,0.41)!important;}
+.layui-nav-tree .layui-nav-bar{background-color:#3a6da4;}
+.layui-nav-tree .layui-nav-child, .layui-nav-tree .layui-nav-child dd.layui-this{background-color:#314c6c;}
+.layui-nav-tree .layui-nav-child, .layui-nav-tree .layui-nav-child dd:hover{background-color:#314c6c;}
+.layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this>a, .layui-nav-tree .layui-this>a:hover{background-color:#314c6c;}
+.layui-nav .layui-nav-item.layui-this{background-color:rgba(82,144,211,0.41);}
+.layui-tab-title li .layui-tab-close:hover{background-color:#4584c9;}
+/*按钮样式*/
+.layui-btn-group .layui-btn:first-child{border-radius: 3px;}
+.layui-btn-group .layui-btn:last-child{border-radius: 3px;}
+.layui-btn-group .layui-btn{border-radius: 3px;margin-right:10px !important;}
+.layui-btn-container.layui-btn-container-icon .layui-btn{padding-left: 40px;}
+.layui-btn-add{background:url(../images/menu/zj.png) 15px center #4584c9 no-repeat;}
+.layui-btn-edit{background:url(../images/menu/bj.png) 15px center #4584c9 no-repeat;}
+.layui-btn.layui-btn-del{background:url(../images/menu/sc.png) 15px center #f03c24 no-repeat;}
+.layui-btn.layui-btn-realDel{background:url(../images/menu/cdsc.png) 15px center #f03c24 no-repeat;}
+.layui-btn.layui-btn-account{background:url(../images/menu/cdsc.png) 15px center #f03c24 no-repeat;}
+.layui-btn.layui-btn-untying{background:url(../images/menu/jb.png) 15px center #4584c9 no-repeat;}
+.layui-btn.layui-btn-export{background:url(../images/menu/dc.png) 15px center #4584c9 no-repeat;}
+.layui-btn.layui-btn-import{background:url(../images/menu/dr.png) 15px center #4584c9 no-repeat;}
+.layui-btn.layui-btn-relation{background:url(../images/menu/glyh.png) 15px center #4584c9 no-repeat;}
+.layui-btn.layui-btn-resetpwd{background:url(../images/menu/mmcz.png) 15px center #4584c9 no-repeat;}
+.layui-btn.layui-btn-opening{background:url(../images/menu/zhkt.png) 15px center #4584c9 no-repeat;}
+.layui-btn.layui-btn-setup{background:url(../images/menu/sz.png) 15px center #4584c9 no-repeat;}
+.layui-btn-search{background:#4584c9;}
+/*grid分页*/
+.layui-laypage .layui-laypage-curr .layui-laypage-em{background:#4584c9;}
+.layui-laypage a:hover{color:#4584c9;}
+/*表单样式*/
+.layui-form-radio>i:hover, .layui-form-radioed>i{color:#4584c9;}
+.layui-form-checked[lay-skin=primary] i{border-color:#4584c9;background-color:#4584c9;}
+
+/*修正左侧菜单选中样式 top:0px!important*/
+.layui-nav .layui-this:after{}
+span.layui-nav-bar{bottom:auto !important;}
+
+.layui-layer-btn .layui-layer-btn0{border-color: #569ae3 !important;background-color: #569ae3 !important;}
+.layui-form-checked, .layui-form-checked:hover{border-color: #569ae3 !important;}
+.layui-form-checked span{background-color: #569ae3;}
+.layui-form-checked i, .layui-form-checked:hover i{color: #569ae3;}
+.layui-form-select dl dd.layui-this{background-color: #569ae3;}
+.layui-laydate td.layui-this{background-color: #569ae3 !important;}
+.layui-form-checkbox[lay-skin=primary]:hover i{border-color: #569ae3;}
+.layui-form-onswitch{border-color: #569ae3;background-color: #569ae3;}
+.layui-btn{background-color:#4584c9;}
+.layui-btn-prominent{background-color: #f03c24;}
+.layui-btn-primary{background-color:#fff;}
+.layui-btn-primary:hover{border-color: #4584c9;}
+
+.layui-form-checked:hover span{background-color: #569ae3;}
+.layui-form-checkbox[lay-skin=primary] span{background-color: #fff !important;}

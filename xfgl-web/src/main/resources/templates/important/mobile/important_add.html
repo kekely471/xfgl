@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	 <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>要事登记</title>
+	<link rel="stylesheet" href="${ctx.contextPath}/mobile/css/base.css" />
+	<link rel="stylesheet" href="${ctx.contextPath}/mobile/css/mui.min.css">
+	<link rel="stylesheet" href="${ctx.contextPath}/mobile/common/layui/css/layui.css" />
+	<link rel="stylesheet" href="${ctx.contextPath}/mobile/css/mui.picker.css">
+	<link href="${ctx.contextPath}/mobile/css/mui.poppicker.css" rel="stylesheet" />
+	<link href="${ctx.contextPath}/mobile/css/mui.dtpicker.css" rel="stylesheet" />
+	<link rel="stylesheet" href="${ctx.contextPath}/mobile/css/leave_add.css" />
+	<script type="text/javascript" src="${ctx.contextPath}/mobile/common/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="${ctx.contextPath}/mobile/common/base.js"></script>
+	<script type="text/javascript" src="${ctx.contextPath}/mobile/common/layui/layui.js"></script>
+	<script src="${ctx.contextPath}/mobile/common/mui.min.js"></script>
+	<script src="${ctx.contextPath}/mobile/common/mui.picker.js"></script>
+	<script src="${ctx.contextPath}/mobile/common/mui.poppicker.js"></script>
+	<script src="${ctx.contextPath}/mobile/common/mui.dtpicker.js"></script>
+	<script src="${ctx.contextPath}/mobile/common/mui.picker.min.js"></script>
+
+	<script src='${ctx.contextPath}/mobile/common/popup/js/popups.js'></script>
+	<script src="${ctx.contextPath}/mobile/common/web.ajax.js"></script>
+<!--
+	<script type="text/javascript" src="${ctx.contextPath}/mobile/js/important_add.js"></script>
+-->
+
+<!--
+	<script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+-->
+</head>
+<body>
+	<div class='leave_top'>
+		<div class='back' onclick="window.history.back();"><img src='${ctx.contextPath}/mobile/images/icon_fanhui.png'></div>
+		<div class='leave_title'>要事登记</div>
+	</div>
+	<div class='empty'></div>
+	<form class="layui-form" action="" method='post' >
+		<div class='leave_content'>
+			<ul>
+				<li>
+					<lable>在外人数</lable>
+					<div>
+						<input type="text" value="${important.REIGNNUMBER}" name="REIGN_NUMBER" id="REIGN_NUMBER" lay-vertype="tips" lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+				</li>
+				<li>
+					<lable>请假外出</lable>
+					<div>
+						<input type="text" value="${important.LEAVENUMBER}" name="LEAVE_NUMBER" id="LEAVE_NUMBER" lay-vertype="tips" lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+				</li>
+				<li>
+					<lable>探亲休假</lable>
+					<div>
+						<input type="text" value="${important.GOHOMENUMBER}" name="GO_HOME_NUMBER" id="GO_HOME_NUMBER" lay-vertype="tips" lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+				</li>
+				<li>
+					<lable>要事类型</lable>
+					<div>
+						<input type="text" name="TYPE" id="TYPE" lay-verify="required"  readonly  lay-vertype="tips" placeholder="请选择类型"   autocomplete="off" class="layui-input" style='padding-right:0.4rem;'>
+						<input type="text" name="IMPORTANT_TYPE" id="IMPORTANT_TYPE" autocomplete="off" class="layui-input" readonly style='display: none;'>
+						<div class='down'></div>
+					</div>
+				</li>
+				</li>
+				<li>
+					<lable>要事说明</lable>
+					<div>
+						<textarea name="IMPORTANT_CONTENT" placeholder="说明" >${important.IMPORTANTCONTENT}</textarea>
+					</div>
+				</li>
+				<li>
+					<lable>审批人</lable>
+					<div>
+						<input type="text" name="AUDIT_USER_NAME" id="AUDIT_USER_NAME" lay-verify="required"  readonly  lay-vertype="tips" placeholder="请选择审批人"  autocomplete="off" class="layui-input" readonly style='padding-right:0.4rem;'>
+						<input type="text" name="AUDIT_USER" id="AUDIT_USER"  autocomplete="off" class="layui-input" readonly="" style='display: none;'>
+						<div class='down'></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="foot_content">
+	        <div class="foot">
+	        	<div class="censorship" lay-submit lay-filter="tj">送审</div>
+	            <div class="save" lay-submit lay-filter="save">保存</div>
+	        </div>
+	    </div>
+	</form>
+	<script>
+		var leavetypePicker;
+		var sprPicker;
+		var userId = "${userId}";
+		console.log(userId);
+		layui.use(['form'], function() {
+			var form = layui.form;
+			initType("Important_type","TYPE","IMPORTANT_TYPE");
+			initspr("Important_spr","AUDIT_USER_NAME","AUDIT_USER");
+
+			form.on('submit(save)', function(data) {//保存
+				var datas = data.field;
+				datas.STATUS= 1
+				var ajax = new Ajax("importantMobile/saveOrUpdate",function(data){
+					if (data.code == 1) {
+						parent.layer.alert("操作成功!",{icon:1},function(){
+							parent.layer.closeAll();
+						});
+					}else{
+						parent.layer.alert("操作异常!",{icon:1},function(){
+						});
+					}
+				});
+				ajax.add("userId",userId);
+				ajax.add(datas);
+				ajax.submit();
+
+			});
+			form.on('submit(tj)', function(data) {//送审
+				console.log(data.elem.id);
+				var datas = data.field;
+				datas.STATUS= 2
+				var ajax = new Ajax("importantMobile/saveOrUpdate",function(data){
+					if (data.code == 1) {
+							parent.layer.alert("操作成功!",{icon:1},function(){
+								parent.layer.closeAll();
+							});
+						}else{
+							parent.layer.alert("操作异常!",{icon:1},function(){
+							});
+						}
+				});
+				ajax.add("userId",userId);
+				ajax.add(datas);
+				ajax.submit();
+			});
+
+
+		})
+
+
+		function initType(code,id,hideid) {
+			var ajax = new Ajax("importantMobile/dict/business",function (data) {
+				var dataList=data.dataset.rows;
+				$(dataList).each(function(index,item){
+					item.text=item.NAME;
+					item.value=item.ID;
+				});
+				var resultdata=dataList;
+				leavetypePicker = new mui.PopPicker();
+				leavetypePicker.setData(resultdata);
+				var leavetypePickerButton = document.getElementById(id);
+				var leavetypeResult = document.getElementById(id);
+				var leavetypehideResult=document.getElementById(hideid);
+				leavetypePickerButton.addEventListener('tap', function(event) {
+					leavetypePicker.show(function(items) {
+						leavetypeResult.value = items[0].text;
+						leavetypehideResult.value=items[0].value;
+					});
+				}, false);
+			});
+			ajax.add("type_code","Important_type");
+			ajax.submit();
+
+		}
+
+		function initspr(code,id,hideid) {
+			var ajax = new Ajax("importantMobile/findAuditUsers",function (data) {
+				var dataList=data.dataset.rows;
+				$(dataList).each(function(index,item){
+					item.text = item.NAME;
+					item.value = item.USERID;
+				});
+				var resultdata=dataList;
+				sprPicker = new mui.PopPicker();
+				sprPicker.setData(resultdata);
+				var sprPickerButton = document.getElementById(id);
+				var sprResult = document.getElementById(id);
+				var sprhideResult=document.getElementById(hideid);
+				sprPickerButton.addEventListener('tap', function(event) {
+					sprPicker.show(function(items) {
+						sprResult.value = items[0].text;
+						sprhideResult.value=items[0].value;
+					});
+				}, false);
+			});
+			ajax.add("zw","3");
+			ajax.submit();
+		}
+
+
+	</script>
+</body>
+</html>

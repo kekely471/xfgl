@@ -1,0 +1,142 @@
+<div id="content">
+    <div class="modal-header" style="background-color: #5090C1">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title lighter white no-margin">流程表单</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <form id="flow_form" class="form-horizontal" role="form">
+                    <div class="form-group" hidden>
+                        <label class="col-sm-2 control-label no-padding-right">
+                            流程编号 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="id" name="id" placeholder="流程编号"
+                                   class="form-control" style="width: 460px;" value="${FLOW.ID}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            *流程名称 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="flow_name" name="flow_name" placeholder="流程名称" maxlength="50"
+                                   required="required"
+                                   class="form-control" style="width: 460px;" value="${FLOW.FLOWNAME}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            *流程标识 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="flow_no" name="flow_no" placeholder="流程标识" maxlength="50"
+                                   required="required"
+                                   class="form-control" style="width: 460px;" value="${FLOW.FLOWNO}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            *物理表 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="table_id" name="table_id" placeholder="物理表" maxlength="50"
+                                   required="required"
+                                   class="form-control" style="width: 460px;" value="${FLOW.TABLE_ID}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            排序号 </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="sort" name="sort" maxlength="3" value="${FLOW.SORT}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            启用/禁用 </label>
+
+                        <div class="col-sm-10" style="margin-top: 5px;">
+                            [#if FLOW.STATUS==0 ]
+                            <input id="status" name="status" type="checkbox"
+                                   class="ace ace-switch ace-switch-4 btn-flat">
+                            [#else]
+                            <input id="status" name="status" type="checkbox"
+                                   class="ace ace-switch ace-switch-4 btn-flat" checked="checked">
+                            [/#if]
+                            <span class="lbl"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            备注 </label>
+
+                        <div class="col-sm-10">
+                        <textarea type="text" id="remark" name="remark" placeholder="备注"
+                                  class="form-control limited" maxlength="500" style="height: 60px;width: 460px;">${FLOW.REMARK}</textarea>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+
+    <div class="modal-footer">
+
+        <button class="btn btn-success" onclick="_save();">
+            <i class="ace-icon fa fa-floppy-o"></i>
+            保存
+        </button>
+        &nbsp;
+        <button class="btn btn-inverse" onclick="closeModel();">
+            <i class="ace-icon fa fa-ban"></i>
+            关闭
+        </button>
+    </div>
+
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+        var _id = "${id}";
+        var form_selector = "#flow_form";
+        jQuery(function ($) {
+            //如果是编辑，则要那一下数据否则只要初始化一些控件
+            //排序号初始化
+            initSort('#sort');
+            //页面验证初始化（除必填项以外的验证）
+            $(form_selector).validate({
+                rules: {
+                    name: {
+                        maxlength: 50
+                    }
+                }
+            });
+        });
+
+
+        function _save() {
+            if ($(form_selector).valid()) {
+                var ajax = new Ajax('flow/manage/save', function (ret) {
+                    if (ret.code && ret.code < 0) {
+                        bootbox.alert({title: "警告", message: ret.msg});
+                        return;
+                    }
+                    if (ret.code && ret.code > 0) {
+                        bootbox.alert({title: "信息", message: "保存成功"});
+
+                        //刷新grid等一些需要刷新的控件
+                        $(grid_selector).trigger("reloadGrid");
+
+                        //关闭模态窗口
+                       closeModel();
+                    }
+                });
+                ajax.setMessage(true);
+                ajax.add(formSerialize(form_selector));
+                ajax.submit();
+            }
+        }
+    </script>
+</div>
+

@@ -1,0 +1,36 @@
+2020-09-15 at 10:25:10 CST INFO  org.springframework.boot.StartupInfoLogger 50 logStarting - Starting WebApplication on DESKTOP-7I059NG with PID 18032 (D:\WorkSpace\xfgl\xfgl-web\target\classes started by keke in D:\WorkSpace\xfgl)
+2020-09-15 at 10:25:10 CST INFO  org.springframework.boot.SpringApplication 663 logStartupProfileInfo - The following profiles are active: dev
+2020-09-15 at 10:25:13 CST INFO  com.tonbu.support.config.ShiroConfig 152 securityManager - --------------shiro安全事务管理器已经加载----------------
+2020-09-15 at 10:25:14 CST INFO  com.tonbu.support.config.ShiroConfig 25 shirFilter - --------------Shiro拦截器工厂类开始注入----------------
+2020-09-15 at 10:25:14 CST INFO  com.tonbu.support.config.ShiroConfig 80 shirFilter - --------------Shiro拦截器工厂类注入成功----------------
+2020-09-15 at 10:25:14 CST INFO  org.apache.juli.logging.DirectJDKLog 180 log - Initializing ProtocolHandler ["http-nio-8088"]
+2020-09-15 at 10:25:14 CST INFO  org.apache.juli.logging.DirectJDKLog 180 log - Starting service [Tomcat]
+2020-09-15 at 10:25:14 CST INFO  org.apache.juli.logging.DirectJDKLog 180 log - Starting Servlet Engine: Apache Tomcat/8.5.31
+2020-09-15 at 10:25:14 CST INFO  org.apache.juli.logging.DirectJDKLog 180 log - The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_221\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\Xftp 6\;D:\app\keke\product\11.2.0\dbhome_1\bin;C:\Program Files\Java\jdk1.8.0_221\jre\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;%JAVAJAVA_HOME_HOME%\bin;D:\apache-maven-3.6.0\bin;D:\TortoiseSVN\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;D:\Program Files\VisualSVN Server\bin;C:\Program Files (x86)\Calibre2\;%ERLANG_HOME%\bin;D:\Git\cmd;C:\Program Files (x86)\ZeroTier\One\;C:\Users\86177\AppData\Local\Microsoft\WindowsApps;;.]
+2020-09-15 at 10:25:14 CST INFO  org.apache.juli.logging.DirectJDKLog 180 log - Initializing Spring embedded WebApplicationContext
+2020-09-15 at 10:25:15 CST INFO  com.zaxxer.hikari.HikariDataSource 110 getConnection - HikariPool-1 - Starting...
+2020-09-15 at 10:25:15 CST INFO  com.zaxxer.hikari.pool.PoolBase 516 getAndSetNetworkTimeout - HikariPool-1 - Driver does not support get/set network timeout for connections. (oracle.jdbc.driver.T4CConnection.getNetworkTimeout()I)
+2020-09-15 at 10:25:15 CST INFO  com.zaxxer.hikari.HikariDataSource 123 getConnection - HikariPool-1 - Start completed.
+2020-09-15 at 10:25:16 CST INFO  org.activiti.engine.compatibility.DefaultActiviti5CompatibilityHandlerFactory 38 createActiviti5CompatibilityHandler - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2020-09-15 at 10:25:17 CST INFO  org.activiti.engine.impl.ProcessEngineImpl 87 <init> - ProcessEngine default created
+2020-09-15 at 10:25:17 CST INFO  org.activiti.engine.impl.asyncexecutor.DefaultAsyncJobExecutor 169 start - Starting up the default async job executor [org.activiti.spring.SpringAsyncExecutor].
+2020-09-15 at 10:25:17 CST INFO  org.activiti.engine.impl.asyncexecutor.ResetExpiredJobsRunnable 51 run - {} starting to reset expired jobs
+2020-09-15 at 10:25:17 CST INFO  org.activiti.engine.impl.asyncexecutor.AcquireAsyncJobsDueRunnable 45 run - {} starting to acquire async jobs due
+2020-09-15 at 10:25:17 CST INFO  org.activiti.engine.impl.asyncexecutor.AcquireTimerJobsRunnable 49 run - {} starting to acquire async jobs due
+2020-09-15 at 10:25:19 CST INFO  com.tonbu.framework.util.ContainerUtils 27 setApplicationContext - ApplicationContext配置成功,在普通类可以通过调用SpringUtils.getAppContext()获取applicationContext对象,applicationContext=org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@73230946: startup date [Tue Sep 15 10:25:10 CST 2020]; root of context hierarchy
+2020-09-15 at 10:25:20 CST INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping 69 initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-09-15 at 10:25:22 CST INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper 160 start - Context refreshed
+2020-09-15 at 10:25:22 CST INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper 163 start - Found 1 custom documentation plugin(s)
+2020-09-15 at 10:25:22 CST INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner 41 scan - Scanning for api listing references
+2020-09-15 at 10:25:22 CST INFO  org.apache.juli.logging.DirectJDKLog 180 log - Starting ProtocolHandler ["http-nio-8088"]
+2020-09-15 at 10:25:22 CST INFO  org.apache.juli.logging.DirectJDKLog 180 log - Using a shared selector for servlet write/read
+2020-09-15 at 10:25:22 CST INFO  org.springframework.boot.StartupInfoLogger 59 logStarted - Started WebApplication in 12.313 seconds (JVM running for 14.826)
+2020-09-15 at 10:25:25 CST INFO  org.apache.juli.logging.DirectJDKLog 180 log - Initializing Spring FrameworkServlet 'dispatcherServlet'
+2020-09-15 at 10:25:32 CST INFO  com.tonbu.support.shiro.CustomRealm 49 doGetAuthenticationInfo - ***用户身份验证
+2020-09-15 at 10:25:32 CST INFO  com.zaxxer.hikari.HikariDataSource 110 getConnection - HikariPool-2 - Starting...
+2020-09-15 at 10:25:32 CST INFO  com.zaxxer.hikari.pool.PoolBase 516 getAndSetNetworkTimeout - HikariPool-2 - Driver does not support get/set network timeout for connections. (oracle.jdbc.driver.T4CConnection.getNetworkTimeout()I)
+2020-09-15 at 10:25:32 CST INFO  com.zaxxer.hikari.HikariDataSource 123 getConnection - HikariPool-2 - Start completed.
+2020-09-15 at 10:25:32 CST INFO  com.tonbu.support.shiro.CustomRealm 64 doGetAuthenticationInfo - ***登录user：root
+2020-09-15 at 10:25:32 CST INFO  com.tonbu.web.admin.action.LoginAction 100 check - sessionId:341123DD8E259F87892FB430BB459D49
+2020-09-15 at 10:25:32 CST INFO  com.tonbu.web.admin.action.LoginAction 101 check - sessionTimeOut:1800000
+2020-09-15 at 10:25:32 CST INFO  com.tonbu.web.admin.action.LoginAction 102 check - sessionHost:0:0:0:0:0:0:0:1

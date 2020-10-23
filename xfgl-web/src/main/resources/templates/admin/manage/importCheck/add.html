@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/kindeditor/kindeditor.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
+    <title>要事日记新增</title>
+</head>
+<body>
+<div class="comtextBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <input type="hidden" name="id" id="id" value="${id}">
+
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">日期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="TIME" id="TIME" placeholder="" value="${YSDJ.DATETIME}" autocomplete="off" class="layui-input" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">星期</label>
+                <div class="layui-input-block">
+                    <input type="text" name="WEEK" id="WEEK" lay-verify="required" placeholder="" value="${YSDJ.WEEK}" autocomplete="off" class="layui-input" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">天气</label>
+                <div class="layui-input-block">
+                    <select name="WEATHER" id="WEATHER" lay-search>
+                        <option value="">请选择</option>
+                        <option value="晴">晴</option>
+                        <option value="多云">多云</option>
+                        <option value="阴">阴</option>
+                        <option value="阵雨">阵雨</option>
+                        <option value="雷阵雨">雷阵雨</option>
+                        <option value="小雨">小雨</option>
+                        <option value="中雨">中雨</option>
+                        <option value="大雨">大雨</option>
+                        <option value="暴雨">暴雨</option>
+                        <option value="雨夹雪">雨夹雪</option>
+                        <option value="小雪">小雪</option>
+                        <option value="中雪">中雪</option>
+                        <option value="大雪">大雪</option>
+                        <option value="暴雪">暴雪</option>
+                        <option value="冰雹">冰雹</option>
+                        <option value="雾">雾</option>
+                        <option value="沙尘暴">沙尘暴</option>
+                        <option value="霾">霾</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">值班员</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ZBY"  lay-verify="required" placeholder="" value="${YSDJ.ZBY}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">当前实力</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="" placeholder="" value="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">编制人数</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name=""  placeholder="" value="" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">现有人数</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name=""  placeholder="" value="" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">干部</label>
+                <div class="layui-input-block">
+                    <input type="text" name="BZ_GB_COUNT" id="BZ_GB_COUNT"  lay-verify="required" placeholder="" value="${YSDJ.BZ_GB_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">干部</label>
+                <div class="layui-input-block">
+                    <input type="text" name="XY_GB_COUNT" id="XY_GB_COUNT"  lay-verify="required" placeholder="" value="${YSDJ.XY_GB_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">消防员</label>
+                <div class="layui-input-block">
+                    <input type="text" name="BZ_XFY_COUNT" id="BZ_XFY_COUNT"  lay-verify="required" placeholder="" value="${YSDJ.BZ_XFY_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">消防员</label>
+                <div class="layui-input-block">
+                    <input type="text" name="XY_XFY_COUNT" id="XY_XFY_COUNT" lay-verify="required" placeholder="" value="${YSDJ.XY_XFY_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">合计</label>
+                <div class="layui-input-block">
+                    <input type="text" name="BZ_COUNT" id="BZ_COUNT" lay-verify="required" placeholder="" value="${YSDJ.BZ_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">合计</label>
+                <div class="layui-input-block">
+                    <input type="text" name="XY_COUNT" id="XY_COUNT" lay-verify="required" placeholder="" value="${YSDJ.XY_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label" style="width: 200px">训练、教育或执行任务情况</label>
+
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">早晨</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请填写内容" class="layui-textarea" id="RWQK_ZC_NR" name="RWQK_ZC_NR" value="">${YSDJ.RWQK_ZC_NR}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">应到人数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWQK_ZC_YD_COUNT" onblur="zc()" id="RWQK_ZC_YD_COUNT"  placeholder="" value="${YSDJ.RWQK_ZC_YD_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">实到人数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWQK_ZC_SD_COUNT" onblur="zc()" id="RWQK_ZC_SD_COUNT" placeholder="" value="${YSDJ.RWQK_ZC_SD_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">到课率</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWQK_ZC_PERCENT" id="RWQK_ZC_PERCENT"  placeholder="" value="${YSDJ.RWQK_ZC_PERCENT}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">上午</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请填写内容" class="layui-textarea" id="RWQK_SW_NR" name="RWQK_SW_NR" value="">${YSDJ.RWQK_SW_NR}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">应到人数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWQK_SW_YD_COUNT" id="RWQK_SW_YD_COUNT" onblur="sw()" placeholder="" value="${YSDJ.RWQK_SW_YD_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">实到人数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWQK_SW_SD_COUNT" id="RWQK_SW_SD_COUNT" onblur="sw()" placeholder="" value="${YSDJ.RWQK_SW_SD_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">到课率</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWQK_SW_PERCENT" id="RWQK_SW_PERCENT" placeholder="" value="${YSDJ.RWQK_SW_PERCENT}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">下午</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请填写内容"  class="layui-textarea" id="RWQK_XW_NR" name="RWQK_XW_NR" value="">${YSDJ.RWQK_XW_NR}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">应到人数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWQK_XW_YD_COUNT" onblur="xw()" id="RWQK_XW_YD_COUNT"  placeholder="" value="${YSDJ.RWQK_XW_YD_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">实到人数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWQK_XW_SD_COUNT" id="RWQK_XW_SD_COUNT" onblur="xw()"  placeholder="" value="${YSDJ.RWQK_XW_SD_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">到课率</label>
+                <div class="layui-input-block">
+                    <input type="text" id="RWQK_XW_PERCENT" name="RWQK_XW_PERCENT" placeholder=""  value="${YSDJ.RWQK_XW_PERCENT}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">晚上</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请填写内容"  class="layui-textarea" id="RWQK_WS_NR" name="RWQK_WS_NR" value="">${YSDJ.RWQK_WS_NR}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">应到人数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWQK_WS_YD_COUNT" onblur="ws()" id="RWQK_WS_YD_COUNT"  placeholder="" value="${YSDJ.RWQK_WS_YD_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">实到人数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWQK_WS_SD_COUNT" onblur="ws()" id="RWQK_WS_SD_COUNT"  placeholder="" value="${YSDJ.RWQK_WS_SD_COUNT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-3">
+                <label class="layui-form-label">到课率</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWQK_WS_PERCENT" id="RWQK_WS_PERCENT" placeholder="" value="${YSDJ.RWQK_WS_PERCENT}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">公差勤务</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请填写内容"  class="layui-textarea" id="GCQW" name="GCQW" value="">${YSDJ.GCQW}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">人员装备变动</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请填写内容"  class="layui-textarea" id="RYZBBD" name="RYZBBD" value="">${YSDJ.RYZBBD}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">装备、队容风纪、内务卫生检查情况</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请填写内容"  class="layui-textarea" id="FJJCQK" name="FJJCQK" value="">${YSDJ.FJJCQK}</textarea>
+                </div>
+            </div>
+            <!--查铺查哨的-->
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">查铺查哨</label>
+                <div class="layui-input-block">
+                    <div class="layui-btn" id="cpcs" onclick="cpcs()">新增</div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1" id="cpcs1">
+
+                <!--[#list YSDJ.cpcs as list]
+                <div class="cpcsxz">
+                    <div class="layui-form-item layui-td-2">
+                       <label class="layui-form-label">检查人</label>
+                       <div class="layui-input-block">
+                            <input type="text" name="JCR"  placeholder="" value="${list.jcr}" autocomplete="off" class="layui-input">
+                       </div>
+                    </div>
+                    <div class="layui-form-item layui-td-2">
+                        <label class="layui-form-label">时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="DATETIME2" id="${index}" placeholder="请输入时间" value="${list.datetime}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-2">
+                        <label class="layui-form-label">领班员</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="LBY" placeholder="" value="${list.lby}" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    <div class="layui-form-item layui-td-2">
+                        <label class="layui-form-label">警卫人员</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="JWRY"   placeholder="" value="${list.jwry}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-1">
+                        <label class="layui-form-label">检查情况</label>
+                        <div class="layui-input-block">
+                            <textarea placeholder="请填写内容"  class="layui-textarea"  name="JCQK" value="">${list.jcqk}</textarea>
+                        </div>
+                     </div>
+                </div>
+                [/#list]-->
+
+
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">派班情况</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="" placeholder="" value="" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">值班员：</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="" placeholder="" value="" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">交接者</label>
+                <div class="layui-input-block">
+                    <input type="text" name="PBQK_ZBY_JIAOBZ" id="PBQK_ZBY_JIAOBZ"  placeholder="" value="${YSDJ.PBQK_ZBY_JIAOBZ}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">接班者</label>
+                <div class="layui-input-block">
+                    <input type="text" name="PBQK_ZBY_JIEBZ" id="PBQK_ZBY_JIEBZ"  placeholder="" value="${YSDJ.PBQK_ZBY_JIEBZ}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">值日员：</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="" placeholder="" value="" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">交接者</label>
+                <div class="layui-input-block">
+                    <input type="text" name="PBQK_ZRY_JIAOBZ" id="PBQK_ZRY_JIAOBZ"  placeholder="" value="${YSDJ.PBQK_ZRY_JIAOBZ}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">接班者</label>
+                <div class="layui-input-block">
+                    <input type="text" name="PBQK_ZRY_JIEBZ" id="PBQK_ZRY_JIEBZ"  placeholder="" value="${YSDJ.PBQK_ZRY_JIEBZ}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">厨房值日员：</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="" placeholder="" value="" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">交接者</label>
+                <div class="layui-input-block">
+                    <input type="text" name="PBQK_CFZBY_JIAOBZ" id="PBQK_CFZBY_JIAOBZ"  placeholder="" value="${YSDJ.PBQK_CFZBY_JIAOBZ}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">接班者</label>
+                <div class="layui-input-block">
+                    <input type="text" name="PBQK_CFZBY_JIEBZ" id="PBQK_CFZBY_JIEBZ"  placeholder="" value="${YSDJ.PBQK_CFZBY_JIEBZ}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">组织者</label>
+                <div class="layui-input-block">
+                    <input type="text" name="PBQK_ZZZ" id="PBQK_ZZZ"  placeholder="" value="${YSDJ.PBQK_ZZZ}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">交接时间</label>
+                <div class="layui-input-block">
+                    <input type="text" name="PBQK_JJ_DATE" id="PBQK_JJ_DATE"   placeholder="请输入时间" value="${YSDJ.PBQK_JJ_DATE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">交接情况</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请填写内容"  class="layui-textarea" id="PBQK_JJ_QK" name="PBQK_JJ_QK" value="">${YSDJ.PBQK_JJ_QK}</textarea>
+                </div>
+            </div>
+            <!--临时来队亲属-->
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">临时来队亲属</label>
+                <div class="layui-input-block">
+                    <div class="layui-btn" id="linshi" onclick="linshi()">新增</div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1" id="linshi1">
+
+                [#list YSDJ.lsldqs as list]
+                <div class="linshixz">
+                    <div class="layui-form-item layui-td-3">
+                        <label class="layui-form-label">消防员姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="XFYXM"  placeholder="" value="${list.xfyxm}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-3">
+                        <label class="layui-form-label">亲属姓名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="QSXM"  placeholder="" value="${list.qsxm}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-3">
+                        <label class="layui-form-label">关系</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="GX"  placeholder="" value="${list.gx}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-2">
+                        <label class="layui-form-label">来队时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="TIME_LAID" id="TIME_LAID"  placeholder="请输入时间" value="${list.time_laid}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-2">
+                        <label class="layui-form-label">离队时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" class="layui-input" name="TIME_LID"  value="${list.time_lid}" lay-filter="TIME_LID" placeholder="yyyy-MM-dd HH:mm:ss">
+                        </div>
+                    </div>
+                </div>
+                [/#list]
+
+            </div>
+
+
+
+
+
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label" style="width: 150px">请假外出、探亲休假</label>
+               <!-- <div class="layui-input-block">
+                    <input type="hidden" name=""  placeholder="" value="" autocomplete="off" class="layui-input" >
+                </div>-->
+            </div>
+            <div class="layui-form-item layui-td-1" id="qj">
+                [#list YSDJ.leave as list]
+                <div class="layui-form-item layui-td-3">
+                    <label class="layui-form-label">姓名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="XM"  placeholder="" value="${list.xm}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-3">
+                    <label class="layui-form-label">职务</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ZW"  placeholder="" value="${list.zw}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-3">
+                    <label class="layui-form-label">事由</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="SY"  placeholder="" value="${list.sy}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-3">
+                    <label class="layui-form-label">天数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="DAYS"  placeholder="" value="${list.days}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-3">
+                    <label class="layui-form-label">审批人</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="SPR"  placeholder="" value="${list.spr}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-3">
+                    <label class="layui-form-label">超假天数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="LEAVE_EXCESS"  placeholder="" value="${list.leave_excess}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">离队时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="LEAVE_STARTDATE"  placeholder="" value="${list.leave_startdate}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">归队时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="LEAVE_ENDDATE"  placeholder="" value="${list.leave_enddate}" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                [/#list]
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">病号及处理情况</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请填写内容"  class="layui-textarea" id="BHJCLQK" name="BHJCLQK" value="">${YSDJ.BHJCLQK}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">上级通知、指示及其它重要指示</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请填写内容"  class="layui-textarea" id="ZYSX" name="ZYSX" value="">${YSDJ.ZYSX}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-layout-admin" id="STATUS">
+                <div class="layui-input-block">
+                    <div class="layui-footer" style="left: 0;">
+                        <button class="layui-layer-btn0" id="save" style="height: 28px;padding: 0px 15px;border-radius: 2px;margin: 5px 5px 0px;border-style: solid;bottom:0;" lay-submit lay-filter="save">保存</button>
+                        <button class="layui-layer-btn0" id="tj" style="height: 28px;padding: 0px 15px;border-radius: 2px;margin: 5px 5px 0px;border-style: solid;bottom:0;" lay-submit lay-filter="tj">提交</button>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+<script>
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");
+    var _id = "${id}";
+    //查看信息的标记
+    var isView = getParam("isView");
+    //编辑信息标记
+    debugger;
+    var count = "${count}";
+    var STATUS="${YSDJ.STATUS}";
+    var form;
+    layui.use(['form','layer','upload','laydate'], function() {
+         form = layui.form;
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+        var upload = layui.upload;
+        if (STATUS ==1){
+            $("#STATUS").hide();
+        }
+
+
+       /* for (var k = 0; k <count ; k++) {
+            var html='';
+            html +='<div class="cpcsxz">';
+            html +='<div class="layui-form-item layui-td-2">';
+            html +='<label class="layui-form-label">检查人</label>';
+            html +='<div class="layui-input-block">';
+            html +='<input type="text" name="JCR"  placeholder="" value="${YSDJ.jcr}" autocomplete="off" class="layui-input">';
+            html +=' </div>';
+            html +=' </div>';
+            html +='<div class="layui-form-item layui-td-2">';
+            html +='<label class="layui-form-label">时间</label>';
+            html +='<div class="layui-input-block">';
+            html +='<input type="text" name="DATETIME2" id="DATETIME2'+k+'" placeholder="请输入时间"  value="${YSDJ.DATETIME2}" autocomplete="off" class="layui-input">';
+            html +=' </div>';
+            html +=' </div>';
+            html +='<div class="layui-form-item layui-td-2">';
+            html +='<label class="layui-form-label">领班员</label>';
+            html +='<div class="layui-input-block">';
+            html +='<input type="text" name="LBY" placeholder="" value="${YSDJ.LBY}" autocomplete="off" class="layui-input">';
+            html +=' </div>';
+            html +=' </div>';
+            html +='<div class="layui-form-item layui-td-2">';
+            html +='<label class="layui-form-label">警卫人员</label>';
+            html +='<div class="layui-input-block">';
+            html +='<input type="text" name="JWRY"   placeholder="" value="${YSDJ.JWRY}" autocomplete="off" class="layui-input">';
+            html +=' </div>';
+            html +=' </div>';
+            html +='<div class="layui-form-item layui-td-1">';
+            html +='<label class="layui-form-label">检查情况</label>';
+            html +='<div class="layui-input-block">';
+            html +='<textarea placeholder="请填写内容"  class="layui-textarea"  name="JCQK" value="">${YSDJ.JCQK}</textarea>';
+            html +=' </div>';
+            html +=' </div>';
+            html +=' </div>';
+            $("#cpcs1").append(html);
+            layui.use(['form','laydate'], function() {
+                var form = layui.form;
+                var laydate = layui.laydate;
+
+                //日期时间选择器
+                laydate.render({
+                    elem: '#DATETIME2'+k
+                    ,type: 'datetime'
+                    ,trigger: 'click'
+                });
+                form.render();
+
+            });
+
+        }*/
+
+        //显示默认的回显时间
+      /*  var DATETIME = laydate.render({
+            elem: '#DATETIME'
+            ,value:new Date()
+        });*/
+        /*laydate.render({
+            elem: '#DATETIME2'+i
+            ,type: 'datetime'
+            ,trigger: 'click'
+        });*/
+        //日期时间选择器
+        laydate.render({
+            elem: '#PBQK_JJ_DATE'
+            ,type: 'datetime'
+            ,trigger: 'click'
+        });
+       form.render();
+       if (isView) {
+           $("#STATUS").hide();
+       }
+
+//        //是否启用
+        if (_id) {
+           /* $("#STATUS").hide();*/
+            $("#WEATHER").find("option[value='${YSDJ.WEATHER}']").attr("selected",'selected');
+            form.render();
+        }
+
+        //监听提交
+        form.on('submit(save)', function(data) {
+            var datas = data.field;
+            //查铺查哨转成json
+            var cpcsxz =new Array();
+            $("#cpcs1 > .cpcsxz").each(function() {
+                var obj ={};
+                obj.jcr = $(this).find("input[name='JCR']").val();
+                obj.datetime2 = $(this).find('input[name="DATETIME2"]').val();
+                obj.lby = $(this).find('input[name="LBY"]').val();
+                obj.jwry = $(this).find('input[name="JWRY"]').val();
+                obj.jcqk = $(this).find('textarea[name="JCQK"]').val();
+                cpcsxz.push(obj);
+            });
+            //临时来队亲属专成json
+           var linshixz = new Array();
+            $("#linshi1>.linshixz").each(function () {
+                var obj={};
+                obj.xfyxm=$(this).find("input[name='XFYXM']").val();
+                obj.qsxm=$(this).find("input[name='QSXM']").val();
+                obj.gx=$(this).find("input[name='GX']").val();
+                obj.time_laid=$(this).find("input[name='TIME_LAID']").val();
+                obj.time_lid=$(this).find("input[name='TIME_LID']").val();
+                linshixz.push(obj);
+            });
+            var ajax = new Ajax("import/save",function(data){
+                if(judgeRight(data)){
+                    parent.layer.alert("操作成功!",{icon:1},function(){
+                        parent.tableIns.reload({
+                            where:{"v":Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.add("cpcsxz",JSON.stringify(cpcsxz));
+            ajax.add("linshixz",JSON.stringify(linshixz));
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        form.on('submit(tj)', function(data) {
+            var datas = data.field;
+            //查铺查哨转成json
+            var cpcsxz =new Array();
+            $("#cpcs1 > .cpcsxz").each(function() {
+                var obj ={};
+                obj.jcr = $(this).find("input[name='JCR']").val();
+                obj.datetime2 = $(this).find('input[name="DATETIME2"]').val();
+                obj.lby = $(this).find('input[name="LBY"]').val();
+                obj.jwry = $(this).find('input[name="JWRY"]').val();
+                obj.jcqk = $(this).find('textarea[name="JCQK"]').val();
+                cpcsxz.push(obj);
+            });
+            //临时来队亲属专成json
+            var linshixz = new Array();
+            $("#linshi1>.linshixz").each(function () {
+                var obj={};
+                obj.xfyxm=$(this).find("input[name='XFYXM']").val();
+                obj.qsxm=$(this).find("input[name='QSXM']").val();
+                obj.gx=$(this).find("input[name='GX']").val();
+                obj.time_laid=$(this).find("input[name='TIME_LAID']").val();
+                obj.time_lid=$(this).find("input[name='TIME_LID']").val();
+                linshixz.push(obj);
+            });
+            var ajax = new Ajax("import/tj",function(data){
+                if(judgeRight(data)){
+                    parent.layer.alert("操作成功!",{icon:1},function(){
+                        parent.tableIns.reload({where:{"v":Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.add("cpcsxz",JSON.stringify(cpcsxz));
+            ajax.add("linshixz",JSON.stringify(linshixz));
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+
+    });
+
+    function zc() {
+        var RWQK_ZC_YD_COUNT= $("#RWQK_ZC_YD_COUNT").val();//应到
+        var RWQK_ZC_SD_COUNT= $("#RWQK_ZC_SD_COUNT").val();//实到
+        var wcl=0.0;
+        if (RWQK_ZC_SD_COUNT !="" && RWQK_ZC_YD_COUNT!="" ){
+            wcl=(parseInt(RWQK_ZC_SD_COUNT)/parseInt(RWQK_ZC_YD_COUNT)).toFixed(4)*100
+        }
+         $("#RWQK_ZC_PERCENT").val(wcl+"%");//实到
+
+    }
+
+
+    function sw() {
+        var RWQK_SW_YD_COUNT= $("#RWQK_SW_YD_COUNT").val();//应到
+        var RWQK_SW_SD_COUNT= $("#RWQK_SW_SD_COUNT").val();//实到
+        var wcl=0.0;
+        if (RWQK_SW_SD_COUNT !="" && RWQK_SW_YD_COUNT!="" ){
+            wcl=(parseInt(RWQK_SW_SD_COUNT)/parseInt(RWQK_SW_YD_COUNT)).toFixed(4)*100
+        }
+        $("#RWQK_SW_PERCENT").val(wcl+"%");//实到
+
+    }
+    function xw() {
+        var RWQK_XW_YD_COUNT= $("#RWQK_XW_YD_COUNT").val();//应到
+        var RWQK_XW_SD_COUNT= $("#RWQK_XW_SD_COUNT").val();//实到
+        var wcl=0.0;
+        if (RWQK_ZC_SD_COUNT !="" && RWQK_ZC_YD_COUNT!="" ){
+            wcl=(parseInt(RWQK_XW_SD_COUNT)/parseInt(RWQK_XW_YD_COUNT)).toFixed(4)*100
+        }
+        $("#RWQK_XW_PERCENT").val(wcl+"%");//实到
+
+    }
+    function ws() {
+        var RWQK_WS_YD_COUNT= $("#RWQK_WS_YD_COUNT").val();//应到
+        var RWQK_WS_SD_COUNT= $("#RWQK_WS_SD_COUNT").val();//实到
+        var wcl=0.0;
+        if (RWQK_WS_SD_COUNT !="" && RWQK_WS_YD_COUNT!="" ){
+            wcl=(parseInt(RWQK_WS_SD_COUNT)/parseInt(RWQK_WS_YD_COUNT)).toFixed(4)*100
+        }
+        $("#RWQK_WS_PERCENT").val(wcl+"%");//实到
+
+    }
+    //查铺查哨新增
+    var i=0;
+    function cpcs() {
+        var html='';
+        html +='<div class="cpcsxz">';
+        html +='<div class="layui-form-item layui-td-2">';
+        html +='<label class="layui-form-label">检查人</label>';
+        html +='<div class="layui-input-block">';
+        html +='<input type="text" name="JCR"  placeholder="" value="${YSDJ.JCR}" autocomplete="off" class="layui-input">';
+        html +=' </div>';
+        html +=' </div>';
+        html +='<div class="layui-form-item layui-td-2">';
+        html +='<label class="layui-form-label">时间</label>';
+        html +='<div class="layui-input-block">';
+        html +='<input type="text" name="DATETIME2" id="DATETIME2'+i+'" placeholder="请输入时间"  value="${YSDJ.DATETIME2}" autocomplete="off" class="layui-input">';
+        html +=' </div>';
+        html +=' </div>';
+        html +='<div class="layui-form-item layui-td-2">';
+        html +='<label class="layui-form-label">领班员</label>';
+        html +='<div class="layui-input-block">';
+        html +='<input type="text" name="LBY" placeholder="" value="${YSDJ.LBY}" autocomplete="off" class="layui-input">';
+        html +=' </div>';
+        html +=' </div>';
+        html +='<div class="layui-form-item layui-td-2">';
+        html +='<label class="layui-form-label">警卫人员</label>';
+        html +='<div class="layui-input-block">';
+        html +='<input type="text" name="JWRY"   placeholder="" value="${YSDJ.JWRY}" autocomplete="off" class="layui-input">';
+        html +=' </div>';
+        html +=' </div>';
+        html +='<div class="layui-form-item layui-td-1">';
+        html +='<label class="layui-form-label">检查情况</label>';
+        html +='<div class="layui-input-block">';
+        html +='<textarea placeholder="请填写内容"  class="layui-textarea"  name="JCQK" value="">${YSDJ.JCQK}</textarea>';
+        html +=' </div>';
+        html +=' </div>';
+        html +=' </div>';
+        $("#cpcs1").append(html);
+
+        layui.use(['form','laydate'], function() {
+            var form = layui.form;
+            var laydate = layui.laydate;
+
+            //日期时间选择器
+            laydate.render({
+                elem: '#DATETIME2'+i
+                ,type: 'datetime'
+                ,trigger: 'click'
+            });
+            form.render();
+
+        });
+        i++;
+    }
+    var j=0;
+    function linshi() {
+        var html='';
+        html +='<div class="linshixz">';
+        html +='<div class="layui-form-item layui-td-3">';
+        html +='<label class="layui-form-label">消防员姓名</label>';
+        html +='<div class="layui-input-block">';
+        html +='<input type="text" name="XFYXM"  placeholder="" value="${YSDJ.XFYXM}" autocomplete="off" class="layui-input">';
+        html +=' </div>';
+        html +=' </div>';
+        html +='<div class="layui-form-item layui-td-3">';
+        html +='<label class="layui-form-label">亲属姓名</label>';
+        html +='<div class="layui-input-block">';
+        html +='<input type="text" name="QSXM"  placeholder="" value="${YSDJ.QSXM}" autocomplete="off" class="layui-input">';
+        html +=' </div>';
+        html +=' </div>';
+        html +='<div class="layui-form-item layui-td-3">';
+        html +='<label class="layui-form-label">关系</label>';
+        html +='<div class="layui-input-block">';
+        html +='<input type="text" name="GX" placeholder="" value="${YSDJ.GX}" autocomplete="off" class="layui-input">';
+        html +=' </div>';
+        html +=' </div>';
+        html +='<div class="layui-form-item layui-td-2">';
+        html +='<label class="layui-form-label">来队时间</label>';
+        html +='<div class="layui-input-block">';
+        html +='<input type="text" name="TIME_LAID" id="TIME_LAID'+j+'" placeholder="请输入时间" value="${YSDJ.TIME_LAID}" autocomplete="off" class="layui-input">';
+        html +=' </div>';
+        html +=' </div>';
+        html +='<div class="layui-form-item layui-td-2">';
+        html +='<label class="layui-form-label">离队时间</label>';
+        html +='<div class="layui-input-block">';
+        html +='<input type="text" name="TIME_LID" id="TIME_LID'+j+'" class="layui-input" value="${YSDJ.TIME_LID}" lay-filter="TIME_LID" placeholder="yyyy-MM-dd HH:mm:ss">';
+        html +=' </div>';
+        html +=' </div>';
+        html +=' </div>';
+        $("#linshi1").append(html);
+        layui.use(['form','laydate'], function() {
+            var form = layui.form;
+            var laydate = layui.laydate;
+
+            //日期时间选择器
+            laydate.render({
+                elem: '#TIME_LAID'+j
+                ,type: 'datetime'
+                ,trigger: 'click'
+            });
+            laydate.render({
+                elem: '#TIME_LID'+j
+                ,type: 'datetime'
+                ,trigger: 'click'
+            });
+            form.render();
+
+        });
+        j++;
+    }
+
+
+</script>
+
+</body>
+</html>

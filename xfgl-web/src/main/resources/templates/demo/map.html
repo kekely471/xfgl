@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="${ctx.contextPath}/layui/commons/css/map.css">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=6UfOVij9pU3ZDCg3rrBBX3gI"></script>
+    <title>地图</title>
+    <style>
+        .icon-title{width: 95%;margin: 30px auto;font-size: 18px;font-weight: bold;}
+    </style>
+</head>
+<body>
+    <p class="icon-title">常州市地图</p>
+    <div class="mapBox nocopy">
+        <div id="l-map"></div>
+
+        <div id="line-result" class="hide whiteBox">
+            <div class="list">
+                <div id="gj" class="item active"><p class="gj">公交</p></div>
+                <div id="jc" class="item" style="width:45px;"><p class="jc">驾车</p></div>
+                <div id="bx" class="item"><p class="bx">步行</p></div>
+                <!-- <div id="qx" class="item" style="width:45px;"><p class="qx">骑行</p></div> -->
+            </div>
+            <div class="resultList">
+                <div id="gjResult" class="item">
+                </div>
+                <div id="jcResult" class="item hide">
+                </div>
+                <div id="bxResult" class="item hide">
+                </div>
+                <div id="qxResult" class="item hide">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var map;                     // 地图
+        var targetLng,targetLat;     // 导航经纬度
+        var currentLng=119.980563;
+        var currentLat=31.817432;    // 经纬度
+        var enterState = true;      // 回车键状态
+        var mapSize = 17;           // 地图默认层级
+        var handlerClick = false;
+        var labelMarker;            // 地图上生成label的点
+        var layer;
+        layui.use('layer', function () {
+            layer = layui.layer;
+        });
+
+        $(document).ready(function () {
+            // 创建Map
+            map = new BMap.Map("l-map",{enableMapClick:false});
+            var point = new BMap.Point(currentLng, currentLat);
+            map.centerAndZoom(point, mapSize);
+            map.setCurrentCity("常州");
+            map.enableScrollWheelZoom(true);  // 允许缩放地图
+
+            var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL});
+            map.addControl(top_right_navigation);
+            map.addEventListener("click", showLocationInfo);
+
+            // 到这里去事件点击
+            $("#line-result .list .item").click(function(){
+                $(this).siblings().removeClass("active");
+                $(this).addClass("active");
+                var _id = $(this).attr("id");
+                $(".resultList .item").addClass("hide");
+                $("#"+_id+"Result").removeClass("hide");
+                arrivePlace(targetLng,targetLat);
+            });
+
+            currentPosition();
+        })
+
+        // 获取当前位置的经纬度
+        function currentPosition(){
+            // 百度地图定位
+            var geolocation = new BMap.Geolocation();
+            try {
+                geolocation.getCurrentPosition(function(r){
+                    if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                        currentLng = r.point.lng;
+                        currentLat = r.point.lat;
+                        beginLng = currentLng;
+                        beginLat = currentLat;
+
+                        initCurrentPoint(currentLng,currentLat);
+                    }
+                    else {
+                        alert('failed'+this.getStatus());
+                    }
+                },{enableHighAccuracy: true})
+            }catch (error) {
+            } finally {
+                initCurrentPoint(currentLng,currentLat);
+            }
+        }
+
+        function initCurrentPoint(lng,lat){
+            map.clearOverlays();
+            var point = new BMap.Point(lng,lat);
+            var myIcon = new BMap.Icon(Apps.ContextPath+"layui/commons/images/wz.png", new BMap.Size(23,23));
+            var marker = new BMap.Marker(point,{icon:myIcon});
+            map.addOverlay(marker);
+            map.centerAndZoom(point, mapSize);
+        }
+
+        /**
+         * 当前地图显示label
+         * @param e
+         * @returns {boolean}
+         */
+        function showLocationInfo(e){
+            if(e && handlerClick){
+                handlerClick = false;
+                return false;
+            }
+            var infoLng = currentLng;
+            var infoLat = currentLat;
+            var infoAdress = "",infoTitle = "";
+            if(e){
+                infoLng = e.point.lng;
+                infoLat = e.point.lat;
+            }
+            var labelPoint = new BMap.Point(infoLng,infoLat);
+            if(labelMarker){
+                labelMarker.hide();
+            }
+            if(e){
+                labelMarker = new BMap.Marker(labelPoint); // 创建点
+                map.addOverlay(labelMarker);
+            }
+            var getData = new BMap.Geocoder();
+            getData.getLocation(labelPoint, function(rs) {
+                infoAdress = rs.address;
+                if(rs.surroundingPois.length > 0){
+                    infoTitle = rs.surroundingPois[0].title;
+                }else {
+                    infoTitle = rs.business.split(',');
+                    infoTitle = infoTitle[0];
+                }
+                if(infoTitle == ""){
+                    infoTitle = infoAdress
+                }
+
+                var opts = {
+                    width : 0,
+                    height: 0,
+                    title : "<span style='font-size: 13px;padding-right: 10px;'>您现在的位置：<strong>" + infoTitle + "</strong></span>"
+                }
+                var changeHtml = '<div style="float: right;margin-top: 5px;color: #2e77e5;cursor: pointer;" onclick="on_openlocation()">位置不准? </div>';
+                if(e)
+                    changeHtml = '<div style="float: right;margin-top: 5px;color: #2e77e5;cursor: pointer;" onclick="changeLocation(\''+infoLng+'\',\''+infoLat+'\')">定位到当前位置? </div>';
+                var infoHtml = '<div style="margin-top: 5px;font-size: 12px;"><div style="color: #999">'+infoAdress+'</div>' + changeHtml + '<p onclick="arrivePlace(\''+infoLng+'\',\''+infoLat+'\')">导航</p></div>'
+                var infoWindow = new BMap.InfoWindow(infoHtml, opts);  // 创建信息窗口对象
+                map.openInfoWindow(infoWindow,labelPoint); //开启信息窗口
+            });
+        }
+
+        /**
+         * 点击定位不准后改变当前位置
+         * @param infoLng
+         * @param infoLat
+         */
+        function changeLocation(infoLng,infoLat){
+            layer.confirm('是否定位成当前位置？',{
+                btn: ['确定','取消']
+            },function(){
+                currentLng = infoLng;
+                currentLat = infoLat;
+                layer.closeAll();
+                initCurrentPoint(currentLng,currentLat);
+            },function(){
+                layer.closeAll();
+            })
+        }
+
+        /**
+         * 到这儿去 地图中规划路线
+         * @param lng 经度
+         * @param lat 纬度
+         */
+        function arrivePlace(lng,lat){
+            $("#line-result").show();
+            $(".resultList .item").html("");
+            map.clearOverlays();
+            var p1 = new BMap.Point(currentLng,currentLat);
+            var p2 = new BMap.Point(lng,lat);
+            var activeItem = $("#line-result .list .item").index($("#line-result .list .item.active"));
+            if(activeItem==0){
+                //公交
+                var transit = new BMap.TransitRoute(map, {
+                    renderOptions: {map: map, panel: "gjResult",autoViewport: true}
+                });
+                transit.search(p1, p2);
+            }else if(activeItem==1){
+                //驾车
+                var driving = new BMap.DrivingRoute(map, {
+                    renderOptions:{map: map, panel: "jcResult",autoViewport: true}
+                });
+                driving.search(p1, p2);
+            }else if(activeItem==2){
+                //步行
+                var walking = new BMap.WalkingRoute(map, {
+                    renderOptions:{map: map, panel: "bxResult", autoViewport: true}
+                });
+                walking.search(p1, p2);
+            }else{
+                //骑行
+                var riding = new BMap.RidingRoute(map, {
+                    renderOptions:{map: map, panel: "qxResult", autoViewport: true}
+                });
+                riding.search(p1, p2);
+            }
+            targetLng = lng;
+            targetLat = lat;
+        }
+    </script>
+</body>
+
+</html>

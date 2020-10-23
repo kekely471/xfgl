@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/ztree/js/opentree.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/kindeditor/kindeditor.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
+    <link href="${ctx.contextPath}/layui/commons/css/formSelects.css" rel="stylesheet" />
+    <title>Title</title>
+    <style>
+        .layui-code-h3{font-size: 12px!important;}
+        .update-title{font-size: 16px;margin-bottom: 5px;}
+    </style>
+</head>
+
+<body style="background: #f2f2f2;">
+<div class="contentBox">
+    <div class="formBox">
+        <ul class="layui-timeline">
+            <li class="layui-timeline-item">
+                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                <div class="layui-timeline-content layui-text">
+                    <h3 class="layui-timeline-title">2019年6月24日</h3>
+                    <div>
+                        <blockquote class="layui-elem-quote">自定义表单验证：该验证中将原有验证设计为可为空，若需非空验证请使用required。例：phone|required</blockquote>
+                        <p>使用：引用自定义模块verifyE</p>
+                        <pre class="layui-code">verifyE.verify();</pre>
+                        <p>自定义验证列表：</p>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th width="80">值</th>
+                                <th>说明</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>phone</td>
+                                <td>手机号格式</td>
+                            </tr>
+                            <tr>
+                                <td>email</td>
+                                <td>邮箱格式</td>
+                            </tr>
+                            <tr>
+                                <td>url</td>
+                                <td>链接格式</td>
+                            </tr>
+                            <tr>
+                                <td>number</td>
+                                <td>仅数字验证</td>
+                            </tr>
+                            <tr>
+                                <td>date</td>
+                                <td>日期格式</td>
+                            </tr>
+                            <tr>
+                                <td>identity</td>
+                                <td>身份证格式</td>
+                            </tr>
+                            <tr>
+                                <td>telephone</td>
+                                <td>固定电话格式</td>
+                            </tr>
+                            <tr>
+                                <td>zipCode</td>
+                                <td>邮编格式</td>
+                            </tr>
+                            <tr>
+                                <td>pass</td>
+                                <td>密码验证6到12位，且不可有空格</td>
+                            </tr>
+                            <tr>
+                                <td>title</td>
+                                <td>标题字符数验证：大于等于5</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </li>
+            <li class="layui-timeline-item">
+                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                <div class="layui-timeline-content layui-text">
+                    <h3 class="layui-timeline-title">2019年6月20日</h3>
+                    <div>
+                        <blockquote class="layui-elem-quote">viewer图片查看器</blockquote>
+                        <p>基础使用：</p>
+                        <pre class="layui-code">var openView = new openViewer(document.getElementById('viewerImg'));</pre>
+                        <p>参数：</p>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th>版本</th>
+                                <th>参数</th>
+                                <th>是否必填</th>
+                                <th>描述</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1.0（当前）</td>
+                                <td>container</td>
+                                <td>是</td>
+                                <td>图片所在容器</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </li>
+            <li class="layui-timeline-item">
+                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                <div class="layui-timeline-content layui-text">
+                    <h3 class="layui-timeline-title">2019年6月14日</h3>
+                    <ul>
+                        <li>[重写] 优化更换皮肤功能</li>
+                        <li>[完善] 新增皮肤</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="layui-timeline-item">
+                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                <div class="layui-timeline-content layui-text">
+                    <h3 class="layui-timeline-title">2019年6月13日</h3>
+                    <ul>
+                        <li>
+                            <p class="update-title">基于Layui的多选解决方案</p>
+                            <blockquote class="layui-elem-quote">参考文档：<a href="https://hnzzmsf.github.io/layui-formSelects/docs/index.html" target="_blank">GitHub Pages</a></blockquote>
+                            <blockquote class="layui-elem-quote">模块加载名称：<em>formSelects</em></blockquote>
+                            <h4>扩展模块路径：</h4>
+                            <pre class="layui-code">layui.config({base:'${ctx.contextPath}/layui/layui_extends/'});</pre>
+                            <h4>多选下拉框（可搜索）：</h4>
+                            <div style="width: 500px;margin-top: 10px;">
+                                <select name="city" xm-select="tag_ids1" xm-select-search="" xm-select-search-type="dl">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+            </li>
+            <li class="layui-timeline-item">
+                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                <div class="layui-timeline-content layui-text">
+                    <h3 class="layui-timeline-title">2019年6月12日</h3>
+                    <ul>
+                        <li>[修复] tab 组件 操作栏中关闭全部选项卡的异常问题</li>
+                        <li>[修复] tab 组件 操作栏中关闭当前选项卡的异常问题</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="layui-timeline-item">
+                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                <div class="layui-timeline-content layui-text">
+                    <h3 class="layui-timeline-title">2019年6月10日</h3>
+                    <div>
+                        <blockquote class="layui-elem-quote">回车键绑定事件通用方法：解决框架中绑定回车事件时出现的BUG</blockquote>
+                        <p>基础使用：</p>
+                        <pre class="layui-code">commons.bindEnterKey(callBack,closeMsg,time);</pre>
+                        <p>参数：</p>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>类型</th>
+                                <th>是否必填</th>
+                                <th>描述</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>callBack</td>
+                                <td>function</td>
+                                <td>是</td>
+                                <td>回车所绑定的回调函数，调用后会锁定回车键</td>
+                            </tr>
+                            <tr>
+                                <td>closeMsg</td>
+                                <td>boolean</td>
+                                <td>否</td>
+                                <td>当回调函数中有layer提示弹框时，true：回车键锁定，会在调用函数和关闭提示直接切换</td>
+                            </tr>
+                            <tr>
+                                <td>time</td>
+                                <td>number</td>
+                                <td>否</td>
+                                <td>回车键锁定后延时解锁</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p>方法：切换回车锁定状态</p>
+                        <pre class="layui-code">commons.enterState(state);</pre>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    layui.config({
+        base:'${ctx.contextPath}/layui/layui_extends/'
+    });
+
+    layui.use(['code','element','formSelects'], function() {
+        var formSelects = layui.formSelects;
+        layui.code({
+            elem: 'pre',
+            title: 'JavaScript',
+            about: false
+        });
+
+        formSelects.data('tag_ids1', 'local', {
+            arr: [
+                {"name": "分组-1", "type": "optgroup"},
+                {"name": "北京", "value": 1},
+                {"name": "上海", "value": 2},
+                {"name": "分组-2", "type": "optgroup"},
+                {"name": "广州", "value": 3},
+                {"name": "深圳", "value": 4},
+                {"name": "天津", "value": 5}
+            ]
+        });
+    });
+</script>
+</body>
+
+</html>

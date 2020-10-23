@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+
+</head>
+
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" value="${LEAVE.NAME}" id="name" name="name" autocomplete="off"
+                           class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>单位</label>
+                <div class="layui-input-block">
+                    <input type="text" value="${LEAVE.DEPTNAME}" id="deptname" name="deptname" autocomplete="off"
+                           class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>请假类型</label>
+                <div class="layui-input-block">
+                    <input type="text" value="${LEAVE.LEAVE_TYPE}" id="leave_type" name="leave_type" autocomplete="off"
+                           class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">请假开始时间</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" id="start_time" name="start_time" value="${LEAVE.START_TIME}"
+                           placeholder="yyyy-MM">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>状态</label>
+                <div class="layui-input-block">
+                    <select name="complete" id="complete" selectValue="${LEAVE.COMPLETE}" lay-search>
+                        <option value=""></option>
+                        <option value="0">保存中</option>
+                        <option value="1">送审中</option>
+                        <option value="2">已结束</option>
+                        <option value="3">已退回</option>
+                        <option value="99">已销假</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">请假结束时间</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" id="end_time" name="end_time" value="${LEAVE.END_TIME}"
+                           placeholder="yyyy-MM">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>请假原因</label>
+                <div class="layui-input-block">
+                    <input type="text" value="${LEAVE.REASON}" id="reason" name="reason" autocomplete="off"
+                           class="layui-input" lay-verify="required">
+                </div>
+            </div>
+
+
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>目的地</label>
+                <div class="layui-input-block">
+                    <input type="text" value="${LEAVE.LEAVE_SPACE}" id="leave_space" name="leave_space"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">发起时间</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" id="apply_time" name="apply_time" value="${LEAVE.APPLY_TIME}"
+                           placeholder="yyyy-MM">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>请假天数</label>
+                <div class="layui-input-block">
+                    <input type="text" value="${LEAVE.LEAVE_DAYS}" id="leave_days" name="leave_days" autocomplete="off"
+                           class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>实际天数</label>
+                <div class="layui-input-block">
+                    <input type="text" value="${LEAVE.LEAVE_DAYS_TRUE}" id="leave_days_true" name="leave_days_true"
+                           autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>奖励天数</label>
+                <div class="layui-input-block">
+                    <input type="text" value="${LEAVE.LEAVE_DAYS_REWARD}" id="leave_days_reward"
+                           name="leave_days_reward" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>剩余天数</label>
+                <div class="layui-input-block">
+                    <input type="text" value="${SYTS}" id="syts" name="syts" autocomplete="off" class="layui-input"
+                           lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <p></p>
+                <label class="layui-form-label">--------------------</label>
+                <label class="layui-form-label">审批详情</label>
+            </div>
+            <div id="bz">
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">班长意见：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${bz.comment}" id="comment" name="comment" autocomplete="off"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">审批时间：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="endTime" name="endTime" value="${bz.endTime}"
+                               placeholder="yyyy-MM">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">审批人：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${bz.name}" id="name" name="name" autocomplete="off"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">审批结果：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${bz.audit}" id="aduit" name="aduit" autocomplete="off"
+                               class="layui-input"
+                               lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-1">
+                    <p></p>
+                    <label class="layui-form-label">--------------------</label>
+                </div>
+            </div>
+            <div id="zd">
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">中队意见：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${zd.comment}" id="comment" name="comment" autocomplete="off"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">审批时间：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="endTime" name="endTime" value="${zd.endTime}"
+                               placeholder="yyyy-MM">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">审批人：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${zd.name}" id="name" name="name" autocomplete="off"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">审批结果：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${zd.audit}" id="aduit" name="aduit" autocomplete="off"
+                               class="layui-input"
+                               lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-1">
+                    <p></p>
+                    <label class="layui-form-label">--------------------</label>
+                </div>
+            </div>
+            <div id="dz">
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">大队意见：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${dd.comment}" id="comment" name="comment" autocomplete="off"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">审批时间：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="endTime" name="endTime" value="${dd.endTime}"
+                               placeholder="yyyy-MM">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">审批人：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${dd.name}" id="name" name="name" autocomplete="off"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">审批结果：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${dd.audit}" id="aduit" name="aduit" autocomplete="off"
+                               class="layui-input"
+                               lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-1">
+                    <p></p>
+                    <label class="layui-form-label">--------------------</label>
+                </div>
+            </div>
+            <div id="jwk">
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">警务科意见：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${jwk.comment}" id="comment" name="comment" autocomplete="off"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">审批时间：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="endTime" name="endTime" value="${jwk.endTime}"
+                               placeholder="yyyy-MM">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">审批人：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${jwk.name}" id="name" name="name" autocomplete="off"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">审批结果：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${jwk.audit}" id="aduit" name="aduit" autocomplete="off"
+                               class="layui-input"
+                               lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-1">
+                    <p></p>
+                    <label class="layui-form-label">--------------------</label>
+                </div>
+            </div>
+            <div id="zzb">
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">政治部主任意见：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${zzb.comment}" id="comment" name="comment" autocomplete="off"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">审批时间：</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="endTime" name="endTime" value="${zzb.endTime}"
+                               placeholder="yyyy-MM">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">审批人：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${zzb.name}" id="name" name="name" autocomplete="off"
+                               class="layui-input" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">审批结果：</label>
+                    <div class="layui-input-block">
+                        <input type="text" value="${zzb.audit}" id="aduit" name="aduit" autocomplete="off"
+                               class="layui-input"
+                               lay-verify="required">
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="${RYGL.ID}" autocomplete="off" class="layui-input">
+            <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+    var index = parent.layer.getFrameIndex(window.name);
+    // var businessid =getUrlParam("businessid");
+    var _id = "${id}";
+    var _treeId = "${treeId}";
+    var isView = getParam("isView");
+    layui.use(['form', 'layer', 'laydate'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#rwny'
+            , type: 'month'
+            , format: "yyyy/M"
+            , trigger: 'click'
+        });
+
+        //常规用法
+        laydate.render({
+            elem: '#test1'
+        });
+        if ("${LEAVE.REPORT}" == 1) {
+            $("#complete").val("99");
+        } else {
+            $("#complete").val("${LEAVE.COMPLETE}");
+        }
+
+        if ("${zd.audit}" == null || "${zd.audit}" == '') {
+            $("#zd").hide();
+        }
+        if ("${bz.audit}" == null || "${bz.audit}" == '') {
+            $("#bz").hide();
+        }
+        if ("${dz.audit}" == null || "${dz.audit}" == '') {
+            $("#dz").hide();
+        }
+        if ("${jwk.audit}" == null || "${jwk.audit}" == '') {
+            $("#jwk").hide();
+        }
+        if ("${zzb.audit}" == null || "${zzb.audit}" == '') {
+            $("#zzb").hide();
+        }
+
+        if (isView) {
+            $('input,select,textarea').prop('disabled', "disabled");
+        }
+        form.render('select');
+        //监听提交
+        form.on('submit()', function (data) {
+            var datas = data.field;
+            var ajax = new Ajax("leave/save", function (data) {
+                if (judgeRight(data)) {
+                    parent.layer.alert("操作成功!", {icon: 1}, function () {
+                        parent.tableIns.reload({where: {"v": Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
+
+    function mySubmit() {
+        $("#tj").click();
+    }
+</script>
+</body>
+
+</html>

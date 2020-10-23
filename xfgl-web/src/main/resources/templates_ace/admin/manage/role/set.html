@@ -1,0 +1,94 @@
+<div id="content">
+
+    <div class="modal-header" style="background-color: #5090C1;">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title lighter white no-margin">
+            权限设置
+        </h3>
+    </div>
+    <div class="modal-body" style="overflow-y: scroll; height: 580px;">
+        <div class="row">
+            <div class="col-xs-12">
+                <ul id="ztree_table" class="ztree"></ul>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+
+    <div class="modal-footer">
+
+        <button class="btn btn-success" onclick="_save();">
+            <i class="ace-icon fa fa-floppy-o"></i>
+            保存
+        </button>
+        &nbsp;
+        <button class="btn btn-inverse" onclick="closeModel();">
+            <i class="ace-icon fa fa-ban"></i>
+            关闭
+        </button>
+    </div>
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+        var _id = "${id}";
+        var tree_selector = "#ztree_table";
+        jQuery(function ($) {
+            //如果是编辑，则要那一下数据否则只要初始化一些控件
+            //初始化树
+            if (_id != "") {
+                initTreeTable(_id);
+            }
+        });
+
+
+        var setting = {
+            check: {
+                enable: true
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        };
+
+        //Tree初始化
+        function initTreeTable(id) {
+            var ajax = new Ajax('common/ztree/menu', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    $.fn.zTree.init($(tree_selector), setting, ret.dataset.rows);
+                }
+            });
+            ajax.setMessage(false);
+            ajax.add("rid", id);
+            ajax.submit();
+        }
+
+        function _save() {
+            var treeObj = $.fn.zTree.getZTreeObj("ztree_table");
+            var nodes = treeObj.getCheckedNodes(true);
+            var menus = "";
+            for (var i = 1; i < nodes.length; i++) {
+                menus = menus + "," + nodes[i].id;
+            }
+            var ajax = new Ajax('role/saveSet', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    bootbox.alert({title: "信息", message: "保存成功"});
+                    //关闭模态窗口
+                    closeModel();
+                }
+            });
+            ajax.setMessage(true);
+            ajax.add("menus", menus);
+            ajax.add("id", _id);
+            ajax.submit();
+        }
+    </script>
+</div>
+

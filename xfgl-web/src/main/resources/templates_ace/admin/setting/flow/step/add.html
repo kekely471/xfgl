@@ -1,0 +1,254 @@
+<div id="content">
+    <div class="modal-header" style="background-color: #5090C1">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title lighter white no-margin">步骤表单</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <form id="step_form" class="form-horizontal" role="form">
+                    <div class="form-group" hidden>
+                        <label class="col-sm-2 control-label no-padding-right">
+                            步骤编号 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="id" name="id" placeholder="步骤编号"
+                                   class="form-control" style="width: 460px;" value="${STEP.ID}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            所属流程 </label>
+
+                        <div class="col-sm-10">
+                            <select id="flow_id" name="flow_id" class="chosen-select form-control"
+                                    data-placeholder="请选择上级部门">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            上级步骤 </label>
+
+                        <div class="col-sm-10">
+                            <select id="pre_step_id" name="pre_step_id" class="chosen-select form-control"
+                                    data-placeholder="请选择上级步骤">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            *步骤名称 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="step_name" name="step_name" placeholder="步骤名称" maxlength="50"
+                                   required="required"
+                                   class="form-control" style="width: 460px;" value="${STEP.STEP_NAME}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            步骤类型 </label>
+
+                        <div class="col-sm-10">
+                            <select id="step_type" name="step_type" class="chosen-select form-control"
+                                    data-placeholder="请选择步骤类型">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            使用角色 </label>
+                        <div class="col-sm-10">
+                            <select multiple="" class="chosen-select form-control tag-input-style" id="rel_role"
+                                    data-placeholder="请选择使用角色">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            排序号 </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="sort" name="sort" maxlength="3" value="${STEP.SORT}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            启用/禁用 </label>
+                        <div class="col-sm-10" style="margin-top: 5px;">
+                            [#if STEP.STATUS==0 ]
+                            <input id="status" name="status" type="checkbox"
+                                   class="ace ace-switch ace-switch-4 btn-flat">
+                            [#else]
+                            <input id="status" name="status" type="checkbox"
+                                   class="ace ace-switch ace-switch-4 btn-flat" checked="checked">
+                            [/#if]
+                            <span class="lbl"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            备注 </label>
+
+                        <div class="col-sm-10">
+                        <textarea type="text" id="remark" name="remark" placeholder="备注"
+                                  class="form-control limited" maxlength="500" style="height: 60px;width: 460px;">${STEP.REMARK}</textarea>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+
+    <div class="modal-footer">
+
+        <button class="btn btn-success" onclick="_save();">
+            <i class="ace-icon fa fa-floppy-o"></i>
+            保存
+        </button>
+        &nbsp;
+        <button class="btn btn-inverse" onclick="closeModel();">
+            <i class="ace-icon fa fa-ban"></i>
+            关闭
+        </button>
+    </div>
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+        var _id = "${id}";
+        var _treeId = "${treeId}";
+        var form_selector = "#step_form";
+        jQuery(function ($) {
+            //如果是编辑，则要那一下数据否则只要初始化一些控件
+            initFlow();
+            initRole();
+            initChosenSelect("#step_type", 'step_type', 0, "460px", "${STEP.STEP_TYPE}");
+            //排序号初始化
+            initSort('#sort');
+            //页面验证初始化（除必填项以外的验证）
+            $(form_selector).validate({
+                rules: {
+                    name: {
+                        maxlength: 50
+                    }
+                }
+            });
+            if (_id != "") {
+                chose_mult_set_ini('#rel_role', '${STEP.RELROLES}');
+                $("#rel_role").trigger("chosen:updated");
+            }
+        });
+
+
+        function initFlow() {
+            var ajax = new Ajax('common/list/flow', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    var html = '';
+                    for (var i = 0; i < ret.dataset.rows.length; i++) {
+                        html += '<option value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].NAME2 + '</option>';
+                    }
+                    $("#flow_id").append(html);
+                    $("#flow_id").chosen({
+                        allow_single_deselect: true,
+                        width: "460px"
+                    }).on("change", function (evt, params) {
+                        initPStep(params.selected);
+                    });
+                    if (_treeId == "0") {
+                        var flowId = '${STEP.FLOW_ID}';
+                        var parentId = '${STEP.PRE_STEP_ID}';
+                        if (flowId == "") {
+                            $("#flow_id").val('1');
+                            $("#flow_id").trigger("chosen:updated");
+                            initPStep("1");
+                        } else {
+                            $("#flow_id").val(flowId);
+                            $("#flow_id").trigger("chosen:updated");
+                            initPStep(flowId, parentId);
+                        }
+                    } else {
+                        $("#flow_id").val(_treeId);
+                        $("#flow_id").trigger("chosen:updated");
+                        initPStep(_treeId);
+                    }
+                }
+            });
+            ajax.setMessage(false);
+            ajax.submit();
+        }
+
+        function initPStep(_flow_no, _value) {
+            var ajax = new Ajax('common/list/step', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    $("#pre_step_id").empty();
+                    $("#pre_step_id").chosen("destroy");
+                    var html = '';
+                    for (var i = 0; i < ret.dataset.rows.length; i++) {
+                        if (_value == ret.dataset.rows[i].ID) {
+                            html += '<option selected="selected" value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].NAME + '</option>';
+                        } else {
+                            html += '<option value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].NAME + '</option>';
+                        }
+                    }
+                    $("#pre_step_id").append(html);
+                    $("#pre_step_id").chosen({allow_single_deselect: true, width: "460px"});
+                }
+            });
+            ajax.setMessage(false);
+            ajax.add("flow_id", _flow_no);
+            ajax.submit();
+        }
+
+        function initRole() {
+            var ajax = new Ajax('common/list/role', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    var html = '';
+                    for (var i = 0; i < ret.dataset.rows.length; i++) {
+                        html += '<option value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].NAME + '</option>';
+                    }
+                    $("#rel_role").append(html);
+                    $("#rel_role").chosen({allow_single_deselect: true, width: "460px"});
+                }
+            });
+            ajax.setMessage(false);
+            ajax.submit();
+        }
+
+        function _save() {
+            if ($(form_selector).valid()) {
+                var ajax = new Ajax('flow/step/manage/save', function (ret) {
+                    if (ret.code && ret.code < 0) {
+                        bootbox.alert({title: "警告", message: ret.msg});
+                        return;
+                    }
+                    if (ret.code && ret.code > 0) {
+                        bootbox.alert({title: "信息", message: "保存成功"});
+
+                        //刷新grid等一些需要刷新的控件
+                        $(grid_selector).trigger("reloadGrid");
+                        //关闭模态窗口
+                        closeModel();
+                    }
+                });
+                ajax.setMessage(true);
+                ajax.add(formSerialize(form_selector));
+                if ($("#rel_role").val() != null) {
+                    ajax.add("rel_roles", $("#rel_role").val().toString());
+                }
+                ajax.submit();
+            }
+        }
+    </script>
+</div>

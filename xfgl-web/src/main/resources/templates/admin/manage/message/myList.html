@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+<body class="layui-layout-body">
+<div style="padding: 15px;">
+    <div style="overflow: hidden;">
+        <div class="layui-form-item" style="float:right;margin-bottom: 0;">
+            <div class="layui-inline" style="margin-bottom:5px;margin-right:0;">
+                <label class="layui-form-label">关键字：</label>
+                <div class="layui-input-inline" style="width: 160px;">
+                    <input type="text" class="layui-input" id="key_name" style="width: 160px;">
+                </div>
+                <div class="layui-input-inline" style="width: 64px;margin-right: 0px;">
+                    <button class="layui-btn layui-btn-search" id="query" onclick="search()">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-btn-group">
+            <button class="layui-btn layui-btn-edit" id="view" onclick="buttonEvents('view')">查看</button>
+            <button class="layui-btn layui-btn-add" id="add" onclick="buttonEvents('add')">增加</button>
+            <button class="layui-btn layui-btn-realDel" id="realDel" onclick="buttonEvents('realDel')">彻底删除</button>
+        </div>
+
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script>
+    var table, tableIns, openType = 1;
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    layui.use('table', function () {
+        table = layui.table;
+        var pageHeight = $(window).height() - 30 - 38;
+        tableIns = table.render({
+            id: "tab_list"
+            , elem: '#tab_dg'
+            , height: pageHeight
+            , limit: Math.floor(pageHeight / 40 - 2)
+            , url: Apps.ContextPath + 'message/list?isMy=true' //数据接口
+            , page: true //开启分页
+            , where: {"v": Date.parse(new Date())}
+            , autoSort: false
+            , cols: [[ //表头
+                {type: 'checkbox', fixed: 'left', checkbox: false}
+                , {title: '序号', width: 70, align: 'center', type: 'numbers', fixed: 'left', unresize: true}
+                , {field: 'ID', title: '编号', width: 0, align: 'center', hide: true}
+                , {
+                    field: 'TITLE', title: '消息标题', width: 150, align: 'left', templet: function (res) {
+                        return '<a href="#" class="layui-table-link" onclick="viewOne(' + res.ID + ')">' + res.TITLE + '</a>';
+                    }
+                }
+                , {field: 'CONTENT', title: '消息内容', width: 300, align: 'left'}
+                , {
+                    field: 'MESSAGE_TYPE', title: '消息类型', width: 130, align: 'center', templet: function (res) {
+                        var _source = getSSourceDate("message_type", 1);
+                        return init_rows(_source, res.MESSAGE_TYPE);
+                    }
+                }
+                , {field: 'SEND_TIME', title: '发送时间', sort: true, width: 300, align: 'center'}
+                , {field: 'SEND_USERNAME', title: '发送人', width: 150, align: 'left'}
+                , {
+                    field: 'READ_STATUS', title: '查看状态', width: 100, align: 'center', templet: function (res) {
+                        var _source = getSSourceDate("read_status", 1);
+                        return init_rows(_source, res.READ_STATUS);
+                    }
+                }
+            ]]
+            , done: function (res, curr, count) {
+                $("[data-field='id']").css('display', 'none');
+            }
+        });
+        //监听排序事件
+        table.on('sort(test)', function (obj) { //实现服务端排序
+            table.reload('tab_list', {
+                initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                    field: obj.field //排序字段
+                    , order: obj.type //排序方式
+                }
+            });
+        });
+    });
+
+
+    function buttonEvents(type) {
+        var check = table.checkStatus('tab_list');
+        var param = {
+            type: 2,
+            area: ['500px', '60%'],
+            title: '账号表单',
+            fixed: false, //不固定
+            content: Apps.ContextPath + "message/add"
+        };
+        if (check.data.length != 1 && type == 'view') {
+            layer.msg("请选择一行数据！", function () {
+            })
+        } else if (type == "view") {
+            param.content = Apps.ContextPath + 'message/add/0/' + check.data[0].ID;
+            openPage(openType, type, param);
+        } else if(type == "add"){
+            openPage(openType, type, param);
+        } else if(type == "realDel"){
+            rowsDel("message/realDel", check.data, "彻底删除数据后无法恢复，确定要彻底删除所选数据?");
+        }
+    }
+
+    function viewOne(id) {
+        var type = 'view';
+        var param = {
+            type: 2,
+            area: ['500px', '60%'],
+            title: '通知信息表单',
+            fixed: false, //不固定
+            content: Apps.ContextPath + 'message/add/0/' + id
+        };
+        openPage(openType, type, param);
+    }
+
+    function search() {
+        tableIns.reload({where: {"key_name": $("#key_name").val()},page:{curr:1}})
+    }
+
+    function reset() {
+        $("#key_name").val("");
+        search();
+    }
+
+    function openPage(openType, methodType, param) {
+        if (openType == 1) {
+            var index = layer.open({
+                type: 2,
+                area: param.area,
+                title: param.title,
+                fixed: false, //不固定
+                content: param.content,
+                btn: ['取消'],
+                btn2: function (index, layero) {
+
+                }
+            });
+        } else {
+            top.tab.tabAdd({
+                class: "",
+                icon: "",
+                id: tabIndex + methodType,
+                title: param.title,
+                url: param.content
+            });
+        }
+
+    }
+
+</script>
+</body>
+</html>

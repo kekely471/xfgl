@@ -1,0 +1,204 @@
+<div id="content">
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a href="#">ITSM</a>
+                    </li>
+
+                    <li>
+                        <a href="#">FAQ</a>
+                    </li>
+                    <li class="active">FAQ查询</li>
+                </ul><!-- /.breadcrumb -->
+            </div>
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                            <div class="row search-page">
+                                <div class="col-xs-12">
+                                    <div class="search-area well no-margin-bottom">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="keywords" placeholder="关键字">
+                                                        <div class="input-group-btn">
+                                                            <button type="button" class="btn btn-primary btn-sm">
+                                                                <i class="ace-icon fa fa-search icon-on-right bigger-110"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <div class="space space-6"></div>
+                                        <span class="grey">共查询到 100 结果 (0.74 秒)</span>
+                                    </div>
+
+                                    <div class="search-results">
+                                        <div class="search-result">
+                                            <h5 class="search-title">
+                                                <a href="#">"Hello, World!" - Wikipedia, the free encyclopedia</a>
+                                            </h5>
+                                            <a class="text-success" href="#">en.wikipedia.org</a>
+
+                                            <p class="search-content">
+                                                A "
+                                                <b>Hello</b>
+                                                ,
+                                                <b>World</b>
+                                                !" program is a computer program that outputs "
+                                                <b>Hello</b>
+                                                ,
+                                                <b>World</b>!" (or some variant thereof) on a display device. Because it is typically one of the ...
+                                            </p>
+                                        </div>
+
+                                        <div class="search-result">
+                                            <h5 class="search-title">
+                                                <a href="#">Hello World! - GNU Project</a>
+                                            </h5>
+                                            <a class="text-success" href="#">www.gnu.org</a>
+
+                                            <p class="search-content">
+                                                <b>Hello World</b>
+                                                ! How the way people code “
+                                                <b>Hello World</b>” varies depending on their age and job ...
+                                            </p>
+                                        </div>
+
+                                        <div class="search-result">
+                                            <h5 class="search-title">
+                                                <a href="#">HelloWorld.java - Introduction to Programming in Java</a>
+                                            </h5>
+                                            <a class="text-success" href="#">introcs.cs.princeton.edu</a>
+
+                                            <p class="search-content">
+                                                <b>HelloWorld</b>
+                                                code in Java. ...
+                                                <b>HelloWorld</b>
+                                                .java. Below is the syntax highlighted version of
+                                                <b>HelloWorld</b>.java from ...
+                                            </p>
+                                        </div>
+
+                                        <div class="search-result">
+                                            <h5 class="search-title">
+                                                <a href="#">Hello, World! - Learn Python - Free Interactive Python Tutorial</a>
+                                            </h5>
+                                            <a class="text-success" href="#">www.learnpython.org</a>
+
+                                            <p class="search-content">
+                                                <b>Hello</b>
+                                                ,
+                                                <b>World</b>! Python is a very simple language, and has a very straightforward syntax. It encourages programmers to program without boilerplate (prepared) ...
+                                            </p>
+                                        </div>
+
+                                        <div class="search-result">
+                                            <h5 class="search-title">
+                                                <a href="#">Hello World · GitHub Guides</a>
+                                            </h5>
+                                            <a class="text-success" href="#">guides.github.com</a>
+
+                                            <p class="search-content">
+                                                The
+                                                <b>Hello World</b>
+                                                project is a time-honored tradition in computer programming. It is a simple exercise that gets you started when learning something new. Let's get ...
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="search-area well well-sm text-center">
+                                        <ul class="pagination">
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ace-icon fa fa-angle-double-left"></i>
+                                                </a>
+                                            </li>
+
+                                            <li class="active">
+                                                <a href="#">1</a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">2</a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">3</a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">4</a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">5</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">...</a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">
+                                                    <i class="ace-icon fa fa-angle-double-right"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <!-- PAGE CONTENT ENDS -->
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+        <script type="text/javascript">
+
+
+            jQuery(function ($) {
+                //初始化Grid
+                initGridTable();
+            });
+
+            function initGridTable() {
+
+
+            }
+
+
+            //Grid查询
+            function _query(_treeId) {
+
+            }
+
+
+            //Grid编辑
+            function _detail(_id) {
+                var ids;
+                if (_id == undefined) {
+                    ids = $(grid_selector).jqGrid('getGridParam', 'selarrrow');
+                    if (ids.length != 1) {
+                        bootbox.alert({title: "警告", message: "请选择一条数据"});
+                        return;
+                    }
+                } else {
+                    ids = _id;
+                }
+                $("#my-form").modal({
+                    backdrop: 'static',
+                    remote: "itsm/faq/detail?_id=" + ids
+                }).on("hidden.bs.modal", function () {
+                    $(this).removeData("bs.modal");
+                });
+            }
+        </script>
+    </div><!-- /.main-content -->
+</div>

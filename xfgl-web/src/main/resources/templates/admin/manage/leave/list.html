@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>信息管理</title>
+</head>
+<body class="layui-layout-body">
+
+
+<div style="padding: 15px;">
+    <div class="extList-search">
+        <!--按钮区域-->
+        <div class="layui-btn-group" style="height: 35px;">
+        </div>
+        <div class="layui-form-item extList-search-box">
+            <form class="layui-form" style="display: inline-block;">
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label">姓名：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="name" id="name" placeholder="请输入消防员姓名">
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label">部门名称：</label>
+                    <div class="layui-input-inline" style="width:160px;">
+                        <select name="dwmc" id="dwmc" class="layui-select" style="width:160px;">
+                            <option value="">请选择部门</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label">请假类型：</label>
+                    <div class="layui-input-inline" style="width:160px;">
+                        <select name="leavetype" id="leavetype" class="layui-select" style="width:160px;">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">日期范围</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="datetime" placeholder=" - ">
+                    </div>
+                </div>
+
+            </form>
+
+            <!--工具栏区域-->
+            <div class="layui-inline extList-sm-icon" title="搜索" onclick="search()"><i
+                    class="layui-icon layui-icon-search"></i></div>
+            <div class="layui-inline extList-sm-icon" title="刷新" onclick="resetBtn()"><i
+                    class="layui-icon layui-icon-refresh"></i></div>
+        </div>
+
+
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script>
+    var table, form, syts, laydate, tableIns, openType = 1, layer, action = 'leaveAction', method = 'list';
+    exportParams = []
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    layui.use(['table', 'form', 'laydate'], function () {
+        table = layui.table;
+        form = layui.form;
+        laydate = layui.laydate;
+        var pageHeight = $(window).height() - $("#search_layout").height() - 50;
+        initBtns("layui-btn-group");
+        initSelectBox("dwmc", 'common/dept', '', 'ID', 'NAME');
+        initSelectBox("leavetype", 'common/dict/business', '{"type_code":"qjlx"}', 'VALUE', 'NAME');
+
+        tableIns = table.render({
+            id: "tab_list"
+            , elem: '#tab_dg'
+            , height: pageHeight
+            , limit: Math.floor(pageHeight / 40 - 2)
+            , url: Apps.ContextPath + 'leave/list' //数据接口
+            , page: true //开启分页
+            , where: {"v": Date.parse(new Date())}
+            , autoSort: false
+            , cols: [[ //表头
+                {type: 'checkbox', fixed: 'left', checkbox: false}
+                , {title: '序号', width: 50, align: 'center', type: 'numbers', fixed: 'left', hide: false, unresize: true}
+                // ,{field: 'business_id', title: '标题', width: 280, align: 'left'}
+                // ,{field: 'process_id', title: '流程主键', align: 'center'}
+                , {field: 'NAME', title: '姓名', width: 100, align: 'left'}
+                , {field: 'DEPTNAME', title: '单位', width: 150, align: 'center'}
+                , {field: 'LEAVE_TYPE', title: '请假类型', width: 100, align: 'center'}
+
+                , {field: 'START_TIME', title: '请假开始时间', width: 150, align: 'left'}
+                , {field: 'END_TIME', title: '请假结束时间', width: 150, align: 'left'}
+                , {field: 'REASON', title: '请假原因', align: 'center'}
+                , {field: 'LEAVE_SPACE', title: '目的地', align: 'center'}
+                , {field: 'APPLY_TIME', title: '发起时间', width: 150, align: 'center'}
+                , {
+                    field: 'COMPLETE', title: '状态', width: 100, align: 'center', templet: function (res) {
+                        if (res.REPORT == 1) {
+                            return "已销假";
+                        } else {
+                            if (res.COMPLETE == 0) {
+                                return "保存中";
+                            } else if (res.COMPLETE == 1) {
+                                return "送审中";
+                            } else if (res.COMPLETE == 2) {
+                                return "已结束";
+                            } else if (res.COMPLETE == 3) {
+                                return "已退回";
+                            }
+                        }
+                    }
+                }
+                , {field: 'REPORT_TIME', title: '销假时间', width: 150, align: 'center'}
+                , {field: 'LEAVE_DAYS', title: '请假天数', width: 80, align: 'center'}
+                , {field: 'LEAVE_DAYS_TRUE', title: '实际天数', width: 80, align: 'center'}
+                , {field: 'LEAVE_DAYS_REWARD', title: '奖励天数', width: 80, align: 'center'}
+                , {field: 'SYTS', title: '剩余假期天数', width: 120, align: 'center'}
+
+
+            ]]
+            , done: function (res, curr, count) {
+
+            }
+        });
+
+        table.on('rowDouble()', function (obj) {//console.log("双击");
+            // debugger
+            // console.log(obj);
+            var data = obj.data;
+            var id = data.ID;
+            if (id == '') {
+                layer.msg("暂无详情");
+                return false;
+            }
+            viewOne(id);
+        });
+
+        function viewOne(id) {
+            //用于判断为查看详情还是编辑的状态
+            var type = 'edit';
+            var isView = false;
+            var param = {
+                type: 2,
+                area: ['700px', '80%'],
+                title: '详情',
+                fixed: false, //不固定
+                btn: ["取消"],
+                content: Apps.ContextPath + 'leave/add1/' + id
+            };
+            openPage(openType, type, param);
+        }
+
+        //日期范围
+        laydate.render({
+            elem: '#datetime'
+            , range: true
+        });
+
+    });
+
+    function resetBtn() {
+        $("#name").val("");
+        $("#dwmc").val("");
+        $("#leavetype").val("");
+        $("#datetime").val("");
+        form.render('select');
+        search();
+    }
+
+    function buttonEvents(type) {
+        var check = table.checkStatus('tab_list');
+        if (type == "del") {
+            rowsDel("leave/del", check.data, "你确定删除所选数据吗?");//刪除事件
+        } else if (type == "export") {
+            var param = {
+                type: 2,
+                area: ['800px', '500px'],
+                title:'导出表单',
+
+                fixed: false,
+                content: Apps.ContextPath+"demo/export"
+            };
+            obj = {name: "name", value: $("#name").val()};
+            exportParams.push(obj);
+            obj = {name: "dwmc", value: $("#dwmc").val()};
+            exportParams.push(obj);
+            obj = {name: "datetime", value: $("#datetime").val()};
+            exportParams.push(obj);
+            obj = {name: "leavetype", value: $("#leavetype").val()};
+            exportParams.push(obj);
+            openPage(openType, null, param);
+
+        }
+
+
+    }
+
+    //模拟手机页面a
+    function viewOne(id) {
+
+        var ajax = new Ajax("xxfb/getpageinformationbyid", function (data) {
+            if (judgeRight(data)) {
+                //请求页面
+                var content;
+
+                if (data.dataset.rows[0].EXTERNALLY == 0) {
+                    var type = data.dataset.rows[0].TYPE_TRUE;
+
+                    // content="http://192.168.30.248:8888/xf/xxfb/detail.html?id="+data.dataset.rows[0].ID;
+                    content = "http://218.93.115.158:8888/xf/xxfb/detail.html?id=" + data.dataset.rows[0].ID;
+
+                } else if (data.dataset.rows[0].EXTERNALLY == 1) {
+                    content = data.dataset.rows[0].URL;
+                }
+
+                var param = {
+                    type: 2,
+                    area: ['300px', '600px'],
+                    title: '详情页面',
+                    fixed: false, //不固定
+                    btn: ["关闭"],
+                    content: content
+                };
+                openPage(openType, 'edit', param);
+
+            }
+        })
+        ajax.add("ID", id);
+        ajax.submit();
+
+
+    }
+
+
+    function search() {
+        tableIns.reload({
+            where: {
+                "name": $("#name").val(),
+                "dwmc": $("#dwmc").val(),
+                "leavetype": $("#leavetype").val(),
+                "datetime": $("#datetime").val(),
+            },
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        })
+    }
+
+
+    // 表格高度变换重载
+    window.onresize = function () {
+        var reloadHeight = $(window).height() - $("#search_layout").height() - 50;
+        table.reload('tab_list', {
+            height: reloadHeight
+        });
+    }
+
+
+    //回车搜索
+    $(document).keyup(function (event) {
+        if (event.keyCode == 13) {
+            search();
+        }
+    });
+
+</script>
+</body>
+</html>

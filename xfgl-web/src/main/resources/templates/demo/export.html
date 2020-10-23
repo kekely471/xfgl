@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>导出模块</title>
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+</head>
+<body>
+<script type="text/javascript">
+    var tableIns = parent.tableIns;
+    var param = {
+        page: tableIns.config.page.curr,//页数
+        limit: tableIns.config.page.limit,//条数
+        count: tableIns.config.page.count,//总条数
+        action: parent.action,//bean名称
+        method: parent.method//method名称
+    };
+
+</script>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form">
+            <!--字段列表容器-->
+            <div class="layui-form-item">
+                <label class="layui-form-label">字段列表:</label>
+                <div class="layui-input-block" id="fields">
+                </div>
+            </div>
+            <!--范围容器-->
+            <div class="layui-form-item">
+                <label class="layui-form-label">范围选择:</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="scope" value="1" title="全部数据" checked="">
+                    <input type="radio" name="scope" value="0" title="当前页">
+                </div>
+            </div>
+
+            <!--提交按钮-->
+            <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+        </form>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        /*渲染layui的form表单*/
+        $("#fields").html('');
+        var cols = tableIns.config.cols[0];
+        var checkboxHtml = "";
+        for (var i = 0; i < cols.length; i++) {
+            if (cols[i].field != null && cols[i].hide != true) {
+                checkboxHtml += "<input type='checkbox' lay-filter='demo' checked='checked' name='fields' lay-skin='primary' value='" + cols[i].field + "' title='" + cols[i].title + "' >";
+            }
+        }
+        $("#fields").append(checkboxHtml);
+
+        form.render();
+        if(parent.exportParams != null && parent.exportParams != undefined && parent.exportParams.length > 0 ){
+            $.each(parent.exportParams,function(index,json){
+                param[json.name] = json.value;
+            });
+        }
+
+        form.on('submit()', function (data) {
+            $("#tj").attr("disabled", true);
+            layer.load();
+            var datas = data.field;
+
+            //获取cols
+            var checkboxValue = [];
+
+            $("input:checkbox[name='fields']:checked").each(function () { // 遍历name=standard的多选框
+                var obj = {
+                    display: $(this).attr('title'),
+                    name: $(this).val()
+                };
+                checkboxValue.push(obj);
+            });
+
+            //判断打印的数据量
+            if (datas.scope == 1) {
+                param.limit = param.count;
+            }
+
+            var ajax = new Ajax("common/export", function (res) {
+                /*原res.r.code获取code，  版本440后增加ResultAspect后返回res格式错误 */
+                if (res.dataset.rows[0].r.code > 0) {
+                    layer.alert("操作成功!", {
+                        icon: 1, cancel: function (index, layero) {
+                            layer.closeAll();
+                            return false;
+                        }
+                    }, function () {
+                        layer.closeAll();
+                    });
+                    //调用文件下载功能
+                    window.location.href = Apps.ContextPath + "common/download?fileName=" + encodeURIComponent(res.dataset.rows[0].fileName);
+                    $("#tj").removeAttr("disabled");
+                } else {
+                    $("#tj").removeAttr("disabled");
+                }
+            });
+            //[{display:姓名,name:name},{display:年龄,name:age},{display:性别,name:sex}]
+            param.fields = JSON.stringify(checkboxValue);
+            ajax.add(param);
+            ajax.setDataType('json');
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
+
+    function mySubmit() {
+        $("#tj").click();
+    }
+</script>
+</body>
+</html>

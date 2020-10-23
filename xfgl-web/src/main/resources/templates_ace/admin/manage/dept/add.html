@@ -1,0 +1,235 @@
+<div id="content">
+<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel">
+        部门表单
+    </h4>
+</div>
+<div class="modal-body">
+<div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <form id="dept_form" class="form-horizontal" role="form">
+                <div class="form-group" hidden>
+                    <label class="col-sm-2 control-label no-padding-right">
+                        部门编号 </label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="id" name="id" placeholder="部门编号"
+                               class="form-control" style="width: 460px;" value="${DEPT.ID}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        上级部门 </label>
+
+                    <div class="col-sm-10">
+                        <select id="parentid" name="parentid" class="chosen-select form-control"
+                                data-placeholder="请选择上级部门">
+                        </select>
+                    </div>
+                </div>
+                <div class="hr hr-dotted"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        *部门名称 </label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="name" name="name" placeholder="部门名称" maxlength="50" required="required"
+                               class="form-control" style="width: 460px;" value="${DEPT.DEPTNAME}"/>
+                    </div>
+                </div>
+                <div class="hr hr-dotted"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        *部门编码 </label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="deptno" name="deptno" placeholder="部门编码" maxlength="20"
+                               required="required"
+                               class="form-control" style="width: 460px;" value="${DEPT.DEPTNO}"/>
+                    </div>
+                </div>
+                <div class="hr hr-dotted"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        地址 </label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="address" name="address" placeholder="地址" maxlength="100"
+                               class="form-control" style="width: 460px;" value="${DEPT.ADDRESS}"/>
+                    </div>
+                </div>
+                <div class="hr hr-dotted"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        位置 </label>
+
+                    <div class="col-sm-10">
+                        <div class="input-group" style="width: 460px;">
+                            <input type="text" id="location" name="location" placeholder="位置" maxlength="100"
+                                   readonly="readonly" onclick="_location();"
+                                   class="form-control" value="${DEPT.LOCATION}"/>
+                            <span class="input-group-addon">
+                            <i class="fa fa-map-marker bigger-110"></i>
+						</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hr hr-dotted"></div>
+                <div class="form-group">
+                <label class="col-sm-2 control-label no-padding-right">
+                    是否单位 </label>
+
+                <div class="col-sm-10" style="margin-top: 5px;">
+                    <#if DEPT.STATUS==0 >
+                    <input id="isunit" name="isunit" type="checkbox"
+                           class="ace ace-switch ace-switch-4 btn-flat">
+                    <#else>
+                    <input id="isunit" name="isunit" type="checkbox"
+                           class="ace ace-switch ace-switch-4 btn-flat" checked="checked">
+                </#if>
+                <span class="lbl"
+                      data-lbl="是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;否"></span>
+                </div>
+                </div>
+                <div class="hr hr-dotted"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        排序号 </label>
+                    <div class="col-sm-10">
+                        <input type="text" id="sort" name="sort" maxlength="3" value="${DEPT.SORT?c}">
+                    </div>
+                </div>
+                <div class="hr hr-dotted"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        启用/禁用 </label>
+                    <div class="col-sm-10" style="margin-top: 5px;">
+
+                        <#if DEPT.STATUS==0 >
+                        <input id="status" name="status" type="checkbox"
+                               class="ace ace-switch ace-switch-4 btn-flat">
+                        <#else>
+                        <input id="status" name="status" type="checkbox"
+                               class="ace ace-switch ace-switch-4 btn-flat" checked="checked">
+                        </#if>
+                        <span class="lbl"></span>
+                    </div>
+                </div>
+                <div class="hr hr-dotted"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        备注 </label>
+
+                    <div class="col-sm-10">
+                        <textarea type="text" id="remark" name="remark" placeholder="备注"
+                                  class="form-control limited" maxlength="500" style="height: 60px;width: 460px;">${DEPT.REMARK}</textarea>
+                    </div>
+                </div>
+            </form>
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div>
+<div class="modal-footer">
+
+    <button class="btn btn-success" onclick="_save();">
+        <i class="ace-icon fa fa-floppy-o"></i>
+        保存
+    </button>
+    &nbsp;
+    <button class="btn btn-inverse" onclick="closeModel();">
+        <i class="ace-icon fa fa-ban"></i>
+        关闭
+    </button>
+</div>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    var _id = "${id}";
+    var _treeId = "${treeId}";
+    var form_selector = "#dept_form";
+    jQuery(function ($) {
+        //如果是编辑，则要那一下数据否则只要初始化一些控件
+        //部门选项初始化
+        initPDept();
+        //排序号初始化
+        initSort('#sort');
+        //页面验证初始化（除必填项以外的验证）
+        $(form_selector).validate({
+            rules: {
+                deptname: {
+                    maxlength: 50
+                }
+            }
+        });
+    });
+
+
+    function initPDept() {
+        var ajax = new Ajax('common/list/dept', function (ret) {
+            if (ret.code && ret.code < 0) {
+                bootbox.alert({title: "警告", message: ret.msg});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                var html = '';
+                for (var i = 0; i < ret.dataset.rows.length; i++) {
+                    html += '<option value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].NAME2 + '</option>';
+                }
+                $("#parentid").append(html);
+                $("#parentid").chosen({allow_single_deselect: true, width: "460px"});
+                if (_treeId == "0") {
+                    var parentId = '${DEPT.PARENTID}';
+                    if (parentId == "") {
+                        $("#parentid").val('1');
+                        $("#parentid").trigger("chosen:updated");
+                    } else {
+                        $("#parentid").val(parentId);
+                        $("#parentid").trigger("chosen:updated");
+                    }
+                } else {
+                    $("#parentid").val(_treeId);
+                    $("#parentid").trigger("chosen:updated");
+                }
+            }
+        });
+        ajax.setMessage(false);
+        ajax.submit();
+    }
+
+    function _save() {
+        if ($(form_selector).valid()) {
+            var ajax = new Ajax('dept/save', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    bootbox.alert({title: "信息", message: "保存成功"});
+
+                    //刷新grid等一些需要刷新的控件
+                    $(grid_selector).trigger("reloadGrid");
+                    $(tree_selector).find("li:not([data-template])").remove();
+                    $(tree_selector).tree('render');
+
+                    //关闭模态窗口
+                    closeModel();
+                }
+            });
+            ajax.setMessage(true);
+            ajax.add(formSerialize(form_selector));
+            ajax.submit();
+        }
+    }
+
+
+    function _location() {
+        $("#location-form").modal({
+            backdrop: 'static',
+            remote: "dept/location/" + $("#location").val()
+        }).on("hidden.bs.modal", function () {
+            $(this).removeData("bs.modal");
+        });
+    }
+
+</script>
+</div>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+<style>
+    .layui-form-label {width: 100px;}
+    .layui-input-block {margin-left: 130px;}
+</style>
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-1" style="display:none;">
+                <label class="layui-form-label"><span class="redLabel">*</span>编号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id" placeholder="字典类型编号" value="${DICTTYPE.ID}" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>标识</label>
+                <div class="layui-input-block">
+                    <input type="text" name="code" lay-verify="required" placeholder="请输入标识" value="${DICTTYPE.CODE}"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>字典类型名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" lay-verify="required" placeholder="请输入字典类型名称" value="${DICTTYPE.NAME}"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>类型</label>
+                <div class="layui-input-block">
+                    <select name="type" lay-verify="required" selectValue="${DICTTYPE.TYPE}">
+                        <option value="">请选择类型</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea  name="remark" lay-verify="" placeholder="请输入备注"
+                           autocomplete="off" class="layui-textarea">${DICTTYPE.REMARK}</textarea>
+                </div>
+            </div>
+            <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var index = parent.layer.getFrameIndex(window.name);
+    var _id = "${id}";
+    var _type_code = "${DICTTYPE.TYPE}";
+    var form_selector = "#dict_form";
+    var isView = getParam("isView");
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        //初始化下拉框 傳值為name
+        initSelectBox('type', 'common/dict/system', '{"type_code":"type"}', 'VALUE', 'NAME');
+        if(isView){
+            $('input,select,textarea').prop('disabled',"disabled");
+        }
+
+        form.render('select');
+        //监听提交
+        form.on('submit()', function (data) {
+            var datas = data.field;
+            var ajax = new Ajax("dict/type/save", function (data) {
+                if (judgeRight(data)) {
+                    parent.layer.alert("操作成功!", {icon: 1}, function () {
+                        parent.tableIns.reload({where: {"v": Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
+
+    function mySubmit() {
+        $("#tj").click();
+    }
+
+
+</script>
+</body>
+
+</html>

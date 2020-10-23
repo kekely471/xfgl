@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+    <style>
+        .more-btn-list{
+            /*display: none;*/
+            position: absolute;
+            left: 0;
+            top: 32px;
+            min-width: 100%;
+            line-height: 36px;
+            padding: 5px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,.12);
+            border: 1px solid #d2d2d2;
+            background-color: #fff;
+            z-index: 100;
+            border-radius: 2px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body class="layui-layout-body">
+<div style="padding: 15px;">
+    <div class="extList-search">
+        <!--按钮区域-->
+        <div class="layui-btn-group extList-btn-group">
+            <button class="layui-btn layui-btn-sm" id="set" data-type="addRow"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+            <button class="layui-btn layui-btn-sm" onclick="reloadTable()"><i class="layui-icon layui-icon-refresh-3"></i>刷新</button>
+            <button class="layui-btn layui-btn-sm" data-type="save"><i class="layui-icon layui-icon-set"></i>保存</button>
+            <div class="extList-more-btn-group">
+                <button class="layui-btn layui-btn-sm" onclick="moreBtnList(this)"><i class="layui-icon layui-icon-down"></i>更多</button>
+                <dl class="extList-more-btn-list" id="moreBtnList">
+                    <dd><a href="javascript:void(0)">新增</a></dd>
+                    <dd><a href="javascript:void(0)">删除</a></dd>
+                    <dd><a href="javascript:void(0)">修改</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="layui-form-item extList-search-box">
+            <div class="layui-inline extList-search-item">
+                <label class="layui-form-label extList-search-label">关键字：</label>
+                <div class="layui-input-inline" style="width: 160px;">
+                    <input type="text" class="layui-input" id="id" name="id" placeholder="请输入搜索内容" style="width: 160px;">
+                </div>
+            </div>
+            <div class="layui-inline extList-search-item">
+                <label class="layui-form-label extList-search-label">关键字：</label>
+                <div class="layui-input-inline" style="width: 160px;">
+                    <input type="text" class="layui-input" id="key_name" name="key_name" placeholder="请输入搜索内容" style="width: 160px;">
+                </div>
+            </div>
+            <div class="layui-inline extList-search-item">
+                <button class="layui-btn layui-btn-sm layui-btn-primary" onclick="moreSearchList(this,'layTable')"><i class="layui-icon-ext icon-double-down"></i>高级查询</button>
+            </div>
+            <!--工具栏区域-->
+            <div class="layui-inline extList-sm-icon" title="搜索" onclick="search()"><i class="layui-icon layui-icon-search"></i></div>
+            <div class="layui-inline extList-sm-icon" title="导出"><i class="layui-icon layui-icon-export"  onclick="buttonEvents('export')"></i></div>
+            <div class="layui-inline extList-sm-icon" title="刷新"><i class="layui-icon layui-icon-refresh"></i></div>
+        </div>
+        <!--更多查询区域-->
+        <div class="extList-more-search" id="extListMoreSearch">
+            <div class="layui-form-item" style="padding: 10px;margin-bottom: 0;">
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label">关键字：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <input type="text" class="layui-input" placeholder="请输入搜索内容" style="width: 160px;">
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label">关键字：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <input type="text" class="layui-input" placeholder="请输入搜索内容" style="width: 160px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script>
+    initBtns();
+    var table, tableIns, openType = 1;
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    var table,tableIns,openType=1,url='dict/type/list',action='dictAction',method='type_list';//获取当前tab Id
+    layui.use('table', function () {
+        table = layui.table;
+        var pageHeight = $(window).height() - 30 - 38;
+        tableIns = table.render({
+            id: "tab_list"
+            , elem: '#tab_dg'
+            , height: pageHeight
+            , limit: Math.floor(pageHeight / 40 - 2)
+            , url: Apps.ContextPath + 'dict/type/list' //数据接口
+            , page: true //开启分页
+            , where: {"v": Date.parse(new Date())}
+            , autoSort: false
+            , cols: [[ //表头
+                {type: 'checkbox', fixed: 'left', checkbox: false}
+                , {title: '序号', width: 70, align: 'center', type: 'numbers', fixed: 'left', unresize: true}
+                , {field: 'ID', title: '编号', width: 80, align: 'center', hide: true, templet: function (res) {
+                        return "<a href='#' class='relodId'>" + res.ID + "</a>";
+                    }
+                }
+                , {
+                    field: 'NAME', title: '字典类型名称', width: 130, align: 'left', templet: function (res) {
+                        return "<a href='#' class='layui-table-link relodName'>" + res.NAME + "</a>";
+                    }
+                }
+                , {field: 'CODE', title: '标识', width: 250, align: 'left'}
+                , {
+                    field: 'TYPE', title: '类型', width: 120, align: 'center', templet: function (res) {
+                        var _source = getSSourceDate("type", 0);
+                        return init_rows(_source, res.TYPE);
+                    }
+                }
+                , {field: 'REMARK', title: '备注', align: 'left'}
+            ]]
+            , done: function (res, curr, count) {
+                $("[data-field='id']").css('display', 'none');
+            }
+        });
+        //监听排序事件
+
+        table.on('sort(test)', function (obj) { //实现服务端排序
+            table.reload('tab_list', {
+                initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                    field: obj.field //排序字段
+                    , order: obj.type //排序方式
+                }
+            });
+        });
+
+        table.on('row()', function(obj){
+            var rowIndex = obj.tr.attr("data-index");
+            if(reloadData){
+                var fields = reloadData[rowIndex];
+                obj.update(fields);
+                console.log(fields.ID);
+            }else{
+                console.log(obj.data.ID);
+            }
+        });
+    });
+
+    function buttonEvents(type){
+        var check = table.checkStatus('tab_list');
+
+        if(type=='realDel'){
+            rowsDel("logs/login/realDel",check.data,"彻底删除数据后无法恢复，确定要彻底删除所选数据?");
+        }else if(type=='layuiExport'){
+            var param = {
+                type: 2,
+                area: ['500px', '80%'],
+                title:'layui导出表单',
+                fixed: false, //不固定
+                content: Apps.ContextPath+"demo/layuiExport/"
+            };
+            openPage(openType,null,param);
+        }else if(type=='export'){
+
+            var param = {
+                type: 2,
+                area: ['500px', '80%'],
+                title:'导出表单',
+                fixed: false, //不固定
+                content: Apps.ContextPath+"demo/export"
+            };
+            openPage(openType,null,param);
+        }
+    }
+    function search() {
+        tableIns.reload({
+            where:{"key_name":$("#key_name").val()},
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        })
+    }
+
+    var reloadData;
+    function reloadTable(){
+        var ajax = new Ajax("dict/type/list",function(data){
+            if(judgeRight(data)){
+                reloadData = data.dataset.rows;
+                for(var index in reloadData){
+                    $(".relodName:eq("+index+")").html(reloadData[index].NAME);
+                    $(".relodId:eq("+index+")").html("1");
+                }
+            }
+        });
+        ajax.submit();
+    }
+</script>
+</body>
+</html>

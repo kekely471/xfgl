@@ -1,0 +1,26 @@
+2020-08-18 at 08:44:36 CST INFO  org.springframework.boot.StartupInfoLogger 50 logStarting - Starting WebApplicationTests on DESKTOP-7I059NG with PID 676 (started by keke in D:\WorkSpace\xfgl\xfgl-web)
+2020-08-18 at 08:44:36 CST INFO  org.springframework.boot.SpringApplication 663 logStartupProfileInfo - The following profiles are active: dev
+2020-08-18 at 08:44:40 CST INFO  com.tonbu.support.config.ShiroConfig 152 securityManager - --------------shiro安全事务管理器已经加载----------------
+2020-08-18 at 08:44:41 CST INFO  com.tonbu.support.config.ShiroConfig 25 shirFilter - --------------Shiro拦截器工厂类开始注入----------------
+2020-08-18 at 08:44:41 CST INFO  com.tonbu.support.config.ShiroConfig 80 shirFilter - --------------Shiro拦截器工厂类注入成功----------------
+2020-08-18 at 08:44:42 CST INFO  com.zaxxer.hikari.HikariDataSource 110 getConnection - HikariPool-1 - Starting...
+2020-08-18 at 08:44:42 CST INFO  com.zaxxer.hikari.pool.PoolBase 516 getAndSetNetworkTimeout - HikariPool-1 - Driver does not support get/set network timeout for connections. (oracle.jdbc.driver.T4CConnection.getNetworkTimeout()I)
+2020-08-18 at 08:44:42 CST INFO  com.zaxxer.hikari.HikariDataSource 123 getConnection - HikariPool-1 - Start completed.
+2020-08-18 at 08:44:44 CST INFO  org.activiti.engine.compatibility.DefaultActiviti5CompatibilityHandlerFactory 38 createActiviti5CompatibilityHandler - Activiti 5 compatibility handler implementation not found or error during instantiation : org.activiti.compatibility.DefaultActiviti5CompatibilityHandler. Activiti 5 backwards compatibility disabled.
+2020-08-18 at 08:44:45 CST INFO  org.activiti.engine.impl.ProcessEngineImpl 87 <init> - ProcessEngine default created
+2020-08-18 at 08:44:45 CST INFO  org.activiti.engine.impl.asyncexecutor.DefaultAsyncJobExecutor 169 start - Starting up the default async job executor [org.activiti.spring.SpringAsyncExecutor].
+2020-08-18 at 08:44:45 CST INFO  org.activiti.engine.impl.asyncexecutor.ResetExpiredJobsRunnable 51 run - {} starting to reset expired jobs
+2020-08-18 at 08:44:45 CST INFO  org.activiti.engine.impl.asyncexecutor.AcquireTimerJobsRunnable 49 run - {} starting to acquire async jobs due
+2020-08-18 at 08:44:45 CST INFO  org.activiti.engine.impl.asyncexecutor.AcquireAsyncJobsDueRunnable 45 run - {} starting to acquire async jobs due
+2020-08-18 at 08:44:47 CST INFO  com.tonbu.framework.util.ContainerUtils 27 setApplicationContext - ApplicationContext配置成功,在普通类可以通过调用SpringUtils.getAppContext()获取applicationContext对象,applicationContext=org.springframework.web.context.support.GenericWebApplicationContext@768ccdc5: startup date [Tue Aug 18 08:44:36 CST 2020]; root of context hierarchy
+2020-08-18 at 08:44:49 CST INFO  springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping 69 initHandlerMethods - Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2020-08-18 at 08:44:51 CST INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper 160 start - Context refreshed
+2020-08-18 at 08:44:51 CST INFO  springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper 163 start - Found 1 custom documentation plugin(s)
+2020-08-18 at 08:44:51 CST INFO  springfox.documentation.spring.web.scanners.ApiListingReferenceScanner 41 scan - Scanning for api listing references
+2020-08-18 at 08:44:51 CST INFO  org.springframework.boot.StartupInfoLogger 59 logStarted - Started WebApplicationTests in 16.024 seconds (JVM running for 18.442)
+2020-08-18 at 08:44:52 CST INFO  org.activiti.engine.impl.asyncexecutor.DefaultAsyncJobExecutor 208 shutdown - Shutting down the default async job executor [org.activiti.spring.SpringAsyncExecutor].
+2020-08-18 at 08:44:52 CST INFO  org.activiti.engine.impl.asyncexecutor.ResetExpiredJobsRunnable 99 run - {} stopped resetting expired jobs
+2020-08-18 at 08:44:52 CST INFO  org.activiti.engine.impl.asyncexecutor.AcquireTimerJobsRunnable 115 run - {} stopped async job due acquisition
+2020-08-18 at 08:44:52 CST INFO  org.activiti.engine.impl.asyncexecutor.AcquireAsyncJobsDueRunnable 115 run - {} stopped async job due acquisition
+2020-08-18 at 08:44:52 CST INFO  com.zaxxer.hikari.HikariDataSource 381 close - HikariPool-1 - Shutdown initiated...
+2020-08-18 at 08:44:52 CST INFO  com.zaxxer.hikari.HikariDataSource 383 close - HikariPool-1 - Shutdown completed.

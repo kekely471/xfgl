@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>人员信息导入</title>
+</head>
+<body class="layui-layout-body">
+<div style="padding: 15px;">
+    <div style="overflow: hidden;">
+        <div class="layui-btn-group">
+        </div>
+
+    </div>
+    <div style="overflow: hidden;">
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title" style="background-color: white;padding: 0px">不符合规范信息列表</h2>
+        </div>
+
+    </div>
+    <div id="Gl_Table">
+        <table class="layui-hide" id="xxinfo" style="max-height: 500px; height: 500px;" lay-filter="demo"></table>
+
+    </div>
+</div>
+<script>
+    var AddData=[];
+
+    var table, tableIns,upload, openType = 1;
+    initBtns();
+
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");
+    layui.use(['table','upload'], function () {
+        table = layui.table, upload = layui.upload;;
+        var pageHeight = $(window).height() - 30 - 38;
+
+        tableIns = table.render({
+            elem: '#xxinfo',
+            height:pageHeight
+            ,cols: [[
+                {type: 'checkbox', fixed: 'left', checkbox: false}
+                , {title: '序号', width: 70, align: 'center', type: 'numbers', fixed: 'center', unresize: true}
+                , {field: 'SCHOOLBH', title: '学校编号', width: 120, align: 'center'}
+                , {field: 'SCHOOLNAME', title: '学校名称', width: 220, align: 'center'}
+                , {field: 'SCHOOLSS', title: '学校所属', width: 120, align: 'center'}
+                , {field: 'STUDENNAME', title: '姓名', width: 120, align: 'center'}
+                , {field: 'SEX', title: '性别', width: 120, align: 'center'}
+                , {field: 'BIRTHDAY', title: '出生日期', width: 150, align: 'center'}
+                , {field: 'NATION', title: '民族', width: 150, align: 'center'}
+                , {field: 'RXNF', title: '入学年份', width: 120, align: 'center'}
+                , {field: 'ND', title: '学段', width: 120, align: 'center'}
+                , {field: 'GRADE', title: '年级', width: 130, align: 'center'}
+                , {field: 'CLASS', title: '班级', width: 130, align: 'center'}
+
+                , {field: 'XSIDCARD', title: '学生本人身份证号码', width: 220, align: 'center'}
+                , {field: 'XSIDCARDTYPE', title: '身份证件类型', width: 150, align: 'center'}
+                , {field: 'STUDENTCODE', title: '学籍号', width: 150, align: 'center'}
+                , {field: 'ISFREETUITION', title: '是否享受免学费', width: 150, align: 'center'}
+                , {field: 'ISFREEBOOKS', title: '是否享受免课本费作业本费', width: 150, align: 'center'}
+                , {field: 'ISBOARDINGSTUDENTS', title: '是否寄宿生', width: 150, align: 'center'}
+                , {field: 'ISJCWGRYZN', title: '是否进城务工人员子女', width: 150, align: 'center'}
+                , {field: 'JZCW', title: '家长称谓', width: 120, align: 'center'}
+                , {field: 'JZXM', title: '家长姓名', width: 150, align: 'center'}
+                , {field: 'JZIDCARD', title: '家长身份证号', width: 220, align: 'center'}
+
+                , {field: 'JZIDCARDTYPE', title: '家长身份证类型', width: 150, align: 'center'}
+                , {field: 'JZPHONENUMBER', title: '家长联系电话', width: 160, align: 'center'}
+                , {field: 'JSZZJYHKKHYH', title: '接受资助金银行卡开户银行', width: 250, align: 'center'}
+                , {field: 'JSZZJYHKKZXM', title: '接收资助金银行卡卡主姓名', width: 150, align: 'center'}
+                , {field: 'JSZZJYHKKH', title: '接受资助金银行卡卡号', width: 150, align: 'center'}
+                , {field: 'JTJJQKKNGY', title: '家庭经济困难情况概要', width: 200, align: 'center'}
+                , {field: 'FAMILYPOPULATION', title: '家庭人口数', width: 150, align: 'center'}
+                , {field: 'SUPPORTPOPULATION', title: '赡养人口数', width: 100, align: 'center'}
+                , {field: 'JTRJNSR', title: '家庭人均年收入', width: 150, align: 'center'}
+                , {field: 'JTZYSRLYLX', title: '家庭主要收入来源类型', width: 100, align: 'center'}
+
+                , {field: 'DOMICILEPLACE', title: '户籍所在省市', width: 180, align: 'center'}
+                , {field: 'FAMILYREGISTERTYPE', title: '户口性质', width: 180, align: 'center'}
+                , {field: 'HOMEADDRESS', title: '当前家庭住址', width: 250, align: 'center'}
+                , {field: 'SQRDZK', title: '申请认定状况', width: 180, align: 'center'}
+                , {field: 'KNRDJBMC', title: '困难认定级别名称', width: 180, align: 'center'}
+                , {field: 'KNRDJBTK', title: '特困', width: 80, align: 'center' }
+                , {field: 'KNRDJBKN', title: '困难', width: 80, align: 'center'}
+                , {field: 'KNRDJBYBKN', title: '一般困难', width: 80, align: 'center'}
+                , {field: 'RDYY', title: '认定原因', width: 120, align: 'center'}
+
+                , {field: 'XXJYZCZXJE', title: '学校建议政策助学金额', width: 180, align: 'center'}
+                , {field: 'SPQRZCZXJE', title: '审批确认政策助学金额', width: 180, align: 'center'}
+                , {field: 'SJZZSJ', title: '实际资助时间', width: 220, align: 'center'}
+                , {field: 'JTKNLX', title: '家庭困难类型', width: 150, align: 'center'}
+
+                , {field: 'DBH', title: '低保户', width: 180, align: 'center'}
+                , {field: 'DBBYH', title: '低保边缘户', width: 180, align: 'center'}
+                , {field: 'TKZGH', title: '特困职工户', width: 180, align: 'center'}
+                , {field: 'JDLKPKH', title: '建档立卡贫困户', width: 180, align: 'center'}
+                , {field: 'GR', title: '孤儿', width: 80, align: 'center'}
+                , {field: 'WBH', title: '五保户', width: 90, align: 'center'}
+                , {field: 'CJXS', title: '残疾学生', width: 100, align: 'center'}
+                , {field: 'JLSHYFH', title: '军烈属或优抚户', width: 120, align: 'center'}
+                , {field: 'SSMZKNH', title: '少数民族困难户', width: 120, align: 'center'}
+                , {field: 'JRHZDJBH', title: '家人患重大疾病户', width: 160, align: 'center'}
+                , {field: 'FMSSLDNLH', title: '父母丧失劳动能力户', width: 160, align: 'center'}
+                , {field: 'FMSYH', title: '父母失业户', width: 120, align: 'center'}
+                , {field: 'DQKNH', title: '单亲困难户', width: 120, align: 'center'}
+                , {field: 'FMCJH', title: '父母残疾户', width: 120, align: 'center'}
+                , {field: 'ZSZRZHZKNH', title: '遭受自然灾害致困难户', width: 150, align: 'center'}
+                , {field: 'ZSTFYWSJH', title: '遭受突发意外事件户', width: 150, align: 'center'}
+                , {field: 'JTQZKNH', title: '家庭欠债困难户', width: 150, align: 'center'}
+                , {field: 'QTDSRKNH', title: '其他低收入困难户', width: 150, align: 'center'}
+
+
+            ]],
+            data:AddData
+
+        });
+
+        table.reload('xxinfo',{
+            data : AddData
+        });
+
+        //监听排序事件
+        table.on('sort(test)', function (obj) { //实现服务端排序
+            table.reload('tab_list', {
+                initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                    field: obj.field //排序字段
+                    , order: obj.type //排序方式
+                }
+            });
+        });
+    });
+
+    function reloadTable(list) {
+        table.reload('xxinfo',{
+            data : list
+        });
+    }
+
+    function buttonEvents(type){
+        if(type=="download"){
+            window.location.href = Apps.ContextPath + "zcfund/download?_=" + new Date().getTime();
+            return;
+        }else if(type=="import"){
+            var param = {
+                type: 2,
+                area: ['300px', '200px'],
+                title: '政策助学导入表单',
+                fixed: false,
+                btn: [],
+                content: Apps.ContextPath + "zcfund/imp/"
+            };
+
+            openPage(openType, type, param);
+        }
+    }
+</script>
+</body>
+</html>

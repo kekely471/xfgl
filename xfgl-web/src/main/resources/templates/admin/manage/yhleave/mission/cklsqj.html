@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>查看历史请假</title>
+</head>
+<body class="layui-layout-body">
+
+
+<div style="padding: 15px;">
+    <div class="extList-search">
+        <!--按钮区域-->
+        <div class="layui-btn-group" style="height: 35px;">
+        </div>
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script>
+    var businessid = "${businessid}";
+    var userId = "${userId}";
+    layui.use(['table', 'form','laydate'], function(){
+        table = layui.table;
+        form  = layui.form;
+        laydate  = layui.laydate;
+        var pageHeight = $(window).height() - $("#search_layout").height() - 50;
+        initSelectBox("dwmc", 'common/dept', '', 'ID', 'NAME');
+        // token();
+        tableIns = table.render({
+            id:"tab_list"
+            ,elem: '#tab_dg'
+            ,height: pageHeight
+            ,limit: Math.floor(pageHeight/40-2)
+            ,url:Apps.ContextPath+ 'api/v1/user/getpageleaveHistoryforH5'//数据接口
+            ,page: true //开启分页
+            ,where:{"userId":userId,"BUSINESSID":businessid}
+            ,autoSort: false
+            ,cols: [[ //表头
+                {type:'checkbox', fixed: 'left',checkbox: false}
+                ,{title: '序号',width:50, align: 'center',type: 'numbers', fixed: 'left',hide:false, unresize: true}
+                ,{field: 'NAME', title: '姓名', align: 'left'}
+                ,{field: 'DWMC', title: '单位名称', align: 'left' }
+                ,{field: 'START_TIME', title: '请假开始时间', align: 'left'}
+                ,{field: 'END_TIME', title: '请假结束时间', align: 'left'}
+                ,{field: 'LEAVE_DAYS', title: '天数', align: 'left' }
+                ,{field: 'LEGAL_DAYS', title: '国假（天数）', align: 'left' }
+                ,{field: 'LEAVE_DAYS_REWARD', title: '奖励假期（天数）', align: 'right' }
+
+
+            ]]
+            ,done: function(res, curr, count){
+
+            }
+        });
+
+    });
+
+    // 表格高度变换重载
+    window.onresize=function(){
+        var reloadHeight = $(window).height() - $("#search_layout").height() - 50;
+        table.reload('tab_list', {
+            height: reloadHeight
+        });
+    }
+
+
+</script>
+</body>
+</html>

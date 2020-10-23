@@ -1,0 +1,221 @@
+<div id="content">
+    <div class="modal-header" style="background-color: #5090C1;">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title lighter white no-margin">
+            账号开通
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <div class="tabbable">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active">
+                            <a data-toggle="tab" href="#new">新建账号</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#old">绑定已有账号</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="new" class="tab-pane in active">
+                            <form id="newAccount_form" class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">
+                                        *登录账号 </label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" id="loginname" name="loginname" placeholder="登录账号"
+                                               maxlength="50"
+                                               required="required"
+                                               class="form-control" style="width: 440px;"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">
+                                        *密码 </label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" id="password" name="password" placeholder="密码" maxlength="50"
+                                               required="required"
+                                               class="form-control" style="width: 440px;"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">
+                                        *密码确认 </label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" id="password2" name="password2" placeholder="密码确认"
+                                               maxlength="50"
+                                               required="required"
+                                               class="form-control" style="width: 440px;"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">
+                                        角色 </label>
+
+                                    <div class="col-sm-10">
+                                        <select multiple="" class="chosen-select form-control tag-input-style" id="role"
+                                                data-placeholder="请选择角色">
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="old" class="tab-pane">
+                            <form id="oldAccount_form" class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">
+                                        绑定账号 </label>
+
+                                    <div class="col-sm-10">
+                                        <select id="old_loginname" name="old_loginname"
+                                                class="chosen-select form-control"
+                                                data-placeholder="请选择登录账号">
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" onclick="_save();">
+            <i class="ace-icon fa fa-floppy-o"></i>
+            保存
+        </button>
+        &nbsp;
+        <button class="btn btn-inverse" onclick="closeModel();">
+            <i class="ace-icon fa fa-ban"></i>
+            关闭
+        </button>
+    </div>
+
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+        var _id = "${id}";
+        var form_selector = "#newAccount_form";
+        var type = "";
+        jQuery(function ($) {
+            //如果是编辑，则要那一下数据否则只要初始化一些控件
+            $('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                if ($(e.target).attr('href') == "#new") {
+                    type = "new";
+                } else {
+                    type = "old";
+                }
+            });
+            initRole();
+            initAccount();
+            //页面验证初始化（除必填项以外的验证）
+            $(form_selector).validate({
+                rules: {
+                    loginname: {
+                        maxlength: 50
+                    },
+                    password: {
+                        equalTo: '#password2',
+                        maxlength: 50
+                    },
+                    password2: {
+                        maxlength: 50
+                    }
+                }
+            });
+        });
+
+
+        function initRole() {
+            var ajax = new Ajax('common/list/role', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    var html = '';
+                    for (var i = 0; i < ret.dataset.rows.length; i++) {
+                        html += '<option value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].NAME + '</option>';
+                    }
+                    $("#role").append(html);
+                    $("#role").chosen({allow_single_deselect: true, width: "440px"});
+                }
+            });
+            ajax.setMessage(false);
+            ajax.submit();
+        }
+
+        function initAccount() {
+            var ajax = new Ajax('account/getBind', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    var html = '';
+                    for (var i = 0; i < ret.dataset.rows.length; i++) {
+                        html += '<option value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].LOGINNAME + '</option>';
+                    }
+                    $("#old_loginname").append(html);
+                    $("#old_loginname").chosen({allow_single_deselect: true, width: "440px"});
+
+                }
+            });
+            ajax.setMessage(false);
+            ajax.submit();
+        }
+
+        function _save() {
+            if (type == "old") {
+                var ajax = new Ajax('account/bind', function (ret) {
+                    if (ret.code && ret.code < 0) {
+                        bootbox.alert({title: "警告", message: ret.msg});
+                        return;
+                    }
+                    if (ret.code && ret.code > 0) {
+                        bootbox.alert({title: "信息", message: "保存成功"});
+
+                        //刷新grid等一些需要刷新的控件
+                        $(grid_selector).trigger("reloadGrid");
+                        //关闭模态窗口
+                        closeModel();
+                    }
+                });
+                ajax.setMessage(true);
+                ajax.add("user_id", _id);
+                ajax.add("account_id", $("#old_loginname").val());
+                ajax.submit();
+
+            } else {
+                if ($(form_selector).valid()) {
+                    var ajax = new Ajax('account/save', function (ret) {
+                        if (ret.code && ret.code < 0) {
+                            bootbox.alert({title: "警告", message: ret.msg});
+                            return;
+                        }
+                        if (ret.code && ret.code > 0) {
+                            bootbox.alert({title: "信息", message: "保存成功"});
+
+                            //刷新grid等一些需要刷新的控件
+                            $(grid_selector).trigger("reloadGrid");
+                            //关闭模态窗口
+                            closeModel();
+                        }
+                    });
+                    ajax.setMessage(true);
+                    ajax.add("user_id", _id);
+                    ajax.add("role", $("#role").val().toString());
+                    ajax.add(formSerialize(form_selector));
+                    ajax.submit();
+                }
+            }
+        }
+    </script>
+</div>
+

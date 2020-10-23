@@ -1,0 +1,201 @@
+<div id="content">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input id="key_name" type="text" placeholder="关键字"
+                                   class="col-xs-3"/>
+                            &nbsp;
+                            <button type="button" class="btn btn-purple btn-sm" onclick="_query();">
+                                <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                                查询
+                            </button>
+                            <button type="button" class="btn btn-grey btn-sm" onclick="_reset();">
+                                <span class="ace-icon fa fa-cog icon-on-right bigger-110"></span>
+                                重置
+                            </button>
+                        </div>
+                        <div class="col-xs-6" style="text-align: right;">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="_realdel();">
+                                <span class="ace-icon fa fa-trash-o icon-on-right bigger-110"></span>
+                                彻底删除
+                            </button>
+                            <button type="button" class="btn btn-light btn-sm" onclick="_export();">
+                                <span class="ace-icon fa fa-bars icon-on-right bigger-110"></span>
+                                导出
+                            </button>
+                        </div>
+                    </div>
+                </div><!-- /.page-header -->
+
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table id="grid-table"></table>
+                        <div id="grid-pager"></div>
+                    </div>
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.page-content -->
+    <script type="text/javascript">
+        var grid_selector = "#grid-table";
+        var pager_selector = "#grid-pager";
+        jQuery(function ($) {
+            //初始化Grid
+            initGridTable();
+        });
+
+        function initGridTable() {
+            var parent_column = $(grid_selector).closest('[class*="col-"]');
+            //resize to fit page size
+            $(window).on('resize.jqGrid', function () {
+                $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+            });
+
+            //resize on sidebar collapse/expand
+            $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+                if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                    //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                    setTimeout(function () {
+                        $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                    }, 20);
+                }
+            });
+            //初始化Grid
+            jQuery(grid_selector).jqGrid({
+                caption: "日志列表",
+                url: "logs/login/list",
+                datatype: "json",
+                mtype: "POST",
+                width: '100%',
+                height: 'auto',
+                colNames: ['编号', '操作人', '类型', 'IP地址', '账户名称', '所在部门', '操作时间'],
+                colModel: [
+                    {name: 'ID', width: 50, sortable: true, key: true},
+                    {name: 'USERNAME', width: 50, sortable: true},
+                    {name: 'TYPE', width: 50, sortable: true},
+                    {name: 'LOGINIP', width: 50, sortable: false},
+                    {name: 'LOGINNAME', width: 50, sortable: true},
+                    {name: 'PNAME', width: 50, sortable: true},
+                    {name: 'LOGINTIME', width: 50, sortable: true}
+                ],
+                viewrecords: true,
+                multiselect: true,
+                multiselectWidth: 50,
+                multiboxonly: true,
+                rownumbers: true,
+                rowNum: 10,
+                rowList: [10, 20, 50],
+                pager: pager_selector,
+                altRows: true,
+                sortname: 'LOGINTIME',
+                sortorder: "DESC",
+                loadComplete: function (xhr) {
+                    var table = this;
+                    setTimeout(function () {
+                        styleCheckbox(table);
+                        updatePagerIcons(table);
+                        enableTooltips(table);
+                    }, 0);
+                },
+                ondblClickRow: function (rowid, iRow, iCol, e) {
+                }
+            });
+            //设置Grid的宽度
+            $(window).triggerHandler('resize.jqGrid');
+            //去掉收缩箭头
+            $("[class='ui-jqgrid-titlebar-close HeaderButton ui-corner-all']").remove();
+            //设置全选checkbox居中
+            $("#jqgh_grid-table_cb").css('text-align', 'center')
+            //navButtons
+            jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                { 	//navbar options
+                    edit: false, add: false, del: false, search: false,
+                    refresh: true,
+                    refreshicon: 'ace-icon fa fa-refresh green'
+                }
+            );
+
+        }
+
+        //Grid查询
+        function _query() {
+            //此处可以添加对查询数据的合法验证
+            var key_name = $("#key_name").val();
+            //console.log(key_name);
+            $(grid_selector).jqGrid('setGridParam', {
+                datatype: 'json',
+                postData: {'key_name': key_name},
+                page: 1
+            }).trigger("reloadGrid");
+        }
+
+        function _reset() {
+            //刷新grid等一些需要刷新的控件
+            $(grid_selector).jqGrid('setGridParam', {
+                datatype: 'json',
+                postData: {'key_name': null},
+                page: 1
+            }).trigger("reloadGrid");
+            $(tree_selector).find("li:not([data-template])").remove();
+            $("#key_name").val('');
+            $(tree_selector).tree('render');
+        }
+
+        //Grid删除
+        function _realdel() {
+            var ids = $(grid_selector).jqGrid('getGridParam', 'selarrrow');
+            if (ids.length == 0) {
+                bootbox.alert({title: "警告", message: "请选择需要彻底删除的数据"});
+                return;
+            }
+            bootbox.confirm({
+                message: "彻底删除数据后无法恢复，确定要彻底删除所选数据?",
+                buttons: {
+                    confirm: {
+                        label: '是',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: '否',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        //拼接
+                        var temp_id = ids[0];
+                        for (var i = 1; i < ids.length; i++) {
+                            temp_id = temp_id + "+" + ids[i];
+                        }
+
+                        var ajax = new Ajax('logs/login/realDel', function (ret) {
+                            if (ret.code && ret.code < 0) {
+                                bootbox.alert({title: "警告", message: ret.msg});
+                                return;
+                            }
+                            if (ret.code && ret.code > 0) {
+                                bootbox.alert({title: "信息", message: "彻底删除成功"});
+
+                                //刷新grid等一些需要刷新的控件
+                                $(grid_selector).trigger("reloadGrid");
+                            }
+                        });
+                        ajax.setMessage(true);
+                        ajax.add("ids", temp_id);
+                        ajax.submit();
+                    }
+                }
+            });
+        }
+
+        //Grid导出
+        function _export() {
+            bootbox.alert({title: "信息", message: "敬请期待"});
+        }
+    </script>
+</div>

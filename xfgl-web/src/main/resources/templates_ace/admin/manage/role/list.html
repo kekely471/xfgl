@@ -1,0 +1,308 @@
+<div id="content">
+
+    <div class="page-content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <input id="key_name" type="text" placeholder="关键字"
+                                   class="col-xs-3"/>
+                            &nbsp;
+                            <button type="button" class="btn btn-purple btn-sm" onclick="_query();">
+                                <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                                查询
+                            </button>
+                            <button type="button" class="btn btn-grey btn-sm" onclick="_reset();">
+                                <span class="ace-icon fa fa-cog icon-on-right bigger-110"></span>
+                                重置
+                            </button>
+                        </div>
+                        <div class="col-xs-4" style="text-align: right;">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="_add();">
+                                <span class="ace-icon fa fa-plus icon-on-right bigger-110"></span>
+                                新增
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="_edit();">
+                                <span class="ace-icon fa fa-pencil-square-o icon-on-right bigger-110"></span>
+                                修改
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="_set();">
+                                <span class="ace-icon fa fa-cog icon-on-right bigger-110"></span>
+                                权限设置
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="_set_account();">
+                                <span class="ace-icon fa fa-cog icon-on-right bigger-110"></span>
+                                账号设置
+                            </button>
+                            <button type="button" class="btn btn-grey btn-sm" onclick="_del();">
+                                <span class="ace-icon fa fa-trash-o icon-on-right bigger-110"></span>
+                                删除
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="_realdel();">
+                                <span class="ace-icon fa fa-trash-o icon-on-right bigger-110"></span>
+                                彻底删除
+                            </button>
+                        </div>
+                    </div>
+                </div><!-- /.page-header -->
+
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table id="grid-table"></table>
+                        <div id="grid-pager"></div>
+                    </div>
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.page-content -->
+
+    <script type="text/javascript">
+        var grid_selector = "#grid-table";
+        var pager_selector = "#grid-pager";
+        jQuery(function ($) {
+            //初始化Grid
+            initGridTable();
+        });
+
+        function initGridTable() {
+            var parent_column = $(grid_selector).closest('[class*="col-"]');
+            //resize to fit page size
+            $(window).on('resize.jqGrid', function () {
+                $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+            });
+
+            //resize on sidebar collapse/expand
+            $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+                if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                    //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                    setTimeout(function () {
+                        $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                    }, 20);
+                }
+            });
+            //初始化Grid
+            jQuery(grid_selector).jqGrid({
+                caption: "角色列表",
+                url: "role/list",
+                datatype: "json",
+                mtype: "POST",
+                width: '100%',
+                height: 'auto',
+                colNames: ['编号', '角色名称', '关联账户', '备注', '角色类型', '状态'],
+                colModel: [
+                    {name: 'ID', width: 50, sortable: true, key: true},
+                    {name: 'ROLENAME', width: 50, sortable: true},
+                    {name: 'RELACCOUNT', width: 150, sortable: true},
+                    {name: 'REMARK', width: 100, sortable: false},
+                    {name: 'ROLE_TYPE', width: 50, sortable: false, formatter: role_type_format},
+                    {name: 'STATUS', width: 50, sortable: false, formatter: status_format}
+                ],
+                viewrecords: true,
+                multiselect: true,
+                multiselectWidth: 50,
+                multiboxonly: true,
+                rownumbers: true,
+                rowNum: 10,
+                rowList: [10, 20, 50],
+                pager: pager_selector,
+                altRows: true,
+                sortname: 'id',
+                sortorder: "asc",
+                loadComplete: function (xhr) {
+                    var table = this;
+                    setTimeout(function () {
+                        styleCheckbox(table);
+                        updatePagerIcons(table);
+                        enableTooltips(table);
+                    }, 0);
+                },
+                ondblClickRow: function (rowid, iRow, iCol, e) {
+                    _edit(rowid);
+                }
+            });
+            //设置Grid的宽度
+            $(window).triggerHandler('resize.jqGrid');
+            //去掉收缩箭头
+            $("[class='ui-jqgrid-titlebar-close HeaderButton ui-corner-all']").remove();
+            //设置全选checkbox居中
+            $("#jqgh_grid-table_cb").css('text-align', 'center')
+            //navButtons
+            jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                { 	//navbar options
+                    edit: false, add: false, del: false, search: false,
+                    refresh: true,
+                    refreshicon: 'ace-icon fa fa-refresh green'
+                }
+            );
+        }
+
+        //Grid查询
+        function _query() {
+            //此处可以添加对查询数据的合法验证
+            var key_name = $("#key_name").val();
+            //console.log(key_name);
+            $(grid_selector).jqGrid('setGridParam', {
+                datatype: 'json',
+                postData: {'key_name': key_name},
+                page: 1
+            }).trigger("reloadGrid");
+        }
+
+        function _reset() {
+            //刷新grid等一些需要刷新的控件
+            $(grid_selector).jqGrid('setGridParam', {
+                datatype: 'json',
+                postData: {'key_name': null},
+                page: 1
+            }).trigger("reloadGrid");
+            $("#key_name").val('');
+        }
+
+        //Grid新增
+        function _add() {
+            loadModal("role/add");
+        }
+
+        //Grid编辑
+        function _edit(_id) {
+            var ids;
+            if (_id == undefined) {
+                ids = $(grid_selector).jqGrid('getGridParam', 'selarrrow');
+                if (ids.length != 1) {
+                    bootbox.alert({title: "警告", message: "请选择一条需要编辑的数据"});
+                    return;
+                }
+            } else {
+                ids = _id;
+            }
+            loadModal("role/add/" + ids);
+        }
+
+        //Grid设置权限
+        function _set(_id) {
+            var ids;
+            if (_id == undefined) {
+                ids = $(grid_selector).jqGrid('getGridParam', 'selarrrow');
+                if (ids.length != 1) {
+                    bootbox.alert({title: "警告", message: "请选择一条需要编辑的数据"});
+                    return;
+                }
+            } else {
+                ids = _id;
+            }
+            loadModal("role/set/" + ids);
+        }
+
+        //Grid设置用户
+        function _set_account(_id) {
+            var ids;
+            if (_id == undefined) {
+                ids = $(grid_selector).jqGrid('getGridParam', 'selarrrow');
+                if (ids.length != 1) {
+                    bootbox.alert({title: "警告", message: "请选择一条需要编辑的数据"});
+                    return;
+                }
+            } else {
+                ids = _id;
+            }
+            loadModal("role/setUser/" + ids);
+        }
+
+        //Grid删除
+        function _del() {
+            var ids = $(grid_selector).jqGrid('getGridParam', 'selarrrow');
+            if (ids.length == 0) {
+                bootbox.alert({title: "警告", message: "请选择需要删除的数据"});
+                return;
+            }
+            bootbox.confirm({
+                message: "确定要删除所选数据?",
+                buttons: {
+                    confirm: {
+                        label: '是',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: '否',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        //拼接
+                        var temp_id = ids[0];
+                        for (var i = 1; i < ids.length; i++) {
+                            temp_id = temp_id + "+" + ids[i];
+                        }
+
+                        var ajax = new Ajax('role/del', function (ret) {
+                            if (ret.code && ret.code < 0) {
+                                bootbox.alert({title: "警告", message: ret.msg});
+                                return;
+                            }
+                            if (ret.code && ret.code > 0) {
+                                bootbox.alert({title: "信息", message: "删除成功"});
+
+                                //刷新grid等一些需要刷新的控件
+                                $(grid_selector).trigger("reloadGrid");
+                            }
+                        });
+                        ajax.setMessage(true);
+                        ajax.add("ids", temp_id);
+                        ajax.submit();
+                    }
+                }
+            });
+        }
+
+        //Grid删除
+        function _realdel() {
+            var ids = $(grid_selector).jqGrid('getGridParam', 'selarrrow');
+            if (ids.length == 0) {
+                bootbox.alert({title: "警告", message: "请选择需要彻底删除的数据"});
+                return;
+            }
+            bootbox.confirm({
+                message: "彻底删除数据后无法恢复，确定要彻底删除所选数据?",
+                buttons: {
+                    confirm: {
+                        label: '是',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: '否',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        //拼接
+                        var temp_id = ids[0];
+                        for (var i = 1; i < ids.length; i++) {
+                            temp_id = temp_id + "+" + ids[i];
+                        }
+
+                        var ajax = new Ajax('role/realDel', function (ret) {
+                            if (ret.code && ret.code < 0) {
+                                bootbox.alert({title: "警告", message: ret.msg});
+                                return;
+                            }
+                            if (ret.code && ret.code > 0) {
+                                bootbox.alert({title: "信息", message: "彻底删除成功"});
+
+                                //刷新grid等一些需要刷新的控件
+                                $(grid_selector).trigger("reloadGrid");
+                            }
+                        });
+                        ajax.setMessage(true);
+                        ajax.add("ids", temp_id);
+                        ajax.submit();
+                    }
+                }
+            });
+        }
+    </script>
+</div>

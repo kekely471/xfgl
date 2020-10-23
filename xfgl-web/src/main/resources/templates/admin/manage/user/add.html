@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">所在部门</label>
+                <div class="layui-input-block">
+                    <select name="dept_id" id="dept_id" lay-verify="" selectValue="${(USER.DEPT_ID?c)!''}" lay-search>
+                        <option value="">请选择所在部门</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>用户名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" lay-verify="required" placeholder="请输入用户名称"
+                           value="${USER.USERNAME}" autocomplete="off" class="layui-input" maxlength="20">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">用户类型</label>
+                <div class="layui-input-block">
+                    <select name="user_type" id="user_type" lay-verify="" selectValue="${USER.USER_TYPE}">
+                        <option value="">请选择用户类型</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <select name="sex" id="sex" lay-verify="" selectValue="${USER.SEX}">
+                        <option value="">请选择性别</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>电子邮件</label>
+                <div class="layui-input-block">
+                    <input type="text" name="email" lay-verify="email" placeholder="请输入电子邮件" value="${USER.EMAIL}"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">座机</label>
+                <div class="layui-input-block">
+                    <input type="text" name="officetel" placeholder="请输入座机" value="${USER.OFFICETEL}" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>手机号码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="mobile" lay-verify="phone" placeholder="请输入手机号码" value="${USER.MOBILE}"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">排序号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sort" lay-verify="" maxlength="3" placeholder="请输入排序号" value="${(USER.SORT!0)?c}"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">是否启用</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" checked="" name="status" id="status" lay-skin="switch"
+                           lay-filter="switchTest" title="开关" value="${USER.STATUS}">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea type="text" name="remark" maxlength="200" placeholder="请输入备注（最多200个字）"
+                              autocomplete="off" class="layui-textarea">${USER.REMARK}</textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">昵称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="nick_name" placeholder="请输入昵称"
+                           value="${USER.NICK_NAME}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">头像:</label>
+                <div class="layui-input-block" id="imageSelectAreaAVATAR">
+                    <input type="text" name="avatar" id="userFileIdAVATAR" autocomplete="off" class="layui-input"
+                           value="${USER.AVATAR}" style="display:none"/>
+                    <button type="button" class="layui-btn layui-btn-primary" id="imageSelectBtnAVATAR"><i class="layui-icon">&#xe67c;</i>选择图片
+                    </button>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">个人签名</label>
+                <div class="layui-input-block">
+                    <textarea type="text" name="sign" maxlength="200" placeholder="请输入个人签名（最多200个字）"
+                              autocomplete="off" class="layui-textarea">${USER.SIGN}</textarea>
+                </div>
+            </div>
+
+            <input type="hidden" name="id" value="${USER.ID}" autocomplete="off" class="layui-input">
+            <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var index = parent.layer.getFrameIndex(window.name);
+    var _id = "${id}";
+    var isView = getParam("isView");
+    layui.use(['form', 'layer', 'upload'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var upload = layui.upload;
+        //初始化下拉框 傳值為name
+        initSelectBox("sex", 'common/dict/system', '{"type_code":"sex"}', 'VALUE', 'NAME');
+        initSelectBox("user_type", 'common/dict/system', '{"type_code":"user_type"}', 'VALUE', 'NAME');
+        if ('${USER.ID}' == "") {
+            $("select[name='dept_id']").attr("selectValue", "${treeId}");
+        }
+        initSelectBox("dept_id", 'common/list/dept', '', 'ID', 'NAME2');
+        //是否启用
+        if (_id) {
+            isUse('status', $("#status").val());
+        }
+
+        if ($("#userFileIdAVATAR").val() !== null && $("#userFileIdAVATAR").val().trim() != '') {
+            $("#imageSelectBtnAVATAR").html(" <i class=\"layui-icon\">&#xe67c;</i>点击重新选择图片 ");
+            $('#imageAreaAVATAR').remove();
+            $('#imageSelectAreaAVATAR').append(" <div style=\"margin-top:10px;\" id=\"imageAreaAVATAR\"> " +
+                " <img id=\"imagePathAVATAR\" style=\"width：200px; height:200px;\"> " +
+                " </div> ");
+            $("#imagePathAVATAR").attr('src', Apps.ContextPath + "file/download?id=" + $("#userFileIdAVATAR").val());
+        } else {
+            $("#imageSelectBtnAVATAR").html(" <i class=\"layui-icon\">&#xe67c;</i>选择图片 ");
+        }
+        if(isView){
+            $('input,select,textarea').prop('disabled',"disabled");
+            $('#imageSelectBtn').hide();
+            $('#imageSelectBtnAVATAR').hide();
+        }
+        form.render();
+        //监听提交
+        form.on('submit()', function (data) {
+            var datas = data.field;
+            var ajax = new Ajax("user/save", function (data) {
+                if (judgeRight(data)) {
+                    parent.layer.alert("操作成功!", {icon: 1}, function () {
+                        if (parent.tableIns != null && parent.tableIns != "" && parent.tableIns != undefined) {
+                            parent.tableIns.reload({where: {"v": Date.parse(new Date())}});
+                        }
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        //人脸识别图片上传
+        var uploadInst = upload.render({
+            elem: '#imageSelectBtn',
+            url: Apps.ContextPath + '/file/upload',
+            accept:'images',
+            before: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#imageArea').remove();
+                    $('#imageSelectArea').append(" <div style=\"margin-top:10px;\" id=\"imageArea\"> " +
+                        " <img id=\"imagePath\" style=\"width：200px; height:200px;\"> " +
+                        " </div> ");
+                    $("#imagePath").attr('src', result);
+                    $("#imageSelectBtn").html(" <i class=\"layui-icon\">&#xe67c;</i>重新选择图片 ");
+                });
+            },
+            done: function (res) {
+                if (res.code == 1) {
+                    $("#imageSelectBtn").html(" <i class=\"layui-icon\">&#xe67c;</i>上传成功,点击重新选择图片 ");
+                    $("#userFileId").val(res.dataset.rows[0].id);
+                }
+            },
+            error: function () {
+                $("#imageSelectBtn").html(" <i class=\"layui-icon\">&#xe67c;</i>上传失败,请重新选择图片 ");
+            }
+        });
+        //头像上传
+        var uploadInst = upload.render({
+            elem: '#imageSelectBtnAVATAR',
+            url: Apps.ContextPath + '/file/upload',
+            accept:'images',
+            before: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#imageAreaAVATAR').remove();
+                    $('#imageSelectAreaAVATAR').append(" <div style=\"margin-top:10px;\" id=\"imageAreaAVATAR\"> " +
+                        " <img id=\"imagePathAVATAR\" style=\"width：200px; height:200px;\"> " +
+                        " </div> ");
+                    $("#imagePathAVATAR").attr('src', result);
+                    $("#imageSelectBtnAVATAR").html(" <i class=\"layui-icon\">&#xe67c;</i>重新选择图片 ");
+                });
+            },
+            done: function (res) {
+                if (res.code == 1) {
+                    $("#imageSelectBtnAVATAR").html(" <i class=\"layui-icon\">&#xe67c;</i>上传成功,点击重新选择图片 ");
+                    $("#userFileIdAVATAR").val(res.dataset.rows[0].id);
+                }
+            },
+            error: function () {
+                $("#imageSelectBtnAVATAR").html(" <i class=\"layui-icon\">&#xe67c;</i>上传失败,请重新选择图片 ");
+            }
+        });
+    });
+
+    function mySubmit() {
+        $("#tj").click();
+    }
+
+</script>
+</body>
+
+</html>

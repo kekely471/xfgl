@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/ztree/js/opentree.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/kindeditor/kindeditor.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
+    <title>发票管理（新增、编辑、详情）</title>
+    <style>
+        #btnDiv {
+            position: fixed ;
+            bottom: 0px;
+            width: 93%;
+            height: 50px;
+            background-color: white;
+            padding-top: 15px;
+            text-align: right;
+            z-index: 999;
+        }
+
+        .layui-form-label {
+            width: 130px;
+        }
+
+        .layui-input-block {
+            margin-left: 160px;
+        }
+    </style>
+</head>
+<body>
+<div class="contentBox">
+    <div class="formBox" style="padding: 10px 30px 30px;">
+        <form class="layui-form" action="" lay-filter="invoiceForm">
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>发票类型</label>
+                <div class="layui-input-block">
+                    <select name="invoiceType" id="invoiceType" lay-verify="required" lay-filter="invoiceType"
+                            selectValue="${INVOICE.INVOICETYPE}" lay-search>
+                        <option value="">请选择发票类型</option>
+                    </select>
+                </div>
+            </div>
+            <input type="hidden" name="formType"
+                   value="01" autocomplete="off" class="layui-input">
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>发票名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="invoiceName" lay-verify="required" placeholder="请输入发票名称"
+                           value="${INVOICE.INVOICENAME}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">开票人</label>
+                <div class="layui-input-block">
+                    <input type="text" name="drawer" placeholder="请输入开票人"
+                           value="${INVOICE.DRAWER}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">校验码</label>
+                <div class="layui-input-block">
+                    <input type="text" name="checkCode" placeholder="请输入校验码"
+                           value="${INVOICE.CHECKCODE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">购货单位名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="shopDeptName" placeholder="请输入购货单位名称"
+                           value="${INVOICE.SHOPDEPTNAME}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">购货单位地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="shopDeptPosition" placeholder="请输入购货单位地址"
+                           value="${INVOICE.SHOPDEPTPOSITION}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">购货单位电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="shopDeptPhone" placeholder="请输入购货单位电话"
+                           value="${INVOICE.SHOPDEPTPHONE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">购货单位开户行账号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="shopDeptBankCode" placeholder="请输入购货单位开户行账号"
+                           value="${INVOICE.SHOPDEPTBANKCODE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">销贷单位名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sellDeptName" placeholder="请输入销贷单位名称"
+                           value="${INVOICE.SELLDEPTNAME}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">销贷单位地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sellDeptPosition" placeholder="请输入销贷单位地址"
+                           value="${INVOICE.SELLDEPTPOSITION}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">销贷单位电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sellDeptPhone" placeholder="请输入销贷单位电话"
+                           value="${INVOICE.SELLDEPTPHONE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">销贷单位开户行账号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sellDeptBankCode" placeholder="请输入销贷单位开户行账号"
+                           value="${INVOICE.SELLDEPTBANKCODE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">货物或应税劳务名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="goodsOrServiceName" placeholder="请输入货物或应税劳务名称"
+                           value="${INVOICE.GOODSORSERVICENAME}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">规格型号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="specificationType" placeholder="请输入规格型号"
+                           value="${INVOICE.SPECIFICATIONTYPE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">单位</label>
+                <div class="layui-input-block">
+                    <input type="text" name="unit" placeholder="请输入单位"
+                           value="${INVOICE.UNTI}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">数量</label>
+                <div class="layui-input-block">
+                    <input type="text" name="goodsNumber" placeholder="请输入数量"
+                           value="${INVOICE.GOODSNUMBER}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">单价</label>
+                <div class="layui-input-block">
+                    <input type="text" name="singlePrice" placeholder="请输入单价"
+                           value="${INVOICE.SINGLEPRICE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">税率</label>
+                <div class="layui-input-block">
+                    <input type="text" name="taxrate" placeholder="请输入税率"
+                           value="${INVOICE.TAXRATE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">收款人</label>
+                <div class="layui-input-block">
+                    <input type="text" name="payee" placeholder="请输入收款人"
+                           value="${INVOICE.PAYEE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2" id="testtest">
+                <label class="layui-form-label">复核人</label>
+                <div class="layui-input-block">
+                    <input type="text" name="reviewer" placeholder="请输入复核人"
+                           value="${INVOICE.REVIEWER}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <input type="hidden" id="index" name="id" value="${(INVOICE.ID?c)!''}" autocomplete="off"
+                   class="layui-input">
+            <!--<button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>-->
+            <div class="clear"></div>
+            <div id="btnDiv">
+                <button id="tj" lay-submit lay-filter="*" class="layui-btn">保存</button>
+                <button onclick="cancle();" class="layui-btn"
+                        style="background-color: white; color:black;border:1px solid #E6E6E6;">取消
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    //字典表中定义(表单唯一编码，用于渲染组件)
+    var formOnlyCode = "0001";
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    var preTabIndex = getParam("preTabIndex");
+    preTabIndex = preTabIndex.slice(0,preTabIndex.indexOf("?"));
+    //渲染组件数据
+    var renderingList = new Array();
+    //---------公共部分可抽取到common.js中--------------------------------------------------------------------------------
+    var renderingAjax = new Ajax("invoice/renderingList", function (ret) {
+        if (ret.code && ret.code < 0) {
+            layer.alert(ret.msg, {icon: 1});
+            return;
+        }
+        if (ret.code && ret.code > 0) {
+            renderingList = ret.dataset.rows;
+        }
+    });
+    renderingAjax.setMessage(false);
+    renderingAjax.setAsync(false);
+    renderingAjax.add("formOnlyCode", formOnlyCode);
+    renderingAjax.submit();
+    //------------------------------------------------------------------------------------------------------------------
+    layui.config({
+        base: '${ctx.contextPath}/layui/layui_extends/'
+    });
+    layui.use(['form', 'layer', 'jquery', 'element', 'currentF'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var $ = layui.$;
+        var element = layui.element;
+        var current = layui.currentF;
+        var tagIns2 = current({
+            //候选数据【必填】
+            data: "formFrame/extendTableList?formType=01&formId=" + $("#index").val()
+        });
+        if ($("#index").val() != null && $("#index").val().trim() != "") {
+            var ajax = new Ajax("invoice/extendMap", function (data) {
+                var extend = data;
+                form.val("invoiceForm", extend);
+                form.render();
+            });
+            ajax.add("id", $("#index").val());
+            ajax.submit();
+        }
+        //初始化下拉框
+        initSelectBox("invoiceType", 'common/dict/business', '{"type_code":"fplx"}', 'VALUE', 'NAME');
+        if ("${isView}") {
+            $('input,select,textarea').prop('disabled', "disabled");
+            $('#btnDiv').empty();
+            $('#btnDiv').html('<button onclick="cancle();" class="layui-btn"\n' +
+                '                        style="background-color: white; color:black;border:1px solid #E6E6E6;">取消\n' +
+                '                </button>');
+        }
+        form.render();
+        //监听提交
+        form.on('submit()', function (data) {
+            var datas = data.field;
+            var ajax = new Ajax("invoice/addOrUpdate", function (data) {
+                if (judgeRight(data)) {
+                    layer.alert("操作成功!", {icon: 1}, function () {
+                        closeTabAndRefreshPreTab(tabIndex, preTabIndex);
+                        layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.add("formOnlyCode", formOnlyCode);
+            ajax.submit();
+            return false;
+        });
+        //表单验证
+        form.verify({});
+    });
+
+    //表单提交
+    function mySubmit() {
+        $("#tj").click();
+    }
+
+    //取消
+    function cancle() {
+        top.tab.tabDelete(tabIndex);
+    }
+
+    //获取路径携带的参数
+    function getParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+</script>
+</body>
+</html>

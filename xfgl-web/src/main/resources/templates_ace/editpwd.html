@@ -1,0 +1,105 @@
+<div class="modal-header" style="background-color: #5090C1">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="smaller lighter white no-margin">修改密码</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <form id="editpwd_form" class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        *登录账号 </label>
+                    <div class="col-sm-10">
+                        <input class="form-control" disabled="disabled" value="${Session.loginuser.username}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        *旧密码 </label>
+
+                    <div class="col-sm-10">
+                        <input type="password" id="oldpassword" name="oldpassword" placeholder="密码" maxlength="50"
+                               required="required"
+                               class="form-control" style="width: 460px;"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        *新密码 </label>
+
+                    <div class="col-sm-10">
+                        <input type="password" id="password" name="password" placeholder="密码" maxlength="50"
+                               required="required"
+                               class="form-control" style="width: 460px;"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        *新密码确认 </label>
+
+                    <div class="col-sm-10">
+                        <input type="password" id="password2" name="password2" placeholder="密码确认" maxlength="50"
+                               required="required"
+                               class="form-control" style="width: 460px;"/>
+                    </div>
+                </div>
+            </form>
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div>
+
+<div class="modal-footer">
+
+    <button class="btn btn-sm btn-success pull-right" onclick="_save();">
+        <i class="ace-icon fa fa-floppy-o"></i>
+        修改
+    </button>
+</div>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    var form_selector = "#editpwd_form";
+    jQuery(function ($) {
+        //如果是编辑，则要那一下数据否则只要初始化一些控件
+
+        //页面验证初始化（除必填项以外的验证）
+        $(form_selector).validate({
+            rules: {
+                password: {
+                    equalTo: '#password2',
+                    maxlength: 50,
+                    minlength: 6
+                },
+                password2: {
+                    maxlength: 50,
+                    minlength: 6
+                }
+            }
+        });
+    });
+
+    function _save() {
+        if ($(form_selector).valid()) {
+            var ajax = new Ajax('account/updatePwd', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    bootbox.alert({title: "信息", message: ret.msg});
+
+                    //刷新grid等一些需要刷新的控件
+
+                    //关闭模态窗口
+                    $('#editPwd-form').modal('hide');
+                }
+            });
+            ajax.setMessage(true);
+            ajax.add(formSerialize(form_selector));
+            ajax.submit();
+        }
+    }
+</script>
+
+

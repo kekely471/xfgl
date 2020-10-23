@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>信息管理</title>
+</head>
+<body class="layui-layout-body">
+
+
+<div style="padding: 15px;">
+    <div class="extList-search">
+        <!--按钮区域-->
+        <div class="layui-btn-group" style="height: 35px;">
+        </div>
+        <div class="layui-form-item extList-search-box">
+            <form class="layui-form" style="display: inline-block;">
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label">标题：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="key_name" id="key_name" placeholder="请输入标题">
+                    </div>
+                </div>
+                <!--<div class="layui-inline extList-search-item">-->
+                <!--<label class="layui-form-label extList-search-label">消息类型：</label>-->
+                <!--<div class="layui-input-inline" style="width:160px;">-->
+                <!--<select name="informationtype" id="informationtype" class="layui-select" style="width:160px;">-->
+                <!--<option value="">请输入消息类型</option>-->
+                <!--</select>-->
+                <!--</div>-->
+                <!--</div>-->
+            </form>
+
+            <!--工具栏区域-->
+            <div class="layui-inline extList-sm-icon" title="搜索" onclick="search()"><i
+                    class="layui-icon layui-icon-search"></i></div>
+            <div class="layui-inline extList-sm-icon" title="刷新" onclick="reset()"><i
+                    class="layui-icon layui-icon-refresh"></i></div>
+        </div>
+
+
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script>
+    initBtns();
+    var table, form, tableIns, openType = 1, layer;
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    layui.use(['table', 'form'], function () {
+        table = layui.table;
+        form = layui.form;
+        var pageHeight = $(window).height() - $("#search_layout").height() - 50;
+        initSelectBox("informationtype", 'common/informationtype', '', 'ID', 'NAME');
+        tableIns = table.render({
+            id: "tab_list"
+            , elem: '#tab_dg'
+            , height: pageHeight
+            , limit: Math.floor(pageHeight / 40 - 2)
+            , url: Apps.ContextPath + 'zcjd/list' //数据接口
+            , page: true //开启分页
+            , where: {"v": Date.parse(new Date())}
+            , autoSort: false
+            , cols: [[ //表头
+                {type: 'checkbox', fixed: 'left', checkbox: false}
+                , {title: '序号', width: 50, align: 'center', type: 'numbers', fixed: 'left', hide: true, unresize: true}
+                , {field: 'TITLE', title: '标题', width: 200, align: 'center'}
+                , {field: 'DESCRIBE', title: '描述', width: 200, align: 'center'}
+                , {field: 'URL', title: '外链地址', width: 250, align: 'center'}
+                // ,{field: 'TYPE', title: '消息类型', width:150, align: 'left'}
+                , {field: 'VIEWED', title: '查看次数', width: 100, align: 'center'}
+                , {field: 'NAME', title: '发布人', width: 150, align: 'center'}
+                , {field: 'CREATE_DATE', title: '发布时间', width: 150, align: 'center'}
+                , {
+                    field: 'STATUS', title: '状态', width: 104, align: 'center', templet: function (res) {
+                        if (res.STATUS == 0) {
+                            return '<input type="checkbox" name="close"  lay-skin="switch" lay-filter="Enable" lay-text="启用|停用" value="' + res.ID + '"> ';
+                        } else {
+                            return '<input type="checkbox" name="close"  lay-skin="switch" lay-filter="Enable" lay-text="启用|停用" value="' + res.ID + '" checked=""> ';
+                        }
+                    }
+                }
+            ]]
+            , done: function (res, curr, count) {
+
+            }
+        });
+
+        //监听指定开关
+        form.on('switch(Enable)', function (data) {
+            var val = this.value;
+            var isCheck = this.checked ? '1' : '0';
+            var ajax = new Ajax("zcjd/updatestatus", function (data) {
+                if (judgeRight(data)) {
+                    if (isCheck == '1') {
+                        layer.msg('启用成功');
+                    } else {
+                        layer.msg('停用成功');
+                    }
+                }
+            })
+            ajax.add("id", val);
+            ajax.add("status", isCheck);
+            ajax.submit();
+        });
+
+        table.on('rowDouble()', function (obj) {//console.log("双击");
+            // debugger
+            // console.log(obj);
+            var data = obj.data;
+            var id = data.ID;
+            if (id == '') {
+                layer.msg("暂无详情");
+                return false;
+            }
+            viewOne(id);
+        });
+
+        function viewOne(id) {
+            //用于判断为查看详情还是编辑的状态
+            var type = 'edit';
+            var isView = false;
+            var param = {
+                type: 2,
+                area: ['800px', '80%'],
+                title: '详情',
+                fixed: false, //不固定
+                btn: ["取消"],
+                content: Apps.ContextPath + 'zcjd/add/' + id
+            };
+            openPage(openType, type, param);
+        }
+    });
+
+
+    function buttonEvents(type) {
+        var check = table.checkStatus('tab_list');
+        //用于判断为查看详情还是编辑的状态
+        var param = {
+            type: 2,
+            area: ['800px', '80%'],
+            title: '信息管理',
+            fixed: false, //不固定
+            content: Apps.ContextPath + "zcjd/add/",
+            tabIndex: tabIndex
+        };
+        if (type == "add") {
+            openPage(openType, type, param);
+        } else if (check.data.length != 1 && (type == 'edit' || type == 'reluser')) {
+            layer.msg("请选择一行数据！", function () {
+            })
+        } else if (type == "edit") {
+            param.content = Apps.ContextPath + 'zcjd/add/' + check.data[0].ID;
+            openPage(openType, type, param);
+        } else if (type == "del") {
+            rowsDel("tzgg/del", check.data, "你确定删除所选数据吗?");//刪除事件
+        }
+    }
+
+    //模拟手机页面
+    function viewOne(id) {
+
+        var ajax = new Ajax("xfznl/getpageinformationbyid", function (data) {
+            if (judgeRight(data)) {
+                //请求页面
+                var content;
+
+                if (data.dataset.rows[0].EXTERNALLY == 0) {
+                    var type = data.dataset.rows[0].TYPE_TRUE;
+
+                    // content="http://192.168.30.248:8888/xf/xxfb/detail.html?id="+data.dataset.rows[0].ID;
+                    content = "http://218.93.115.158:8888/xf/xfznl/detail.html?id=" + data.dataset.rows[0].ID;
+
+                } else if (data.dataset.rows[0].EXTERNALLY == 1) {
+                    content = data.dataset.rows[0].URL;
+                }
+
+                var param = {
+                    type: 2,
+                    area: ['300px', '600px'],
+                    title: '详情页面',
+                    fixed: false, //不固定
+                    btn: ["关闭"],
+                    content: content
+                };
+                openPage(openType, 'edit', param);
+
+            }
+        })
+        ajax.add("ID", id);
+        ajax.submit();
+
+
+    }
+
+
+    function search() {
+        tableIns.reload({
+            where: {
+                "key_name": $("#key_name").val(),
+                "informationtype": $("#informationtype").val()
+            },
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        })
+    }
+
+    function reset() {
+        $("#key_name").val("");
+        $("#informationtype").val("");
+        search();
+    }
+
+
+    // 表格高度变换重载
+    window.onresize = function () {
+        var reloadHeight = $(window).height() - $("#search_layout").height() - 50;
+        table.reload('tab_list', {
+            height: reloadHeight
+        });
+    }
+
+
+    //回车搜索
+    $(document).keyup(function (event) {
+        if (event.keyCode == 13) {
+            tableIns.reload({
+                where: {
+                    "key_name": $("#key_name").val(),
+                    "informationtype": $("#informationtype").val()
+                },
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            })
+        }
+    });
+
+</script>
+</body>
+</html>

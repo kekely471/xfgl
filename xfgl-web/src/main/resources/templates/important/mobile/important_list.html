@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>登记列表</title>
+
+	<link rel="stylesheet" href="${ctx.contextPath}/mobile/css/base.css" />
+	<link rel="stylesheet" href="${ctx.contextPath}/mobile/common/mescroll/mescroll.css" />
+	<link rel="stylesheet" href="${ctx.contextPath}/mobile/css/leave_list.css" />
+	<script type="text/javascript" src="${ctx.contextPath}/mobile/common/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="${ctx.contextPath}/mobile/common/mescroll/mescroll.js"></script>
+	<script type="text/javascript" src="${ctx.contextPath}/mobile/common/base.js"></script>
+
+	<!--<script src="${ctx.contextPath}/mobile/common/web.ajax.js"></script>-->
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+
+</head>
+<body>
+	<div class='leave_top'>
+		<div class='back'><img src='${ctx.contextPath}/mobile/images/icon_fanhui.png'></div>
+		<div class='leave_title'>登记列表</div>
+	</div>
+	<div class='empty'></div>
+	<div class='mescroll' id='mescroll'>
+		<ul>
+
+		</ul>
+	</div>
+
+
+	<script>
+
+		var flag ="${flag}"; // 0普通员工 1领导
+		var userId ="${userId}";//用户token
+		$(function(){
+			var mescroll = new MeScroll("mescroll", {
+				down: {
+					auto: false,
+					callback: downCallback
+				},
+				up: {
+					auto: true,
+					callback: upCallback
+				}
+			});
+
+			function downCallback(){
+				$("#mescroll>ul").empty();
+				$(".upwarp-nodata").html('');
+				mescroll.resetUpScroll();
+			}
+
+			function upCallback(page){
+				var pageNum = page.num;
+				var pageSize = page.size;
+				setTimeout(function(){
+					initImportant(pageSize,pageNum,mescroll);
+				}, 500 )
+
+			}
+		});
+		function initImportant(pageSize,pageNum,mescroll){
+			$.post(Apps.ContextPath+'importantMobile/list',
+					{"userId":userId,"flag":flag},
+					function(data){
+						console.log(data);
+						if(data.code ==1){
+							rows =data.dataset.rows;
+							$(rows).each(function(index,item){
+								var url="";
+								if(item.IMPORTANTCONTENT == null){
+									item.IMPORTANTCONTENT ='';
+								}
+								if(flag == "0"){
+									url=Apps.ContextPath+'importantMobile/toViewImportant/'+item.ID+'?userId='+userId;
+								}else{
+									url=Apps.ContextPath+'importantMobile/toAuditImportant/'+item.ID+'?userId='+userId;
+								}
+
+								$("#mescroll>ul").append("<li>" +
+										"<a href='"+url+"'>"+
+										"<div class='ryxx_qjsy'>" +
+										"<div class='ryxx_xx'>" +
+										"<lable >登记人：</lable>" +
+										"<span class='ryxx_name'>"+item.USERNAME+"</span>" +
+										"<span class='ryxx_dz'>(常州市消防三战队)</span>" +
+										"</div>" +
+										"<div class='ryxx_time'>" +
+										"<lable>登记时间：</lable>"
+										+item.CREATETIME+
+										"</div>" +
+										"</div>" +
+										"<div class='ryxx_qjsy'>" +
+										"<lable >要事说明：</lable>"
+										+item.IMPORTANTCONTENT+
+										"</div>" +
+										"<div class='qjxx_content'>" +
+										"<div class='qjsc_content'>" +
+										"<lable class='zjsc'>在位人数：</lable>" +
+										"<div >"+item.REIGNNUMBER+"</div>" +
+										"</div>" +
+										"<div class='qjlx_content'>" +
+										"<lable class='qjlx'>外出人数：</lable>" +
+										"<div>"+item.LEAVENUMBER+"</div>" +
+										"</div>" +
+										"</div>" +
+										"<div class='qjxx_content'>" +
+										"<div class='qjsc_content'>" +
+										"<lable class='zjsc'>探亲休假：</lable>" +
+										"<div >"+item.GOHOMENUMBER+"</div>" +
+										"</div>" +
+										"</div>" +
+										"<div class='ryxx_qjsy'>" +
+										"<lable >要事类型：</lable>"
+										+item.TYPENAME+
+										"<lable style='margin-left: 20%'>状态：</lable>"
+										+item.STATUSNAME+
+										"</div>" +
+										"</a>"+
+										"<!--<div class='ybj'></div>状态图-->" +
+										"</li>");
+							});
+						}
+					});
+
+		}
+
+	</script>
+</body>
+</html>

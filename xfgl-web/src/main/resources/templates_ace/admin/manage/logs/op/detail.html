@@ -1,0 +1,83 @@
+<div id="content">
+    <div class="modal-header" style="background-color: #5090C1;">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title lighter white no-margin">
+            操作日志详情
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <form id="logs_op_form" class="form-horizontal" role="form">
+                    <div class="form-group" hidden>
+                        <label class="col-sm-2 control-label no-padding-right">
+                            日志编号 </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="id" name="id" placeholder=""
+                                   class="form-control" style="width: 460px;" value="${LOG_OP.ID}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            模块名称 </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="model_name" name="model_name" placeholder=""
+                                   class="form-control" style="width: 460px;" value="${LOG_OP.MODEL_NAME}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            URL </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="url" name="url" placeholder=""
+                                   class="form-control" style="width: 460px;" value="${LOG_OP.URL}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            参数 </label>
+                        <div class="col-sm-10">
+                         <textarea type="text" id="param" name="param" placeholder=""
+                                   class="form-control limited"
+                                   style="height: 60px;width: 460px;">${LOG_OP.PARAM}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            返回值 </label>
+                        <div class="col-sm-10">
+                        <textarea type="text" id="content_back" name="content_back" placeholder=""
+                                  class="form-control limited" style="height: 120px;width: 460px;">${LOG_OP.CONTENT_BACK}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            操作人 </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="username" name="username" placeholder=""
+                                   class="form-control" style="width: 460px;" value="${LOG_OP.USERNAME}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            操作时间 </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="operation_time" name="operation_time" placeholder=""
+                                   class="form-control" style="width: 460px;" value="${LOG_OP.OPERATION_TIME}"/>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-inverse" onclick="closeModel();">
+            <i class="ace-icon fa fa-ban"></i>
+            关闭
+        </button>
+    </div>
+</div>
+
+

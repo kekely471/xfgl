@@ -1,0 +1,89 @@
+<div class="modal-header" style="background-color: #5090C1">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="smaller lighter white no-margin">FAQ详情</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="message-content">
+                <div class="message-header clearfix">
+                    <div class="pull-left">
+                        <span class="blue bigger-180" id="faq_title">${FAQ.TITLE}</span>
+                    </div>
+
+                    <div class="pull-right">
+                        <span id="faq_create_name" >${FAQ.CREATENAME}</span>
+                        &nbsp;
+                        <i class="ace-icon fa fa-clock-o bigger-110 orange middle"></i>
+                        <span class="time grey" id="faq_create_time">${FAQ.CREATETIME}</span>
+                        <i class="ace-icon fa fa-eye bigger-110 orange middle"></i>
+                        <span class="time grey" id="faq_view">${FAQ.FAQ_VIEW}</span>
+                    </div>
+                </div>
+                <div class="hr hr-dotted"></div>
+                <div class="message-keyswords clearfix">
+                    <div class="attachment-title">
+                        <span class="blue bolder bigger-110" id="faq_keywords">${FAQ.KEYWORDS}</span>
+                    </div>
+                </div>
+                <div class="hr hr-dotted"></div>
+
+                <div id="faq_content" class="message-body" style="position: relative;">
+                    ${FAQ.CONTENT}
+                </div>
+
+                <div class="hr hr-dotted"></div>
+                <div class="message-attachment clearfix">
+                    <div class="attachment-title">
+                        <span class="blue bolder bigger-110">附件</span>
+                    </div>
+                    &nbsp;
+                    <ul id="fileContainer" class="attachment-list pull-left list-unstyled">
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="flow_action" class="modal-footer">
+</div>
+
+
+<script type="text/javascript">
+    var _id = "${id}";
+    jQuery(function ($) {
+        if (_id != "") {
+            initFileContainer2('fileContainer',_id,'faq_file','faq_id');
+            initFlowAction(_id,"faq");
+        }
+    });
+
+
+    //初始化流程操作区域
+    function initFlowAction(id,table_id) {
+        var ajax = new Ajax('WORK_ACTION_GET', function (ret) {
+            if (ret.code && ret.code < 0) {
+                bootbox.alert({title: "警告", message: ret.msg});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                var rows = ret.dataset.rows;
+                //绑定其他非input控件
+                for (i = 0; i < rows.length; i++) {
+                    $("#flow_action").append("<button class=\""+rows[i].ACTION_LABLE+"\" type=\"button\" onclick=\""+rows[i].ACTION_DO+"\">\n" +
+                        "        <i class=\"ace-icon fa "+rows[i].ACTION_ICON+" icon-on-right bigger-110\"></i>\n" +
+                        "        "+rows[i].ACTION_NAME+"\n" +
+                        "    </button>");
+                }
+            }
+        });
+        ajax.setMessage(false);
+        ajax.add("process_id", id);
+        ajax.add("table_id", table_id);
+        ajax.submit();
+    }
+
+</script>
+
+

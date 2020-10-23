@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>问题管理</title>
+</head>
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">发布人：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="name" name="name" placeholder="" value="${WTFX.FBR}" autocomplete="off" class="layui-input" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">发布时间：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="update_time" name="update_time" placeholder="" value="${WTFX.UPDATE_TIME}" autocomplete="off" class="layui-input" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">标题：</label>
+                <div class="layui-input-block">
+                    <input type="text" id="title" name="title" placeholder="请输入标题" value="${WTFX.TITLE}" autocomplete="off" class="layui-input" disabled>
+                    <input type="text" name="id" id="id" value="${id}" style="display: none">
+                    <input type="text" name="ss_id" id="ss_id" value="${WTFX.ss_id}" style="display: none">
+                    <input type="text" name="dwmc" id="dwmc" value="${WTFX.dwmc}" style="display: none">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">问题描述：</label>
+                <div class="layui-input-block">
+                    <textarea  id="describe" name="describe" lay-verify="required" placeholder="请具体描述您的问题" value="" autocomplete="off" class="layui-textarea" disabled>${WTFX.DESCRIBE}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">问题解答：</label>
+                <div class="layui-input-block">
+                    <textarea  id="fxdescribe" name="fxdescribe" lay-verify="required" placeholder="请输入您的建议" value="" autocomplete="off" class="layui-textarea">${WTFX.FXDESCRIBE}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">是否公开：</label>
+                <div class="layui-form-item layui-td-2" style="text-align:center" id="sfgk">
+                    <input type="radio" name="sfgk" value="0" title="不公开" checked="">
+                    <input type="radio" name="sfgk" value="1" title="公开">
+                </div>
+            </div>
+
+
+
+
+            <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+<script>
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");
+    var _id = "${id}";
+    layui.use(['form', 'layer','upload','laydate'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var upload = layui.upload;
+        var laydate = layui.laydate;
+
+        if (_id){
+            $("input[name='sfgk'][value='${WTFX.SFGK}']").attr("checked",true);
+            form.render();
+        }
+
+
+        //监听提交
+        form.on('submit()', function (data) {
+            var datas = data.field;
+            var ajax = new Ajax("jhdy/wtfx/save", function (data) {
+                if (judgeRight(data)) {
+                    parent.layer.alert("操作成功!", {icon: 1}, function () {
+                        parent.tableIns.reload({where: {"v": Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
+
+    function mySubmit() {
+        $("#tj").click();
+    }
+</script>
+</body>
+</html>

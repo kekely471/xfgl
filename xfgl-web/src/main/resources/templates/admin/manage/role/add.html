@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-1" style="display:none;">
+                <label class="layui-form-label"><span class="redLabel">*</span>角色编号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id"   placeholder="请输入角色编号"  value="${ROLE.ID}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>角色名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="rolename" lay-verify="required"  placeholder="请输入角色名称"  value="${ROLE.ROLENAME}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">角色类型</label>
+                <div class="layui-input-block">
+                    <select name="role_type" lay-verify="">
+                        <option value="">请选择角色类型</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>排序号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sort" lay-verify="required" placeholder="请输入排序号" value="${(ROLE.SORT!0)?c}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">是否启用</label>
+                <div class="layui-input-block" >
+                    <input type="checkbox" checked name="status" id="status" lay-skin="switch" lay-filter="switchTest" title="开关" value="${ROLE.STATUS}">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入备注" name="remark" class="layui-textarea" autocomplete="off">${ROLE.REMARK}</textarea>
+                </div>
+            </div>
+            <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var index = parent.layer.getFrameIndex(window.name);
+    var _id = "${id}";
+    var _role_type = "${ROLE.ROLE_TYPE}";
+
+    layui.use(['form','layer'], function() {
+        var form = layui.form;
+        var layer = layui.layer;
+        //初始化下拉框 傳值為name,url,typename_value,resid,resname
+        initSelectBox('role_type','common/dict/system','{"type_code":"role_type"}','VALUE','NAME');
+        if(_id){
+            isUse('status',$("#status").val());
+        }
+        $("select[name='role_type']").val(_role_type);
+        form.render();
+        //监听提交
+        form.on('submit()', function(data) {
+            var datas = data.field;
+            var ajax = new Ajax("role/save",function(data){
+                if(judgeRight(data)){
+                    parent.layer.alert("操作成功!",{icon:1},function(){
+                        parent.tableIns.reload({where:{"v":Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
+
+    function mySubmit(){
+        $("#tj").click();
+    }
+
+</script>
+</body>
+
+</html>

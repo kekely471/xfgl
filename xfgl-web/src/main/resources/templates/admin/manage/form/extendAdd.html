@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>表单项管理（新增、编辑、详情）</title>
+    <style>
+        #btnDiv {
+            position: fixed;
+            bottom: 0px;
+            width: 93%;
+            height: 50px;
+            background-color: white;
+            padding-top: 15px;
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>所属表单</label>
+                <div class="layui-input-block">
+                    <select name="formType" id="formType" lay-verify="required" lay-filter="formType"
+                            selectValue="${FormComponent.FORM_TYPE}" lay-search>
+                        <option value="">请选择所属表单</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>Lable标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="lableName" lay-verify="required" placeholder="请输入Lable标题" maxlength="50"
+                           value="${FormComponent.LABLE_NAME}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label"><span class="redLabel">*</span>字段名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="fieldName" lay-verify="required|fieldNameRule" placeholder="请输入字段名" maxlength="50"
+                           value="${FormComponent.FIELD_NAME}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">默认值</label>
+                <div class="layui-input-block">
+                    <input type="text" name="defaultValue" placeholder="请输入默认值"
+                           value="${FormComponent.DEFAULT_VALUE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">列数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="componentLayout" placeholder="请输入列数" lay-verify="componentLayoutRule"
+                           value="${FormComponent.COMPONENT_LAYOUT}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-2">
+                <label class="layui-form-label">组件宽度</label>
+                <div class="layui-input-block">
+                    <input type="text" name="componentWidth" placeholder="请输入组件宽度" lay-verify="componentWidthRule"
+                           value="${FormComponent.COMPONENT_WIDTH}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">校验规则</label>
+                <div class="layui-input-block" id="validateRulesDiv">
+                    <input type="text" id="validateRules" name="validateRules"
+                           placeholder="请输入校验规则（多个规则中间用 | 拼接，常用项勾选后自动录入）"
+                           value="${FormComponent.VALIDATE_RULES}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div id="positionDiv">
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>组件类型</label>
+                <div class="layui-input-block">
+                    <select name="componentType" id="componentType" lay-verify="required" lay-filter="componentType"
+                            selectValue="${FormComponent.COMPONENT_TYPE}">
+                        <option value="">请选择组件类型</option>
+                    </select>
+                </div>
+            </div>
+            <div id="componentAttrDiv">
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">是否启用</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="isDisabled" id="isDisabled" lay-skin="switch"
+                           lay-filter="switchTest" lay-text="启用|禁用" value="${FormComponent.ISDISABLED}">
+                </div>
+            </div>
+            <input type="hidden" name="id" value="${(FormComponent.ID?c)!''}" autocomplete="off" class="layui-input">
+            <!--<button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>-->
+            <div class="clear"></div>
+            <div id="btnDiv">
+                <button id="tj" lay-submit lay-filter="*" class="layui-btn" id="saveBtn">保存</button>
+                <button onclick="cancle();" class="layui-btn"
+                        style="background-color: white; color:black;border:1px solid #E6E6E6;">取消
+                </button>
+            </div>
+            <!--垫高层-->
+            <div style="height:60px;"></div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    var preTabIndex = getParam("preTabIndex");
+    preTabIndex = preTabIndex.slice(0,preTabIndex.indexOf("?"));
+    var _id = "${FormComponent.ID}";
+    var validateRules = "${FormComponent.VALIDATE_RULES}";
+    //text或textarea
+    var fontLengthDiv = "<div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">最多字数</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"maxLength\" placeholder=\"请输入最多字数\" lay-verify=\"fontLengthRule\"\n" +
+        "                               value=\"${(FormComponent.MAX_LENGTH?c)!''}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">最少字数</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"minLength\" placeholder=\"请输入最少字数\" lay-verify=\"fontLengthRule\"\n" +
+        "                               value=\"${(FormComponent.MIN_LENGTH?c)!''}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>";
+    //SELECT框
+    var selectComponentAttrDiv = "<div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>接口url</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrl\" placeholder=\"请输入接口url（eg:/form/list）\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">接口参数</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrlAttr\" placeholder=\"请输入接口参数(键值对格式eg:'type_code':'zjlx')\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL_ATTR}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">接口Value</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"selectComponentValue\" placeholder=\"请输入接口Value\"\n" +
+        "                               value=\"${FormComponent.SELECTCOMPONENTVALUE}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">接口Name</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"selectComponentName\" placeholder=\"请输入接口Name\"\n" +
+        "                               value=\"${FormComponent.SELECTCOMPONENTNAME}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>";
+    //date控件
+    var dateComponentDiv = '<div class="layui-form-item layui-td-2">\n' +
+        '                    <label class="layui-form-label">日期类型</label>\n' +
+        '                    <div class="layui-input-block">\n' +
+        '                        <select name="dateType" id="dateType" lay-filter="dateType"\n' +
+        '                                selectValue="${FormComponent.DATETYPE}">\n' +
+        '                            <option value="">请选择日期类型(不选默认日期选择器)</option>\n' +
+        '                        </select>\n' +
+        '                    </div>\n' +
+        '                </div>\n' +
+        '                <div class="layui-form-item layui-td-2">\n' +
+        '                    <label class="layui-form-label">日期格式</label>\n' +
+        '                    <div class="layui-input-block">\n' +
+        '                        <select name="dateFormat" id="dateFormat" lay-filter="dateFormat"\n' +
+        '                                selectValue="${FormComponent.DATEFORMAT}">\n' +
+        '                            <option value="">请选择日期格式(不选默认yyyy-MM-dd HH:mm:ss)</option>\n' +
+        '                        </select>\n' +
+        '                    </div>\n' +
+        '                </div>';
+    //checkBox控件
+    var checkBoxComponentDiv = "<div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>接口url</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrl\" placeholder=\"请输入接口url（eg:/form/list）\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">接口参数</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrlAttr\" placeholder=\"请输入接口参数(键值对格式eg:'type_code':'zjlx')\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL_ATTR}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>";
+    //radio控件
+    var radioComponentDiv = "<div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>接口url</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrl\" placeholder=\"请输入接口url（eg:/form/list）\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">接口参数</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrlAttr\" placeholder=\"请输入接口参数(键值对格式eg:'type_code':'zjlx')\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL_ATTR}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>";
+    //上传附件
+    var uploadComponentDiv = '<div class="layui-form-item layui-td-2">\n' +
+        '                    <label class="layui-form-label"><span class="redLabel">*</span>触发按钮</label>\n' +
+        '                    <div class="layui-input-block">\n' +
+        '                        <input type="text" name="uploadId" lay-verify="required" placeholder="请输入触发附件的元素ID"\n' +
+        '                               value="${FormComponent.UPLOADID}" autocomplete="off" class="layui-input">\n' +
+        '                    </div>\n' +
+        '                </div>\n' +
+        '                <div class="layui-form-item layui-td-2">\n' +
+        '                    <label class="layui-form-label"><span class="redLabel">*</span>存放位置</label>\n' +
+        '                    <div class="layui-input-block">\n' +
+        '                        <input type="text" name="uploadPosition" lay-verify="required" placeholder="请输入存放附件的元素ID"\n' +
+        '                               value="${FormComponent.UPLOADPOSITION}" autocomplete="off" class="layui-input">\n' +
+        '                    </div>\n' +
+        '                </div>\n' +
+        '                <div class="layui-form-item layui-td-2">\n' +
+        '                    <label class="layui-form-label"><span class="redLabel">*</span>是否多选</label>\n' +
+        '                    <div class="layui-input-block">\n' +
+        '                        <select name="isMultiChoose" id="isMultiChoose" lay-verify="required" lay-filter="isMultiChoose"\n' +
+        '                                selectValue="${FormComponent.ISMULTICHOOSE}">\n' +
+        '                            <option value="">是否多选</option>\n' +
+        '                        </select>\n' +
+        '                    </div>\n' +
+        '                </div>\n' +
+        '                <div class="layui-form-item layui-td-2">\n' +
+        '                    <label class="layui-form-label">附件类型</label>\n' +
+        '                    <div class="layui-input-block">\n' +
+        '                        <select name="attachmentType" id="attachmentType" lay-filter="attachmentType"\n' +
+        '                                selectValue="${FormComponent.ATTACHMENTTYPE}">\n' +
+        '                            <option value="">上传附件类型（不填默认上传图片）</option>\n' +
+        '                        </select>\n' +
+        '                    </div>\n' +
+        '                </div>';
+    //富文本
+    var richTextComponentDiv = '';
+    //弹出树
+    var treeComponentDiv = "<div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>标题</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"treeTitle\" placeholder=\"请输入弹出树的标题\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.TREETITLE}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>idKey</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"idKey\" placeholder=\"请输入idKey\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.IDKEY}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">pIdKey</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"pIdKey\" placeholder=\"请输入pIdKey\"\n" +
+        "                               value=\"${FormComponent.PIDKEY}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>nameKey</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"nameKey\" placeholder=\"请输入nameKey\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.NAMEKEY}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>接口url</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrl\" placeholder=\"请输入接口url（eg:/form/list）\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">接口参数</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrlAttr\" placeholder=\"请输入接口参数(键值对格式eg:'type_code':'zjlx')\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL_ATTR}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>";
+    //弹出列表
+    var tableComponentDiv = "<div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>接口url</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrl\" placeholder=\"请输入接口url（eg:/form/list）\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>";
+    //下拉树
+    var pullTreeComponentDiv = "<div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>标题</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"treeTitle\" placeholder=\"请输入弹出树的标题\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.TREETITLE}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>idKey</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"idKey\" placeholder=\"请输入idKey\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.IDKEY}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">pIdKey</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"pIdKey\" placeholder=\"请输入pIdKey\"\n" +
+        "                               value=\"${FormComponent.PIDKEY}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>nameKey</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"nameKey\" placeholder=\"请输入nameKey\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.NAMEKEY}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>接口url</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrl\" placeholder=\"请输入接口url（eg:/form/list）\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">接口参数</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrlAttr\" placeholder=\"请输入接口参数(键值对格式eg:'type_code':'zjlx')\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL_ATTR}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>";
+    //自定义控件
+    var defineComponentDiv = "<div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>接口url</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrl\" placeholder=\"请输入接口url（eg:/form/list）\" lay-verify=\"required\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>\n" +
+        "                <div class=\"layui-form-item layui-td-2\">\n" +
+        "                    <label class=\"layui-form-label\">接口参数</label>\n" +
+        "                    <div class=\"layui-input-block\">\n" +
+        "                        <input type=\"text\" name=\"componentUrlAttr\" placeholder=\"请输入接口参数(键值对格式eg:'type_code':'zjlx')\"\n" +
+        "                               value=\"${FormComponent.COMPONENT_URL_ATTR}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                    </div>\n" +
+        "                </div>";
+    //位置区域
+    var positionSelectDiv = "<div class=\"layui-form-item layui-td-2\">\n" +
+        "                <label class=\"layui-form-label\"><span class=\"redLabel\">*</span>位置类型</label>\n" +
+        "                <div class=\"layui-input-block\">\n" +
+        "                    <select name=\"positionType\" id=\"positionType\" lay-verify=\"required\"\n" +
+        "                            selectValue=\"${FormComponent.POSITION_TYPE}\">\n" +
+        "                        <option value=\"\">请选择位置类型</option>\n" +
+        "                    </select>\n" +
+        "                </div>\n" +
+        "            </div>\n" +
+        "            <div class=\"layui-form-item layui-td-2\">\n" +
+        "                <label class=\"layui-form-label\">排序号</label>\n" +
+        "                <div class=\"layui-input-block\">\n" +
+        "                    <input type=\"text\" name=\"sort\" placeholder=\"请输入所在位置排序号\" lay-verify=\"sortRule\"\n" +
+        "                           value=\"${(FormComponent.SORT?c)!''}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                </div>\n" +
+        "            </div>" +
+        "            <div class=\"layui-form-item layui-td-2\">\n" +
+        "                <label class=\"layui-form-label\">元素id</label>\n" +
+        "                <div class=\"layui-input-block\">\n" +
+        "                    <input type=\"text\" name=\"domId\" placeholder=\"请输入元素id选择器\"\n" +
+        "                           value=\"${FormComponent.DOMID}\" autocomplete=\"off\" class=\"layui-input\">\n" +
+        "                </div>\n" +
+        "            </div>" +
+        "            <div class=\"layui-form-item layui-td-2\">\n" +
+        "                <label class=\"layui-form-label\">元素前后</label>\n" +
+        "                <div class=\"layui-input-block\">\n" +
+        "                    <select name=\"afterOrBefore\" id=\"afterOrBefore\" selectValue=\"${FormComponent.AFTERORBEFORE}\">\n" +
+        "                        <option value=\"\">请选择组件类型</option>\n" +
+        "                    </select>\n" +
+        "                </div>\n" +
+        "            </div>";
+    layui.use(['form', 'layer', 'jquery', 'element'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var $ = layui.$;
+        var element = layui.element;
+        //初始化下拉框
+        /*initSelectBox("positionType", 'common/dict/system', '{"type_code":"zjwz"}', 'VALUE', 'NAME');*/
+        initSelectBox("componentType", 'common/dict/system', '{"type_code":"zjlx"}', 'VALUE', 'NAME');
+        if ('${FormComponent.FORM_TYPE}' == "") {
+            $("select[name='formType']").attr("selectValue", "${treeId}");
+        }
+        initSelectBox("formType", 'form/selectList', '', 'ID', 'NAME');
+        //初始化positionDiv区域组件
+        var currentFormId = $("#formType").val().trim();
+        $("#positionDiv").empty();
+        if (currentFormId != null && currentFormId != "") {
+            $("#positionDiv").html(positionSelectDiv);
+            initSelectBox("positionType", 'form/positionSelectList', '{"formId":' + currentFormId + '}', 'ID', 'NAME');
+            initSelectBox("afterOrBefore", 'common/dict/system', '{"type_code":"ysqh"}', 'VALUE', 'NAME');
+        }
+        //初始化校验规则checkBox勾选状态
+        validateRulesFocus();
+        //是否启用
+        if (_id) {
+            //初始化是否启用状态
+            isUse('isDisabled', $("#isDisabled").val());
+        } else {
+            //新增默认启用
+            isUse('isDisabled', 1);
+        }
+
+        //初始化componentAttrDiv区域组件
+        $("#componentAttrDiv").empty();
+        var componentTypeInitValue = $("#componentType").val();
+        /*console.log("测试数据："+componentTypeInitValue);*/
+        if (componentTypeInitValue == "text" || componentTypeInitValue == "textarea") {
+            $("#componentAttrDiv").html(fontLengthDiv);
+        } else if (componentTypeInitValue == "select") {
+            $("#componentAttrDiv").html(selectComponentAttrDiv);
+        } else if (componentTypeInitValue == "radio") {
+            $("#componentAttrDiv").html(radioComponentDiv);
+        } else if (componentTypeInitValue == "checkbox") {
+            $("#componentAttrDiv").html(checkBoxComponentDiv);
+        } else if (componentTypeInitValue == "date") {
+            $("#componentAttrDiv").html(dateComponentDiv);
+            initSelectBox("dateType", 'common/dict/system', '{"type_code":"layui_date_type"}', 'VALUE', 'NAME');
+            initSelectBox("dateFormat", 'common/dict/system', '{"type_code":"layui_date_format"}', 'VALUE', 'NAME');
+        } else if (componentTypeInitValue == "define") {
+            $("#componentAttrDiv").html(defineComponentDiv);
+        } else if (componentTypeInitValue == "upload") {
+            $("#componentAttrDiv").html(uploadComponentDiv);
+            initSelectBox("isMultiChoose", 'common/dict/system', '{"type_code":"fjscsfdx"}', 'VALUE', 'NAME');
+            initSelectBox("attachmentType", 'common/dict/system', '{"type_code":"fjsclx"}', 'VALUE', 'NAME');
+        } else if (componentTypeInitValue == "richText") {
+            $("#componentAttrDiv").html(richTextComponentDiv);
+        } else if (componentTypeInitValue == "tree") {
+            $("#componentAttrDiv").html(treeComponentDiv);
+        } else if (componentTypeInitValue == "table") {
+            $("#componentAttrDiv").html(tableComponentDiv);
+        } else if (componentTypeInitValue == "pullTree") {
+            $("#componentAttrDiv").html(pullTreeComponentDiv);
+        }
+
+        if ("${isView}") {
+            $('input,select,textarea').prop('disabled', "disabled");
+            $('#btnDiv').empty();
+            $('#btnDiv').html('<button onclick="cancle();" class="layui-btn"\n' +
+                '                        style="background-color: white; color:black;border:1px solid #E6E6E6;">取消\n' +
+                '                </button>');
+        }
+
+        form.render();
+        //监听提交
+        form.on('submit()', function (data) {
+            var datas = data.field;
+            var ajax = new Ajax("form/extendAddOrUpdate", function (data) {
+                if (judgeRight(data)) {
+                    layer.alert("操作成功!", {icon: 1}, function () {
+                        closeTabAndRefreshPreTab(tabIndex, preTabIndex);
+                        layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false;
+        });
+        //表单验证
+        form.verify({
+            sortRule: function (value) {
+                if (value.trim() != null && value.trim() != '') {
+                    var judge = /^([1-9]\d*|[0]{1,1})$/;
+                    if (!judge.test(value.trim()) || value.trim() == 0) {
+                        return '排序号必须为正整数';
+                    }
+                }
+            },
+            fieldNameRule: function (value) {
+                if (value.trim() != null && value.trim() != '') {
+                    var judge=/^[0-9a-zA-Z]*$/;
+                    if (!judge.test(value.trim())) {
+                        return '字段名必须为英文或数字';
+                    }
+                }
+            },
+            componentLayoutRule: function (value) {
+                if (value.trim() != null && value.trim() != '') {
+                    var judge = /^([1-9]\d*|[0]{1,1})$/;
+                    if (!judge.test(value.trim()) || value.trim() == 0) {
+                        return '列数必须为正整数';
+                    }
+                }
+            },
+            componentWidthRule: function (value) {
+                if (value.trim() != null && value.trim() != '') {
+                    var judge = /^([1-9]\d*|[0]{1,1})$/;
+                    if (!judge.test(value.trim()) || value.trim() == 0) {
+                        return '组件宽度必须为正整数';
+                    }
+                }
+            },
+            fontLengthRule: function (value) {
+                if (value.trim() != null && value.trim() != '') {
+                    var judge = /^([1-9]\d*|[0]{1,1})$/;
+                    if (!judge.test(value.trim())) {
+                        return '字的个数必须为正整数或0';
+                    }
+                }
+            },
+        });
+        //所属表单select框（选择后动态生成位置类型）
+        form.on('select(formType)', function (data) {
+            //得到被选中的值
+            var formId = data.value;
+            $("#positionDiv").empty();
+            if (formId != null && formId.trim() != '') {
+                $("#positionDiv").html(positionSelectDiv);
+                initSelectBox("positionType", 'form/positionSelectList', '{"formId":' + formId + '}', 'ID', 'NAME');
+                initSelectBox("afterOrBefore", 'common/dict/system', '{"type_code":"ysqh"}', 'VALUE', 'NAME');
+                form.render();
+            }
+        });
+        //组件类型select框（选择后动态生成相应的组件参数输入框）
+        form.on('select(componentType)', function (data) {
+            //得到被选中的值
+            var componentType = data.value;
+            $("#componentAttrDiv").empty();
+            if (componentType == "text" || componentType == "textarea") {
+                $("#componentAttrDiv").html(fontLengthDiv);
+            } else if (componentType == "select") {
+                $("#componentAttrDiv").html(selectComponentAttrDiv);
+            } else if (componentType == "radio") {
+                $("#componentAttrDiv").html(radioComponentDiv);
+            } else if (componentType == "checkbox") {
+                $("#componentAttrDiv").html(checkBoxComponentDiv);
+            } else if (componentType == "date") {
+                $("#componentAttrDiv").html(dateComponentDiv);
+                initSelectBox("dateType", 'common/dict/system', '{"type_code":"layui_date_type"}', 'VALUE', 'NAME');
+                initSelectBox("dateFormat", 'common/dict/system', '{"type_code":"layui_date_format"}', 'VALUE', 'NAME');
+            } else if (componentType == "define") {
+                $("#componentAttrDiv").html(defineComponentDiv);
+            } else if (componentType == "upload") {
+                $("#componentAttrDiv").html(uploadComponentDiv);
+                initSelectBox("isMultiChoose", 'common/dict/system', '{"type_code":"fjscsfdx"}', 'VALUE', 'NAME');
+                initSelectBox("attachmentType", 'common/dict/system', '{"type_code":"fjsclx"}', 'VALUE', 'NAME');
+            } else if (componentType == "richText") {
+                $("#componentAttrDiv").html(richTextComponentDiv);
+            } else if (componentType == "tree") {
+                $("#componentAttrDiv").html(treeComponentDiv);
+            } else if (componentType == "table") {
+                $("#componentAttrDiv").html(tableComponentDiv);
+            } else if (componentType == "pullTree") {
+                $("#componentAttrDiv").html(pullTreeComponentDiv);
+            }
+            form.render();
+        });
+        //表单验证规则checkbox选中回调
+        form.on('checkbox(bdyzgzCheckBox)', function (data) {
+            var rules = $("#validateRules").val().trim();
+            if (data.elem.checked) {
+                if (rules.length > 0) {
+                    $("#validateRules").val(rules + "|" + data.value);
+                    rules = $("#validateRules").val().trim();
+                } else {
+                    $("#validateRules").val(data.value);
+                    rules = $("#validateRules").val().trim();
+                }
+            } else if (!data.elem.checked) {
+                var dataValue = "|" + data.value;
+                if (rules.indexOf(dataValue) != -1) {
+                    $("#validateRules").val(rules.split(dataValue).join(""));
+                    rules = $("#validateRules").val().trim();
+                } else {
+                    if (rules.indexOf(data.value) != -1 && rules.indexOf(data.value) == 0 && rules != data.value) {
+                        var dataValue = data.value + "|";
+                        $("#validateRules").val(rules.split(dataValue).join(""));
+                        rules = $("#validateRules").val().trim();
+                    } else if (rules.indexOf(data.value) != -1 && rules.indexOf(data.value) == 0 && rules == data.value) {
+                        $("#validateRules").val(rules.split(data.value).join(""));
+                        rules = $("#validateRules").val().trim();
+                    } else if (rules.indexOf(data.value) != -1) {
+                        $("#validateRules").val(rules.split(data.value).join(""));
+                        rules = $("#validateRules").val().trim();
+                    }
+                }
+            }
+        });
+    });
+
+    //表单提交
+    function mySubmit() {
+        $("#tj").click();
+    }
+
+    //取消
+    function cancle() {
+        top.tab.tabDelete(tabIndex);
+    }
+
+    //获取路径携带的参数
+    function getParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    //加载表达验证规则checkBox
+    function bdyzgz(url, param) {
+        var html = '<div class="layui-input-block" id="ruleCheckbox">';
+        var list = validateRules.split("|");
+        if (param != undefined && param != '' && param != null) {
+            param = JSON.parse(param);
+        }
+        var ajax = new Ajax(url, function (ret) {
+            if (ret.code && ret.code < 0) {
+                layer.alert(ret.msg, {icon: 1});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                var checklist = new Array(ret.dataset.rows.length);
+                for (var i = 0; i < checklist.length; i++) {
+                    checklist[i] = false;
+                }
+                for (var j = 0; j < list.length; j++) {
+                    for (var i = 0; i < ret.dataset.rows.length; i++) {
+                        if (list[j] == ret.dataset.rows[i].VALUE) {
+                            checklist[i] = true;
+                        }
+                    }
+                }
+                var checked = "";
+                for (var i = 0; i < ret.dataset.rows.length; i++) {
+                    for (var j = 0; j < checklist.length; j++) {
+                        if (checklist[i]) {
+                            checked = "checked";
+                        }
+                    }
+                    html += '<input type="checkbox" value="' + ret.dataset.rows[i].VALUE + '" title="' + ret.dataset.rows[i].NAME + '" lay-skin="primary" lay-filter="bdyzgzCheckBox"' + checked + '>';
+                    checked = "";
+                }
+                html += '</div>';
+                if ($("#ruleCheckbox").length == 0) {
+                    $("#validateRulesDiv").after(html);
+                    layui.form.render('checkbox');
+                }
+            }
+        });
+        ajax.setMessage(false);
+        ajax.setAsync(false);
+        for (var i in param) {
+            ajax.add(i, param[i]);
+        }
+        ajax.submit();
+    }
+
+    function validateRulesFocus() {
+        bdyzgz('common/dict/system', '{"type_code":"bdjygz"}');
+    }
+</script>
+</body>
+
+</html>

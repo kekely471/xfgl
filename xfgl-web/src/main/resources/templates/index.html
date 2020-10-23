@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta name=renderer content=webkit>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>加载页</title>
+    <script type="text/javascript">
+        var w = window.screen.availWidth;
+        var h = window.screen.availHeight;
+
+        var top = 0;//(window.screen.availHeight-30-h)/2;
+        var left = 0;//(window.screen.availWidth-10-w)/2;
+
+        var sFeatures = "top=" + top + ",left=" + left + ",width=" + w + ",height=" + h + ",toolbar=0,location=0,directories=0,status=1,menubar=0,scrollbars=0,resizable=0,center=1,help=0";
+        //var appWin = window.open("./login?_=" + new Date().getTime(), "index", sFeatures);
+        var appWin = window.open("login?_=" + new Date().getTime(), "登录页", sFeatures);
+        if (!appWin) {
+            alert("发现弹出窗口被阻止，请更改浏览器设置，以便正常使用本系统!");
+        } else {
+            appWin.resizeTo(w, h);
+            appWin.moveTo(top, left);
+            appWin.focus();
+            window.opener = null;
+            window.open('', '_self');
+            //window.close();
+        }
+    </script>
+    <style type="text/css">
+        div span {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div align="center">
+    <span>页面加载中,请稍后......</span>
+</div>
+</body>
+</html>

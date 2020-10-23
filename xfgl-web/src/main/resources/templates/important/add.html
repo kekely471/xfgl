@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+
+<body>
+<div class="contentBox">
+    <!--<div class="formBox">-->
+        <form class="layui-form" action="">
+            <table class="layui-table" lay-skin="line">
+                <input type="hidden" name="ID" value="${important.ID}">
+                <colgroup>
+                    <col width="20%">
+                    <col width="78">
+                </colgroup>
+                <tr>
+                    <td>在外人数</td>
+                    <td><input type="text" name="REIGN_NUMBER"  value="${important.REIGNNUMBER}" autocomplete="off"
+                               class="layui-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>请假外出</td>
+                    <td>
+                        <input type="text" name="LEAVE_NUMBER"  value="${important.LEAVENUMBER}" autocomplete="off"
+                               class="layui-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>探亲休假</td>
+                    <td>
+                        <input  type="text" name="GO_HOME_NUMBER"  value="${important.GOHOMENUMBER}" autocomplete="off"
+                               class="layui-input">
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>要事类型</td>
+                    <td>
+                        <select name="IMPORTANT_TYPE" id="IMPORTANT_TYPE" lay-verify="required" lay-filter="xmFilter" selectValue="${important.IMPORTANTTYPE}">
+                             <option value="">请选择</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>审批人</td>
+                    <td>
+                        <select name="AUDIT_USER" id="AUDIT_USER" lay-verify="required" lay-verify="required" selectValue="${important.AUDIT_USER}">
+                            <option value="">请选择</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>要事说明</td>
+                    <td>
+                        <textarea  id="IMPORTANT_CONTENT" name="IMPORTANT_CONTENT"  lay-verify="required" placeholder="请输入"  maxlength="200"  class="layui-textarea">
+                            ${important.IMPORTANTCONTENT}
+                        </textarea>
+                    </td>
+                </tr>
+
+            </table>
+
+            <button id="bc" style="display: none" lay-submit lay-filter="bc">保存</button>
+            <button id="tj" style="display: none" lay-submit lay-filter="tj">提交</button>
+        </form>
+    <!--</div>-->
+</div>
+
+<script>
+    var index = parent.layer.getFrameIndex(window.name);
+    var _id = "${id}";
+    var _status = "${STATUS}";
+    var flag ="${flag}";
+    layui.use(['form','layer'], function() {
+        var form = layui.form;
+        var layer = layui.layer;
+        //初始化下拉框(获取系统业务字典数据)
+        initSelectBox("IMPORTANT_TYPE", 'common/dict/business', '{"type_code":"Important_type"}', 'ID', 'NAME');
+
+        initSelectBox("AUDIT_USER", 'important/findAuditUsers', '{"zw":"3"}', 'USERID', 'NAME');
+
+        if(flag =='1'){
+            $('input,select,textarea').prop('disabled',"disabled");
+        }
+        form.render();
+        //监听保存
+        form.on('submit(bc)', function(data) {
+            console.log(data.elem.id);
+            var datas = data.field;
+            datas.STATUS= 1
+            var ajax = new Ajax("important/saveOrUpdate",function(data){
+                if(judgeRight(data)){
+                    parent.layer.alert("操作成功!",{icon:1},function(){
+                        parent.tableIns.reload({where:{"v":Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+        //监听提交
+        form.on('submit(tj)', function(data) {
+            console.log(data.elem.id);
+            var datas = data.field;
+            datas.STATUS= 2
+            var ajax = new Ajax("important/saveOrUpdate",function(data){
+                if(judgeRight(data)){
+                    parent.layer.alert("操作成功!",{icon:1},function(){
+                        parent.tableIns.reload({where:{"v":Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+
+    });
+    function mySubmitBc(){
+        $("#bc").click();
+    }
+    function mySubmitTj(){
+        $("#tj").click();
+    }
+</script>
+</body>
+
+</html>

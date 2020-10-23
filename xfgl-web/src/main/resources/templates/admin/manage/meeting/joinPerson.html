@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <!-- zTree -->
+    <link rel="stylesheet"
+          href="${ctx.contextPath}/layui/commons/ztree/css/metroStyle/metroStyle.css"
+          type="text/css">
+    <script type="text/javascript"
+            src="${ctx.contextPath}/layui/commons/ztree/js/jquery.ztree.core.min.js"></script>
+    <script type="text/javascript"
+            src="${ctx.contextPath}/layui/commons/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <title>Title</title>
+</head>
+
+<body>
+<div class="layui-layout-body">
+    <div id="zTree" class="ztree"></div>
+</div>
+<script>
+
+    var _id = '${id}';
+    var zTreeObj;
+    var index = parent.layer.getFrameIndex(window.name);
+
+    $(function () {
+        initTree();
+
+        //已有权限
+        if (_id) {
+
+        }
+    });
+
+    var setting = {
+        check: {
+            enable: true,
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "ID",
+                pIdKey: "PID"
+            },
+            key: {
+                name: "NAME",
+                checked: "CHECKED"
+            }
+        },
+        callback: {
+            beforeCheck: zTreeBeforeCheck
+        },
+    };
+
+    //回调函数
+    function zTreeBeforeCheck(treeId, treeNode) {
+        return !treeNode.isParent;//当是父节点 返回false 不让选取
+    }
+
+    //初始化树
+    function initTree() {
+        var ajax = new Ajax("dept/userTree", function (data) {
+            if (judgeRight(data)) {
+                var zNodes = data.dataset.rows;
+                var join_ids = window.parent.$("#join_ids").val();
+                //ZTree控件不支持大写参数  暂时先自己循环赋值显示  带控件问题版本修正删除
+                zTreeObj = $.fn.zTree.init($("#zTree"), setting, zNodes);
+                zTreeObj.expandAll(true);
+                //这是一个自循环函数，会自动将所有节点遍历一遍，返回符合条件的节点数组
+                var allNodes = zTreeObj.getNodesByFilter(function(onenode){
+                    return (join_ids.indexOf(onenode.ID) !== -1);   //node为后台传来的值字符串，如果节点中的id存在我传的值，则把该节点选出
+                });
+                //循环选出的需要选中的节点
+                for(var i=0; i<allNodes.length; i++) {
+                    zTreeObj.checkNode(allNodes[i], true, false);  //传入节点，使其选中
+                }
+            }
+        });
+        ajax.setAsync(false);
+        ajax.add('rid', _id);
+        ajax.submit();
+    }
+
+    function mySubmit() {
+        //获取点选的数值   现获取zTreeObj
+        var zTreeObj = $.fn.zTree.getZTreeObj("zTree");
+        var nodes = zTreeObj.getCheckedNodes(true);
+        var joins = "";
+        var ids = "";
+
+        for (var i = 0; i < nodes.length; i++) {
+            if (isInteger(nodes[i].ID)) {
+                i === nodes.length - 1 ? ids += nodes[i].ID : ids += nodes[i].ID + ",";
+                i === nodes.length - 1 ? joins += nodes[i].NAME : joins += nodes[i].NAME + ",";
+            }
+        }
+        parent.layer.close(index);
+        nodes["JOIN_IDS"] = ids;
+        nodes["JOIN_NAME"] = joins;
+        return nodes;
+    }
+
+    function isInteger(obj) {
+        return obj % 1 === 0
+    }
+</script>
+</body>
+
+</html>

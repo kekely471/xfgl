@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>新增请假</title>
+</head>
+
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-1">
+                <div class='wxts' style="margin-left: 48px;">
+                    <span style="color: red;font-size:15px;font-weight: 700;">温馨提示：</span><span id='qjts'></span>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="NAME" placeholder="" value="${QJMK.NAME}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">籍贯</label>
+                <div class="layui-input-block">
+                    <input type="text" name="NATIVE_PLACE" placeholder="" value="${QJMK.NATIVE_PLACE}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">消防街</label>
+                <div class="layui-input-block">
+                    <input type="text" name="JOB" placeholder="" value="${QJMK.JOB}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">警街</label>
+                <div class="layui-input-block">
+                    <input type="text" name="POLICERANK" placeholder="" value="${QJMK.POLICERANK}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">入伍年月</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWNY" placeholder="" value="${QJMK.RWNY}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">部职级</label>
+                <div class="layui-input-block">
+                    <input type="text" name="DWMC" placeholder="" value="${QJMK.DWMC}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>请假类型</label>
+                <div class="layui-input-block">
+                    <select name="LEAVE_TYPE" id="LEAVE_TYPE" lay-verify="required" lay-search disabled>
+                        <option value="">请选择请假类型</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>请假时间</label>
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" name="START_TIME" id="START_TIME" lay-verify="required" placeholder="点击选择开始时间" value="${VIEW.START_TIME}" disabled>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-inline">-</label>
+                </div>
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" name="END_TIME" id="END_TIME" lay-verify="required" placeholder="点击选择结束时间" value="${VIEW.END_TIME}" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>请假地点</label>
+                <div class="layui-input-block">
+                    <textarea name="LEAVE_SPACE" lay-verify="" maxlength="100" placeholder="请输入请假地点" autocomplete="off" class="layui-textarea" readonly>${VIEW.LEAVE_SPACE}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>请假事由</label>
+                <div class="layui-input-block">
+                    <textarea name="REASON" lay-verify="" maxlength="100" placeholder="请输入请假事由" autocomplete="off" class="layui-textarea" readonly>${VIEW.REASON}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">请假天数</label>
+                <div class="layui-input-block">
+                    <input type="text" name="LEAVE_DAYS" placeholder="" value="${VIEW.LEAVE_DAYS}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">实际天数(去国假)</label>
+                <div class="layui-input-block">
+                    <input type="text" name="LEAVE_DAYS_TRUE" placeholder="" value="${VIEW.LEAVE_DAYS_TRUE}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-layout-admin">
+                <div class="layui-input-block">
+                    <div class="layui-footer" style="left: 0;">
+                        <button class="layui-layer-btn0" id="tj" style="height: 28px;padding: 0px 15px;border-radius: 2px;margin: 5px 5px 0px;border-style: solid;bottom:0;" lay-submit lay-filter="save">销假</button>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var userId = "${userId}";//修改操作id
+    var istrue;
+    var businessid ="${id}";
+    layui.use(['form', 'layer','laydate'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+
+        initSelectBox('LEAVE_TYPE','common/dict/business','{"type_code":"qjlx"}','VALUE','NAME');
+        $("#LEAVE_TYPE").val("${VIEW.LEAVE_TYPE}");
+        form.render();
+        initts();//初始化温馨提示
+
+        //监听提交
+        form.on('submit(save)', function (datas) {
+            var ajax = new Ajax("api/v1/user/leavereport",function (data) {
+                if(data.code>0){
+                    parent.layer.alert("保存成功!", {icon: 1}, function () {
+                        if (parent.tableIns != null && parent.tableIns != "" && parent.tableIns != undefined) {
+                            parent.tableIns.reload({where: {}});
+                        }
+                        parent.location.reload();
+                        parent.layer.closeAll();
+                    });
+                }else{
+                    layer.close(index);
+                    layer.alert(data.msg);
+                }
+            });
+            ajax.add(datas.field);
+            ajax.add("userId",userId);
+            ajax.add("BUSINESSID",businessid);
+            ajax.submit();
+            return false;
+        });
+
+    });
+
+
+    //初始化温馨提示
+    function initts(){
+
+        var ajax = new Ajax("api/v1/user/get/leavehistorycount",function (data) {
+            if(judgeRight(data)){
+                var leavehistorycount=data.dataset.rows["0"].leavehistorycount;
+                $("#qjts").html(leavehistorycount);
+            }
+        });
+        ajax.add("userId",userId);
+        ajax.submit();
+    }
+
+    function mySubmit() {
+        $("#tj").click();
+    }
+
+
+</script>
+</body>
+
+</html>

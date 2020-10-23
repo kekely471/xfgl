@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+        <title>Title</title>
+    </head>
+
+    <body>
+        <div class="contentBox">
+            <div class="formBox">
+                <form class="layui-form" action="">
+                    <div class="layui-form-item layui-td-1" hidden>
+                        <label class="layui-form-label"><span class="redLabel">*</span>菜单编号
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="id" lay-verify="" placeholder="请输入菜单名称" value="${MENU.ID}"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-1">
+                        <label class="layui-form-label">上级菜单</label>
+                        <div class="layui-input-block">
+                            <select name="parentid" lay-verify="" lay-search>
+                                <option value="">请选择上级菜单</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-1">
+                        <label class="layui-form-label"><span class="redLabel">*</span>菜单名称
+                        </label>
+                        <div class="layui-input-block">
+                            <input type="text" name="menuname" lay-verify="required" placeholder="请输入菜单名称"
+                                   value="${MENU.MENUNAME}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-1">
+                        <label class="layui-form-label">URL</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="url" lay-verify="" placeholder="请输入URL" value="${MENU.URL}"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-1">
+                        <label class="layui-form-label"><span class="redLabel">*</span>菜单类型</label>
+                        <div class="layui-input-block">
+                            <select name="menutype" lay-verify="required">
+                                <option value="">请选择菜单类型</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-1">
+                        <label class="layui-form-label">菜单图标</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="icon" lay-verify="" placeholder="请输入菜单图标/按钮类型" value="${MENU.ICON}"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-1">
+                        <label class="layui-form-label">菜单标识</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="symbol" lay-verify="" placeholder="请输入菜单标识" value="${MENU.SYMBOL}"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-1">
+                        <label class="layui-form-label">排序号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="sort" lay-verify="" maxlength="3" placeholder="请输入排序号"
+                                   value="${(MENU.SORT!0)?c}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-1">
+                        <label class="layui-form-label">是否启用</label>
+                        <div class="layui-input-block" >
+                            [#if MENU.STATUS==0 ]
+                            <input type="checkbox" name="status" lay-skin="switch" lay-filter="switchTest" title="开关">
+                            [#else]
+                            <input type="checkbox" checked="" name="status" lay-skin="switch" lay-filter="switchTest"
+                                   title="开关">
+                            [/#if]
+
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-td-1">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block">
+                            <textarea name="remark" lay-verify="" maxlength="100" placeholder="请输入备注" autocomplete="off"
+                                      class="layui-textarea">${MENU.REMARK}
+                            </textarea>
+                        </div>
+                    </div>
+                    <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+                    <div class="clear"></div>
+                </form>
+            </div>
+        </div>
+
+
+        <script>
+            var index = parent.layer.getFrameIndex(window.name);
+            var _id = "${id}";//修改操作id
+            var _treeId = "${treeId}";//选中树节点
+            var isView = getParam("isView");
+
+            layui.use(['form', 'layer'], function () {
+                var form = layui.form;
+                var layer = layui.layer;
+                //初始化下拉框 傳值為name
+                initPMenu();
+                initSelectBox('menutype','common/dict/system','{"type_code":"menu_type"}','VALUE','NAME');
+                if(isView){
+                    $('input,select,textarea').prop('disabled',"disabled");
+                }
+                if (_id != "") {
+                    $("select[name='menutype']").val('${MENU.MENUTYPE}');
+                    layui.form.render('select');
+                }
+
+                //监听提交
+                form.on('submit()', function (data) {
+                    var datas = data.field;
+                    var ajax = new Ajax("menu/save", function (data) {
+                        if (data.code == 1) {
+                            parent.layer.alert("操作成功!", {icon: 1}, function () {
+                                parent.tableIns.reload();
+                                parent.initTree();
+                                parent.layer.closeAll();
+                            });
+                        } else {
+                            layer.alert("操作失败!", {icon: 2});
+                        }
+                    });
+                    ajax.add(datas);
+                    ajax.submit();
+                    return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                });
+            });
+
+            function initPMenu() {
+                var ajax = new Ajax('common/list/menu', function (ret) {
+                    if (ret.code && ret.code < 0) {
+                        layer.alert(ret.msg, {icon: 1});
+                        return;
+                    }
+                    if (ret.code && ret.code > 0) {
+                        var html = '';
+                        for (var i = 0; i < ret.dataset.rows.length; i++) {
+                            html += '<option value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].NAME + '</option>';
+                        }
+                        $("select[name='parentid']").append(html);
+                        if (_treeId == "0") {
+                            var parentId = '${MENU.PARENTID}';
+                            if (parentId == "") {
+                                $("select[name='parentid']").val('00');
+
+                            } else {
+                                $("select[name='parentid']").val(parentId);
+
+                            }
+                        } else {
+                            $("select[name='parentid']").val(_treeId);
+
+                        }
+                        layui.form.render('select');
+                    }
+                });
+                ajax.setMessage(false);
+                ajax.setAsync(false);
+                //ajax.add("type", 1);
+                ajax.submit();
+            }
+
+            function mySubmit() {
+                $("#tj").click();
+            }
+
+
+        </script>
+    </body>
+
+</html>

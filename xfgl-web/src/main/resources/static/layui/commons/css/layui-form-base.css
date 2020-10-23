@@ -1,0 +1,5 @@
+.formBox .layui-form-item{border-top: 1px #D1D1D1 solid;border-left: 1px #D1D1D1 solid;border-right: 1px #D1D1D1 solid;margin-bottom: 0px;}
+.layui-form-label:first-child{border-right: 1px #D1D1D1 solid;padding: 15px 14px!important;background: #f2f2f2;}
+.layui-input-block{min-height: 36px;padding: 6px 10px; }
+.layui-form-item .layui-input-inline{padding: 6px 10px;}
+.table-last-border{border-bottom: 1px #D1D1D1 solid;}

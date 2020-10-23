@@ -1,0 +1,196 @@
+<div class="modal-header" style="background-color: #5090C1">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="smaller lighter white no-margin">资质表单</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <form id="user_qual_form" class="form-horizontal" role="form">
+                <div class="form-group" hidden>
+                    <label class="col-sm-2 control-label no-padding-right">
+                        资质编号 </label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="id" name="id" placeholder="资质编号"
+                               class="form-control" style="width: 460px;"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        资质类型 </label>
+
+                    <div class="col-sm-10">
+                        <select id="qualification_type" name="qualification_type" class="chosen-select form-control"
+                                data-placeholder="请选择资质类型">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        *获得用户 </label>
+
+                    <div class="col-sm-10">
+                        <select id="user_id" name="user_id" class="chosen-select form-control"
+                                data-placeholder="请选择获得用户">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        *资质名称 </label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="qualificationname" name="qualificationname" placeholder="资质名称" maxlength="50" required="required"
+                               class="form-control" style="width: 460px;"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        *获取时间 </label>
+
+                    <div class="col-sm-10">
+                        <div class="input-group" style="width: 460px;">
+                            <input class="form-control date-picker" required="required" id="receive_time" name="receive_time"
+                                   placeholder="获取时间" type="text" data-date-format="yyyy-mm-dd">
+                            <span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+						</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        备注 </label>
+
+                    <div class="col-sm-10">
+                        <textarea type="text" id="remark" name="remark" placeholder="备注"
+                                  class="form-control limited" maxlength="500" style="height: 60px;width: 460px;"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        附件 </label>
+
+                    <div class="col-sm-10">
+                        <button id="file_upload" class="btn btn-app btn-purple btn-sm no-radius">
+                            <i class="ace-icon fa fa-cloud-upload bigger-200"></i>
+                            上传
+                        </button>
+                        <ul id="fileContainer" class="list-unstyled spaced" style="width: 400px;">
+                        </ul>
+                        <input type="text" id="file_ids" style="display: none"/>
+                    </div>
+                </div>
+            </form>
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div>
+
+<div class="modal-footer">
+
+    <button class="btn btn-sm btn-success pull-right" onclick="_save();">
+        <i class="ace-icon fa fa-floppy-o"></i>
+        保存
+    </button>
+</div>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    var _id = "${_id}";
+    var form_selector = "#user_qual_form";
+    var file_uploader;
+
+    jQuery(function ($) {
+        //如果是编辑，则要那一下数据否则只要初始化一些控件
+        initChosenSelect("#qualification_type", 'user_qual_type', 1, "460px");
+        $('#receive_time').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+        //人员选项初始化
+        initUserList();
+        //页面验证初始化（除必填项以外的验证）
+        //附件上传
+        file_uploader=initFileUploader('file_upload','fileContainer','file_ids');
+        if (_id != "") {
+            initForm(_id);
+            initFileContainer('fileContainer','file_ids',_id,'user_qualification_file','qualification_id');
+        }
+    });
+
+    function initForm(id) {
+        var ajax = new Ajax('USER_QUAL_GET', function (ret) {
+            if (ret.code && ret.code < 0) {
+                bootbox.alert({title: "警告", message: ret.msg});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                loadJsonDataToForm(ret.dataset.rows[0]);
+                //绑定其他非input控件
+                $("#user_id").val(ret.dataset.rows[0].user_id);
+                $("#user_id").trigger("chosen:updated");
+                $("#qualification_type").val(ret.dataset.rows[0].qualification_type);
+                $("#qualification_type").trigger("chosen:updated");
+
+            }
+        });
+        ajax.setMessage(false);
+        ajax.add("id",id)
+        ajax.submit();
+    }
+
+
+    function initUserList() {
+        var ajax = new Ajax('COMMON_USER_LIST_COMBOBOX', function (ret) {
+            if (ret.code && ret.code < 0) {
+                bootbox.alert({title: "警告", message: ret.msg});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                var html = '';
+                var defalut='';
+                for (var i = 0; i < ret.dataset.rows.length; i++) {
+                    if(defalut==''){
+                        defalut=ret.dataset.rows[i].id;
+                    }
+                    html += '<option value="' + ret.dataset.rows[i].id + '">' + ret.dataset.rows[i].name + '</option>';
+                }
+                $("#user_id").append(html);
+                $("#user_id").chosen({allow_single_deselect: true, width: "460px"});
+                $("#user_id").val(defalut);
+                $("#user_id").trigger("chosen:updated");
+            }
+        });
+        ajax.setMessage(false);
+        ajax.submit();
+    }
+
+    function _save() {
+        if ($(form_selector).valid()) {
+            var ajax = new Ajax('USER_QUAL_SAVE', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    bootbox.alert({title: "信息", message: "保存成功"});
+
+                    //刷新grid等一些需要刷新的控件
+                    $(grid_selector).trigger("reloadGrid");
+
+                    //关闭模态窗口
+                    $('#my-form').modal('hide');
+                }
+            });
+            ajax.setMessage(true);
+            ajax.add(formSerialize(form_selector));
+            ajax.add("file_ids", getFileIds("file_ids"));
+            ajax.submit();
+        }
+    }
+</script>
+
+

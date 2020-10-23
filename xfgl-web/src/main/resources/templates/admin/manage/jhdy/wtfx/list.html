@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>问题反馈</title>
+</head>
+<style>
+    .extList-more-search{height: 80px;}
+</style>
+<body class="layui-layout-body">
+<div style="padding: 15px;">
+
+    <div class="extList-search">
+        <div class="layui-btn-group extList-btn-group">
+        </div>
+
+        <div class="layui-form" style="float: right">
+            <div class="layui-inline extList-search-item">
+                <label class="layui-form-label extList-search-label">标题：</label>
+                <div class="layui-input-inline" style="width:120px;">
+                    <input type="text" class="layui-input" id="key_name"  placeholder="请输入标题" style="width:160px;">
+                </div>
+            </div>
+
+
+            <div class="layui-inline">
+                <label class="layui-form-label">状态:</label>
+                <div class="layui-input-inline">
+                    <select name="status" id="status" lay-search>
+                        <option value="">请选择状态</option>
+                        <option value="0">不公开</option>
+                        <option value="1">公开</option>
+                    </select>
+                </div>
+            </div>
+
+
+
+
+            <div class="layui-inline extList-search-item">
+                <button class="layui-btn layui-btn-sm layui-btn-primary" onclick="moreSearchList(this,'tab_list')"><i class="layui-icon-ext icon-double-down"></i>高级查询</button>
+            </div>
+
+
+            <div class="layui-inline extList-sm-icon" title="搜索" onclick="search()"><i class="layui-icon layui-icon-search"></i></div>
+            <div class="layui-inline extList-sm-icon" title="刷新" onclick="refreshPage()"><i class="layui-icon layui-icon-refresh"></i></div>
+        </div>
+
+        <!--更多查询区域-->
+        <div class="extList-more-search" id="extListMoreSearch">
+            <div class="layui-form-item" style="padding: 10px;margin-bottom: 0;">
+
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label">日期范围:</label>
+                    <div class="layui-input-inline" style="width:160px;">
+                        <input type="text" class="layui-input" id="date" placeholder=" - " style="width: 160px;">
+                    </div>
+                </div>
+
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label">部门名称：</label>
+                    <div class="layui-input-inline" style="width:160px;">
+                        <select name="dwmc" id="dwmc" class="layui-select" style="width:160px;">
+                            <option value="">请选择部门</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script>
+    initBtns();
+    var table, form,tableIns, laydate,openType = 1,layer;
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    layui.use(['table','laydate'], function(){
+        table = layui.table;
+        laydate = layui.laydate;
+        initSelectBox("dwmc", 'common/dept', '', 'ID', 'NAME')
+        var pageHeight = $(window).height() - $("#search_layout").height() - 50;
+        tableIns = table.render({
+            id:"tab_list"
+            ,elem: '#tab_dg'
+            ,height: pageHeight
+            ,limit: Math.floor(pageHeight/40-2)
+            ,url:Apps.ContextPath+ 'jhdy/wtfx/list' //数据接口
+            ,page: true //开启分页
+            ,where:{"v":Date.parse(new Date())}
+            ,autoSort: false
+            ,cols: [[ //表头
+                {type:'checkbox', fixed: 'left',checkbox: false}
+                ,{title: 'ID',width:50, align: 'center',type: 'numbers', fixed: 'left',hide:true, unresize: true}
+                ,{field: 'NAME', title: '提问人', width: 90, align: 'center', templet: function(res){
+                        return '<a href="#" class="layui-table-link" onclick="viewOne('+res.WTID+')">'+res.NAME+'</a>';
+                    }}
+                ,{field: 'DEPTNAME', title: '单位名称',width:140, align: 'center'}
+                ,{field: 'TITLE', title: '标题',width:140, align: 'center'}
+                ,{field: 'DESCRIBE', title: '内容', align: 'center'}
+                ,{field: 'UPDATE_TIME', title: '提出时间',  align: 'center',templet: function (res) {
+                        return showTime(res.UPDATE_TIME);
+                    }}
+                ,{field: 'STATUS', title: '解答状态', width: 90, align: 'center',templet: function(res){
+                        if (res.STATUS==0){
+                            return "未解答";
+                        } else {
+                            return "已解答"
+                        }
+
+                    }}
+                ,{field: 'SFGK', title: '公开状态', width: 90, align: 'center',templet:function (res) {
+                        if (res.SFGK==0){
+                            return "不公开";
+                        } else {
+                            return "公开";
+                        }
+                    }}
+                ,{field: 'FXDESCRIBE', title: '问题解答', align: 'center'}
+
+            ]]
+            ,done: function(res, curr, count){
+
+            }
+
+        });
+        //日期范围
+        laydate.render({
+            elem: '#date'
+            ,range: true,
+            trigger: 'click'
+        });
+    });
+
+    function buttonEvents(type) {
+        var check = table.checkStatus('tab_list');
+        //用于判断为查看详情还是编辑的状态
+        var param = {
+            type: 2,
+            area: ['800px', '80%'],
+            title: '回复疑惑',
+            fixed: false, //不固定
+            content: Apps.ContextPath + "jhdy/wtfx/add/",
+            tabIndex: tabIndex
+        };
+        if (check.data.length != 1 && (type == 'edit' || type == 'reluser')) {
+            layer.msg("请选择一行数据！", function () {
+            })
+        } else if (type == "edit") {
+            param.content = Apps.ContextPath + 'jhdy/wtfx/add/' + check.data[0].WTID;
+            openPage(openType, type, param);
+        }
+    }
+
+
+    function viewOne(id){
+        //用于判断为查看详情还是编辑的状态
+        var type='edit';
+        var param = {
+            type: 2,
+            area: ['600px', '80%'],
+            title:'详情页面',
+            fixed: false, //不固定
+            btn:["取消"],
+            content: Apps.ContextPath+'jhdy/wtfx/add/'+id
+        };
+        openPage(openType,type,param);
+    }
+
+    function search(){
+        tableIns.reload({
+            where:{"key_name":$("#key_name").val(),"dwmc":$("#dwmc").val(),"date":$("#date").val(),"status":$("#status").val()},
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        })
+    }
+
+    //表格时间显示
+    function showTime(time){
+        var d = new Date(time);
+        var year = d.getFullYear();
+        var month = d.getMonth();
+        month++;
+        var day = d.getDate();
+        var hour = d.getHours();
+        var minute = d.getMinutes();
+        var second = d.getSeconds();
+        var date = year+"/"+month+"/"+day+" "+hour+":"+minute;
+        return date;
+    }
+    // 表格高度变换重载
+    window.onresize=function(){
+        var reloadHeight = $(window).height() - $("#search_layout").height() - 50;
+        table.reload('tab_list', {
+            height: reloadHeight
+        });
+    }
+
+
+
+    //回车搜索
+    $('.layui-input').on('keyup', function (event) {
+        if (event.keyCode == 13) {
+            tableIns.reload({
+                where: {"key_name":$("#key_name").val(),"dwmc":$("#dwmc").val(),"date":$("#date").val(),"status":$("#status").val()},
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            })
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<div id="content">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-header">
+                    <div class="row">
+                        ${ctx.contextPath}
+                        欢迎您，XXX！以下是Freemarker的标签使用：<br>
+                        获取后台放入试图的值：${attr}<br>
+                        获取Session中的对象：<br>
+                        ${Session.loginuser.loginname}<br>
+                        ${Session.loginuser.username}<br>
+                        ${Session.loginuser.deptname}<br>
+                        ${ctx.contextPath}<br>
+                        未完待续！<br>
+                    </div>
+                </div><!-- /.page-header -->
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        权限清单：<br>
+                        [#list Session.loginuser.menus as list]
+                        模块编号：${list["ID"]}；模块名称：${list["MENUNAME"]}；父模块名称：${list["PMENUNAME"]}；URL：${list["URL"]}；图标：${list["SYMBOL"]}；
+                        <br>
+                        [/#list]
+
+                        角色：<br>
+                        [#list Session.loginuser.roles as list]
+                        角色名称：${list["ROLENAME"]}；
+                        <br>
+                        [/#list]
+
+
+
+
+
+
+
+                    </div>
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.page-content -->
+</div>
+<script type="text/javascript">
+
+</script>
+</div>

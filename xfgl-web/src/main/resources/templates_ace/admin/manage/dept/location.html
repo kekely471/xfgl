@@ -1,0 +1,150 @@
+<div class="modal-body">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-header">
+                    <div class="row">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <input id="key_address" type="text" placeholder="地址" style="width: 250px;"
+                               class="col-xs-3"/>
+                        &nbsp;
+                        <button type="button" class="btn btn-purple btn-sm" onclick="_query_location();">
+                            <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                            查询
+                        </button>
+                        <button type="button" class="btn btn-grey btn-sm" onclick="_reset_location();">
+                            <span class="ace-icon fa fa-cog icon-on-right bigger-110"></span>
+                            重置
+                        </button>
+                        <span id="selectLocstion">无</span>
+                    </div>
+                </div><!-- /.page-header -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="allmap"></div>
+                    </div>
+                </div>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-sm btn-success pull-right" onclick="_save_location();">
+        <i class="ace-icon fa fa-floppy-o"></i>
+        保存
+    </button>
+    &nbsp;
+    <button class="btn btn-sm btn-inverse pull-right" onclick="_close_location();">
+        <i class="ace-icon fa fa-ban"></i>
+        关闭
+    </button>
+</div>
+<style type="text/css">
+    #allmap {
+        width: 550px;
+        height: 350px;
+        overflow: hidden;
+        margin: 0;
+    }
+</style>
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+
+    var _location_value = "${location}";
+    var map;
+    jQuery(function ($) {
+        //如果是编辑，则要那一下数据否则只要初始化一些控件
+
+        //页面验证初始化（除必填项以外的验证）
+
+
+        initForm();
+    });
+
+
+    function _query_location() {
+        var local = new BMap.LocalSearch(map, {
+            renderOptions: {
+                map: map
+            }
+        });
+        local.search($("#key_address").val());
+    }
+
+    function _reset_location() {
+        initForm();
+
+    }
+
+    function initForm() {
+        map = new BMap.Map("allmap");
+        // 添加定位控件
+        var geolocationControl = new BMap.GeolocationControl();
+        geolocationControl.addEventListener("locationSuccess", function (e) {
+            // 定位成功事件
+            var address = '';
+            address += e.addressComponent.province;
+            address += e.addressComponent.city;
+            address += e.addressComponent.district;
+            address += e.addressComponent.street;
+            address += e.addressComponent.streetNumber;
+        });
+        geolocationControl.addEventListener("locationError", function (e) {
+            // 定位失败事件
+            alert(e.message);
+        });
+        map.addControl(geolocationControl);
+        map.enableScrollWheelZoom(true);
+        //单击获取点击的经纬度
+        map.addEventListener("click", function (e) {
+            //找到了点，
+            $("#selectLocstion").text(e.point.lng + "," + e.point.lat);
+        });
+        if (_location_value != "") {
+            var loc = _location_value.split(',');
+            var point = new BMap.Point(loc[0], loc[1]);
+            $("#selectLocstion").text(loc[0] + "," + loc[1]);
+            var marker = new BMap.Marker(point); // 创建点
+            //marker.addEventListener("click",attribute);
+            map.addOverlay(marker);
+            map.centerAndZoom(point, 13); //增加点
+            if ($("#address").val() != "") {
+                var opts = {
+                    width: 200, // 信息窗口宽度
+                    height: 50, // 信息窗口高度
+                    title: $("#name").val()
+                }
+                var infoWindow = new BMap.InfoWindow("地址："
+                    + $("#address").val(), opts); // 创建信息窗口对象
+                map.openInfoWindow(infoWindow, point); //开启信息窗口
+            }
+        } else {
+            map.centerAndZoom("常州", 13);
+            // 添加带有定位的导航控件
+            var navigationControl = new BMap.NavigationControl({
+                // 靠左上角位置
+                anchor: BMAP_ANCHOR_TOP_LEFT,
+                // LARGE类型
+                type: BMAP_NAVIGATION_CONTROL_LARGE,
+                // 启用显示定位
+                enableGeolocation: true
+            });
+            map.addControl(navigationControl);
+
+        }
+    }
+
+
+    function _save_location() {
+        var loc = $("#selectLocstion").text();
+        $("#location").val(loc);
+        $('#location-form').modal('hide');
+    }
+
+
+    function _close_location() {
+        closeModel("#location-form");
+    }
+</script>
+
+

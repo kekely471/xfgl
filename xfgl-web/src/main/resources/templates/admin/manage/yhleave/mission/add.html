@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>审批</title>
+</head>
+
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class='center' style='padding-bottom:0.3rem;'>
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend></legend>
+                </fieldset>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">姓名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="NAME" placeholder="" value="${QJMK.NAME}" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">部职级</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="DWMC" placeholder="" value="${VIEW.DWMC}" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">申请时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="RWNY" placeholder="" value="${VIEW.APPLY_TIME}" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">请假类型</label>
+                    <div class="layui-input-block">
+                        <select name="LEAVE_TYPE" id="LEAVE_TYPE" lay-verify="required" value="${VIEW.LEAVE_TYPE}" lay-search disabled>
+                            <option value="">请选择请假类型</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">总计时长</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="LEAVE_DAYS" placeholder="" value="${VIEW.LEAVE_DAYS}" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">籍贯</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="NATIVE_PLACE" placeholder="" value="${QJMK.NATIVE_PLACE}" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">入伍年月</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="RWNY" placeholder="" value="${QJMK.RWNY}" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">警街</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="POLICERANK" placeholder="" value="${QJMK.POLICERANK}" autocomplete="off" class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">请假时间</label>
+                    <div class="layui-inline" style="width: 40.3%">
+                        <input type="text" class="layui-input" name="START_TIME" id="START_TIME" lay-verify="required" placeholder="" value="${VIEW.START_TIME}" readonly>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-inline">-</label>
+                    </div>
+                    <div class="layui-inline" style="width: 40.3%">
+                        <input type="text" class="layui-input" name="END_TIME" id="END_TIME" lay-verify="required" placeholder="" value="${VIEW.END_TIME}" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">请假事由</label>
+                    <div class="layui-input-block">
+                        <textarea name="REASON" lay-verify="" maxlength="100" placeholder="请输入请假事由" autocomplete="off" class="layui-textarea" readonly>${VIEW.REASON}</textarea>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">请假地点</label>
+                    <div class="layui-input-block">
+                        <textarea name="LEAVE_SPACE" lay-verify="" maxlength="100" placeholder="请输入请假地点" autocomplete="off" class="layui-textarea" readonly>${VIEW.LEAVE_SPACE}</textarea>
+                    </div>
+                </div>
+
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend></legend>
+                </fieldset>
+
+                <div class="layui-form-item layui-td-2" id="li_spr" style="display: none">
+                    <label class="layui-form-label"><span class="redLabel">*</span>审批人</label>
+                    <div class="layui-input-block">
+                        <select name="SPR" id="SPR" lay-search>
+                            <option value="">下一步审批人</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-td-2">
+                    <label class="layui-form-label">是否同意</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" checked="" name="isAgree" id="isAgree" lay-skin="switch"
+                               lay-filter="switchTest" title="开关" value="">
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-td-1">
+                    <label class="layui-form-label">意见</label>
+                    <div class="layui-input-block">
+                        <textarea name="PZ" lay-verify="" maxlength="100" placeholder="请输入意见..." autocomplete="off" class="layui-textarea">${VIEW.PZ}</textarea>
+                    </div>
+                </div>
+
+            </div>
+            <div class="layui-form-item layui-layout-admin">
+                <div class="layui-input-block">
+                    <div class="layui-footer" style="left: 0;">
+                        <button class="layui-layer-btn0" onclick='cklsqj()' style="height: 28px;padding: 0px 15px;border-radius: 2px;margin: 5px 5px 0px;border-style: solid;bottom:0;">查看历史请假</button>
+                        <button class="layui-layer-btn0" onclick='wdlsyj()' style="height: 28px;padding: 0px 15px;border-radius: 2px;margin: 5px 5px 0px;border-style: solid;bottom:0;">查看历史意见</button>
+                        <button class="layui-layer-btn0" id="save"  style="height: 28px;padding: 0px 15px;border-radius: 2px;margin: 5px 5px 0px;border-style: solid;bottom:0;" lay-submit lay-filter="save">完成</button>
+                        <button class="layui-layer-btn0" onclick="closeqx()" style="height: 28px;padding: 0px 15px;border-radius: 2px;margin: 5px 5px 0px;border-style: solid;bottom:0;">取消</button>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var userId = "${userId}";//修改操作id
+    var businessid ="${id}";
+    var istrue;
+    var table, form,laydate, tableIns, openType = 1, layer;
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        initleave_zbzt();
+        initSelectBoxmission_spr('SPR','api/v1/user/get/leavesjperson', '{"userId":"' + userId + '","BUSINESSID":"' + businessid + '"}','ID','NAME');
+        initsprinit('', '',businessid);
+
+        initSelectBox('LEAVE_TYPE','common/dict/business','{"type_code":"qjlx"}','VALUE','NAME');
+        $("#LEAVE_TYPE").val("${VIEW.LEAVE_TYPE}");
+        form.render();
+        //监听提交
+        form.on('submit(save)', function (datas) {
+            var index = layer.load();
+
+            if(datas.field.isAgree!=undefined){
+                datas.field.AUDIT=1;
+            }else{
+                datas.field.AUDIT=0;
+            }
+            if(datas.field.isForReward!=undefined){
+                datas.field.ForReward=1;
+            }else{
+                datas.field.ForReward=0;
+            }
+            var ajax = new Ajax("api/v1/user/leavesp",function (data) {
+                if(data.code>0){
+                    parent.layer.alert("保存成功!", {icon: 1}, function () {
+                        parent.layer.closeAll();
+                        closeTabAndRefreshPreTable(tabIndex);
+                    });
+                }else{
+                    layer.close(index);
+                    layer.alert(data.msg);
+                }
+            });
+            ajax.add(datas.field);
+            ajax.add("BUSINESSID",businessid);
+            ajax.add("userId",userId);
+            ajax.submit();
+            return false;
+        });
+    });
+
+    function closeqx(){
+        closeTabAndRefreshPreTable(tabIndex);
+    }
+
+    function cklsqj(){
+        var param = {
+            type: 2,
+            area: ['600px', '90%'],
+            title: '查看历史请假',
+            btn:[],
+            fixed: false, //不固定
+            content: Apps.ContextPath + "yhleave/mission/cklsqj/"+businessid+"/"+userId,
+        };
+        tabIndex=tabIndex.replace("cklsqj","");
+        top.tab.tabDelete(tabIndex+"cklsqj");
+        openPage("2", "cklsqj", param);
+    }
+
+    function wdlsyj(){
+        var param = {
+            type: 2,
+            area: ['600px', '90%'],
+            title: '查看历史意见',
+            btn:[],
+            fixed: false, //不固定
+            content: Apps.ContextPath + "yhleave/mission/cklsyj/"+businessid,
+        };
+        tabIndex=tabIndex.replace("cklsyj","");
+        top.tab.tabDelete(tabIndex+"cklsyj");
+        openPage("2", "cklsyj", param);
+    }
+
+    //判断战备状态
+    function initleave_zbzt() {
+        var ajax = new Ajax("api/v1/user/getleavezbzt",function (data) {
+            if(judgeRight(data)){
+                var per=data.dataset.rows[0].zbzt;
+                if(per=='1'){
+                    layer.confirm('请注意,当前一级战备状态,无法请假！', {
+                        btn: ['确定'] //按钮
+                    }, function(){
+                        comparisonTime();
+                    })
+                }else if(per=='2'){
+                    layer.confirm('请注意,当前二级战备状态！', {
+                        btn: ['确定'] //按钮
+                    }, function(){
+                        comparisonTime();
+                    })
+                }else{
+                    comparisonTime();
+                }
+            }
+        });
+        ajax.add("userId",userId);
+        ajax.submit();
+    }
+
+    //比较时间
+    function comparisonTime(){
+        var ajax = new Ajax("api/v1/user/leavebefore",function (data) {
+            if(judgeRight(data)){
+                istrue = data.dataset.rows[0].auth;
+                if(istrue=='true'){
+                    layer.alert('请假时间冲突');
+                }
+            }
+        });
+        ajax.add('BUSINESSID',businessid);
+        ajax.add("userId",userId);
+        ajax.submit();
+    }
+
+    function mySubmit() {
+        $("#tj").click();
+    }
+
+    //初始化下拉框
+    function initSelectBoxmission_spr(name, url, typename_value, resid, resname) {
+        if (typename_value != undefined && typename_value != '' && typename_value != null) {
+            typename_value = JSON.parse(typename_value);
+        }
+        var ajax = new Ajax(url, function (ret) {
+            if (ret.code && ret.code < 0) {
+                layer.alert(ret.msg, {icon: 1});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+
+                var html = '';
+                if (ret.dataset.rows[0].spr!=''){
+                    $("#li_spr").css('display', 'block');
+                    $('#SPR').attr('lay-verify', 'required');
+                }
+                for (var i = 0; i < ret.dataset.rows.length; i++) {
+                    if (resid != undefined && resname != undefined) {
+                        html += '<option value="' + ret.dataset.rows[i][resid] + '">' + ret.dataset.rows[i][resname] + '</option>';
+                    } else {
+                        html += '<option value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].NAME + '</option>';
+                    }
+                }
+                $("select[name='" + name + "']").append(html);
+                $("select[name='" + name + "']").val($("select[name='" + name + "']").attr("selectValue"));
+                layui.form.render('select');
+            }
+        });
+        ajax.setMessage(false);
+        ajax.setAsync(false);
+        for (var i in typename_value) {
+            ajax.add(i, typename_value[i]);
+        }
+
+        ajax.submit();
+    }
+
+    function initsprinit(START_TIME,END_TIME,BUSINESSID) {
+        var ajax = new Ajax("api/v1/user/get/leavesprinit",function (data) {
+            if(judgeRight(data)){
+                debugger;
+                var sprdisplay=data.dataset.rows[0].sprdisplay;
+                if (!sprdisplay){
+                    $("#li_spr").css('display','none');
+                    $('#SPR').removeAttr('lay-verify','required');
+                }else{
+                    $("#li_spr").css('display','block');
+                    $('#SPR').attr('lay-verify', 'required');
+
+                }
+            }
+        });
+        ajax.add("START_TIME",START_TIME);
+        ajax.add("END_TIME",END_TIME);
+        if (BUSINESSID != '') {
+            ajax.add('BUSINESSID', BUSINESSID);
+        }
+        ajax.setAsync(false);
+        ajax.add("userId",userId);
+        ajax.submit();
+    }
+</script>
+</body>
+
+</html>

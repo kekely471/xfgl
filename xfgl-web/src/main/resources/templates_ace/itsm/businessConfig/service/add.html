@@ -1,0 +1,302 @@
+<div class="modal-header" style="background-color: #5090C1">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 class="smaller lighter white no-margin">服务表单</h3>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- PAGE CONTENT BEGINS -->
+            <form id="service_form" class="form-horizontal" role="form">
+                <div class="form-group" hidden>
+                    <label class="col-sm-2 control-label no-padding-right">
+                        服务编号 </label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="id" name="id" placeholder="服务编号"
+                               class="form-control" style="width: 460px;"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        所在部门 </label>
+
+                    <div class="col-sm-10">
+                        <select id="dept_id" name="dept_id" class="chosen-select form-control"
+                                data-placeholder="请选择所在部门">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        服务类型 </label>
+
+                    <div class="col-sm-10">
+                        <select id="service_type" name="service_type" class="chosen-select form-control"
+                                data-placeholder="请选择服务类型">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        *服务标题 </label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="title" name="title" placeholder="服务标题" maxlength="50" required="required"
+                               class="form-control" style="width: 460px;"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        服务编码 </label>
+
+                    <div class="col-sm-10">
+                        <input type="text" id="serviceno" name="serviceno" placeholder="服务编码" maxlength="50"
+                               required="required"
+                               class="form-control" style="width: 460px;"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        服务内容 </label>
+
+                    <div class="col-sm-10">
+                        <textarea type="text" id="content" name="content" placeholder="服务内容"
+                                  class="form-control limited" maxlength="500" style="height: 60px;width: 460px;"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        关联服务目录 </label>
+                    <div class="col-sm-10">
+                        <select multiple="" class="chosen-select form-control tag-input-style" id="rel_directory"
+                                data-placeholder="请选择服务目录">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        关联SLA </label>
+                    <div class="col-sm-10">
+                        <select multiple="" class="chosen-select form-control tag-input-style" id="rel_sla"
+                                data-placeholder="请选择SLA">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        关联合同</label>
+                    <div class="col-sm-10">
+                        <select multiple="" class="chosen-select form-control tag-input-style" id="rel_contract"
+                                data-placeholder="请选择合同">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        启用/禁用 </label>
+
+                    <div class="col-sm-10" style="margin-top: 5px;">
+                        <input id="status" name="status" type="checkbox"
+                               class="ace ace-switch ace-switch-4 btn-flat" checked="checked">
+                        <span class="lbl"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label no-padding-right">
+                        备注 </label>
+
+                    <div class="col-sm-10">
+                        <textarea type="text" id="remark" name="remark" placeholder="备注"
+                                  class="form-control limited" maxlength="500" style="height: 60px;width: 460px;"/>
+                    </div>
+                </div>
+            </form>
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div>
+
+<div class="modal-footer">
+
+    <button class="btn btn-sm btn-success pull-right" onclick="_save();">
+        <i class="ace-icon fa fa-floppy-o"></i>
+        保存
+    </button>
+</div>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    var _id = "${_id}";
+    var _treeId = "${_treeId}";
+    var form_selector = "#service_form";
+    jQuery(function ($) {
+        //如果是编辑，则要那一下数据否则只要初始化一些控件
+        initChosenSelect("#service_type", 'business_service_type', 0, "460px");
+        //部门选项初始化
+        initPDept();
+        initSLA();
+        initDirectory();
+        //页面验证初始化（除必填项以外的验证）
+
+        if (_id != "") {
+            initForm(_id);
+        }
+    });
+
+    function initForm(id) {
+        var ajax = new Ajax('SERVICE_GET', function (ret) {
+            if (ret.code && ret.code < 0) {
+                bootbox.alert({title: "警告", message: ret.msg});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                loadJsonDataToForm(ret.dataset.rows[0]);
+                //绑定其他非input控件
+                $("#dept_id").val(ret.dataset.rows[0].dept_id);
+                $("#dept_id").trigger("chosen:updated");
+                $("#service_type").val(ret.dataset.rows[0].service_type);
+                $("#service_type").trigger("chosen:updated");
+                chose_mult_set_ini('#rel_directory', ret.dataset.rows[0].rel_directorys);
+                $("#rel_directory").trigger("chosen:updated");
+                chose_mult_set_ini('#rel_sla', ret.dataset.rows[0].rel_slas);
+                $("#rel_sla").trigger("chosen:updated");
+                initContract(ret.dataset.rows[0].dept_id, ret.dataset.rows[0].rel_contracts);
+            }
+        });
+        ajax.setMessage(false);
+        ajax.add("id", id)
+        ajax.submit();
+    }
+
+
+    function initPDept() {
+        var ajax = new Ajax('COMMON_DEPT_LIST_COMBOBOX', function (ret) {
+            if (ret.code && ret.code < 0) {
+                bootbox.alert({title: "警告", message: ret.msg});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                var html = '';
+                for (var i = 0; i < ret.dataset.rows.length; i++) {
+                    html += '<option value="' + ret.dataset.rows[i].id + '">' + ret.dataset.rows[i].name2 + '</option>';
+                }
+                $("#dept_id").append(html);
+                $("#dept_id").chosen({
+                    allow_single_deselect: true,
+                    width: "460px"
+                }).on("change", function (evt, params) {
+                    initContract(params.selected);
+                });
+                if (_treeId != "undefined") {
+                    $("#dept_id").val(_treeId);
+                    $("#dept_id").trigger("chosen:updated");
+                    initContract(_treeId);
+                } else {
+                    $("#dept_id").val("1");
+                    $("#dept_id").trigger("chosen:updated");
+                    initContract("1");
+                }
+            }
+        });
+        ajax.setMessage(false);
+        ajax.submit();
+    }
+
+    function initSLA() {
+        var ajax = new Ajax('COMMON_SLA_LIST_COMBOBOX', function (ret) {
+            if (ret.code && ret.code < 0) {
+                bootbox.alert({title: "警告", message: ret.msg});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                var html = '';
+                for (var i = 0; i < ret.dataset.rows.length; i++) {
+                    html += '<option value="' + ret.dataset.rows[i].id + '">' + ret.dataset.rows[i].name + '</option>';
+                }
+                $("#rel_sla").append(html);
+                $("#rel_sla").chosen({allow_single_deselect: true, width: "460px"});
+            }
+        });
+        ajax.setMessage(false);
+        ajax.submit();
+    }
+
+    function initDirectory() {
+        var ajax = new Ajax('COMMON_DIRECTORY_LIST_COMBOBOX', function (ret) {
+            if (ret.code && ret.code < 0) {
+                bootbox.alert({title: "警告", message: ret.msg});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                var html = '';
+                for (var i = 0; i < ret.dataset.rows.length; i++) {
+                    html += '<option value="' + ret.dataset.rows[i].id + '">' + ret.dataset.rows[i].name + '</option>';
+                }
+                $("#rel_directory").append(html);
+                $("#rel_directory").chosen({allow_single_deselect: true, width: "460px"});
+            }
+        });
+        ajax.setMessage(false);
+        ajax.submit();
+    }
+
+    function initContract(_dept_id, _value) {
+        var ajax = new Ajax('COMMON_CONTRACT_LIST_COMBOBOX', function (ret) {
+            if (ret.code && ret.code < 0) {
+                bootbox.alert({title: "警告", message: ret.msg});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                $("#rel_contract").empty();
+                $("#rel_contract").chosen("destroy");
+                var html = '';
+                for (var i = 0; i < ret.dataset.rows.length; i++) {
+                    if (_value == ret.dataset.rows[i].id) {
+                        html += '<option selected="selected" value="' + ret.dataset.rows[i].id + '">' + ret.dataset.rows[i].name + '</option>';
+                    } else {
+                        html += '<option value="' + ret.dataset.rows[i].id + '">' + ret.dataset.rows[i].name + '</option>';
+                    }
+                }
+                $("#rel_contract").append(html);
+                $("#rel_contract").chosen({allow_single_deselect: true, width: "460px"});
+            }
+        });
+        ajax.setMessage(false);
+        ajax.add("dept_id", _dept_id);
+        ajax.submit();
+    }
+
+    function _save() {
+        if ($(form_selector).valid()) {
+            var ajax = new Ajax('SERVICE_SAVE', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    bootbox.alert({title: "信息", message: "保存成功"});
+
+                    //刷新grid等一些需要刷新的控件
+                    $(grid_selector).trigger("reloadGrid");
+
+                    //关闭模态窗口
+                    $('#my-form').modal('hide');
+                }
+            });
+            ajax.setMessage(true);
+            ajax.add(formSerialize(form_selector));
+            if ($("#rel_sla").val() != null) {
+                ajax.add("rel_slas", $("#rel_sla").val().toString());
+            }
+            if ($("#rel_directory").val() != null) {
+                ajax.add("rel_directorys", $("#rel_directory").val().toString());
+            }
+            if ($("#rel_contract").val() != null) {
+                ajax.add("rel_contracts", $("#rel_contract").val().toString());
+            }
+            ajax.submit();
+        }
+    }
+</script>
+
+

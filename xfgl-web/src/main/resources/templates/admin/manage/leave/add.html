@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!--富文本编辑器wangEditor-->
+    <link href="https://cdn.staticfile.org/wangEditor/10.0.13/wangEditor.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/wangEditor/10.0.13/fonts/w-e-icon.woff" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/wangEditor/10.0.13/wangEditor.min.js"></script>
+    <style type="text/css">
+        .toolbar {
+            border: 1px solid #ccc;/*设置下拉棒*/
+        }
+        .w-e-text-container{
+            height: 736px !important;/*!important是重点，因为原div是行内样式设置的高度300px*/
+            width: 414px !important;
+        }
+    </style>
+</head>
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>信息类型</label>
+                <div class="layui-input-block">
+                    <select name="type" id="type" lay-verify="required"  selectValue="${XXFB.TYPE}" lay-search>
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="bt"  id="bt" lay-verify="required"  placeholder="请输入标题"  value="${XXFB.TITLE}" autocomplete="off" class="layui-input" maxlength="15">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>描述</label>
+                <div class="layui-input-block">
+                    <input type="text" name="ms"  id="ms"   placeholder="请输入描述"  value="${XXFB.DESCRIBE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>缩略图:</label>
+                <div class="layui-input-block" id="imageSelectAreaAVATAR">
+                    <input type="text" name="avatar" id="userFileIdAVATAR" autocomplete="off" class="layui-input"
+                           value="${XXFB.FILE_ID}"lay-verify="required" style="display:none"/>
+                    <input type="text" name="userFileIdAVATAR_filepath" id="userFileIdAVATAR_filepath" autocomplete="off" class="layui-input"
+                           value="${XXFB.TUPIAN}"lay-verify="required" style="display:none"/>
+                    <button type="button" class="layui-btn layui-btn-primary" id="imageSelectBtnAVATAR"><i class="layui-icon">&#xe67c;</i>选择图片
+                    </button><span class="redLabel" style="font-size: 15px;">建议图片长宽比为3:1</span>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">是否外链</label>
+                <div class="layui-input-block" >
+                    <input type="checkbox" checked name="externally" id="externally" lay-skin="switch" lay-filter="switchext" title="外链" value="${XXFB.EXTERNALLY}" lay-text="外链|内链">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1" id="ext" >
+                <label class="layui-form-label">外链地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="url"  id="url"   placeholder="请输入外链url"  value="${XXFB.URL}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+
+
+            <div class="layui-form-item layui-td-1" id="extno" style="display: none">
+                <label class="layui-form-label">详情内容</label>
+                <div class="layui-input-block">
+                    <div class="container">
+                        <div id="editor" class="toolbar">
+                            ${XXFB.DETAILS}
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">是否启用</label>
+                <div class="layui-input-block" >
+                    <input type="checkbox" name="status" id="status" lay-skin="switch" lay-filter="switchTest" title="开关" value="${XXFB.STATUS}" lay-text="启用|停用">
+                </div>
+            </div>
+            <input type="hidden" name="id" value="${XXFB.ID}" autocomplete="off" class="layui-input">
+            <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+<script>
+    var index = parent.layer.getFrameIndex(window.name);
+    var _id = "${id}";
+    var _wl = "${XXFB.TYPE}";
+    var _externally= "${XXFB.EXTERNALLY}";
+
+    var isView = getParam("isView");
+    layui.use(['form', 'layer', 'upload','laydate'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var upload = layui.upload;
+
+        //是否启用
+        initSelectBox("type", 'common/dict/business', '{"type_code":"information_type"}', 'VALUE', 'NAME');
+        if (_id) {
+            isUse('status', $("#status").val());
+            isUse('externally', $("#externally").val());
+            if(_externally=='0'){//默认是1 ，所以不做1 的情况
+
+                $("#ext").attr("style","display:none;");//隐藏div
+
+                $("#extno").attr("style","display:block;");//显示div
+            }
+        }
+        $("select[name='wl']").val(_wl);
+        form.render();
+
+        if ($("#userFileIdAVATAR").val() !== null && $("#userFileIdAVATAR").val().trim() != '') {
+            $("#imageSelectBtnAVATAR").html(" <i class=\"layui-icon\">&#xe67c;</i>点击重新选择图片 ");
+            $('#imageAreaAVATAR').remove();
+            $('#imageSelectAreaAVATAR').append(" <div style=\"margin-top:10px;\" id=\"imageAreaAVATAR\"> " +
+                " <img id=\"imagePathAVATAR\" style=\"width：720px; height:300px;\"> " +
+                " </div> ");
+            $("#imagePathAVATAR").attr('src', Apps.ContextPath + "file/download?id=" + $("#userFileIdAVATAR").val());
+        } else {
+            $("#imageSelectBtnAVATAR").html(" <i class=\"layui-icon\">&#xe67c;</i>选择图片 ");
+        }
+
+        if("${isView}"){
+            $('input,select,textarea').prop('disabled',"disabled");
+            $('#imageSelectBtn').hide();
+            $('#imageSelectBtnAVATAR').hide();
+        }
+        if(isView == "true"){
+            $("input").attr("disabled",true);
+            $('dl').remove();
+        }
+        //头像上传
+        var uploadInst = upload.render({
+            elem: '#imageSelectBtnAVATAR',
+            url: Apps.ContextPath + '/file/upload_xxfb',
+            accept:'images',
+            before: function (obj) {
+                obj.preview(function (index, file, result) {
+                    $('#imageAreaAVATAR').remove();
+                    $('#imageSelectAreaAVATAR').append(" <div style=\"margin-top:10px;\" id=\"imageAreaAVATAR\"> " +
+                        " <img id=\"imagePathAVATAR\" style=\"width：720px; height:300px;\"> " +
+                        " </div> ");
+                    $("#imagePathAVATAR").attr('src', result);
+                    $("#imageSelectBtnAVATAR").html(" <i class=\"layui-icon\">&#xe67c;</i>重新选择图片 ");
+                });
+            },
+            done: function (res) {
+                if (res.code == 1) {
+                    $("#imageSelectBtnAVATAR").html(" <i class=\"layui-icon\">&#xe67c;</i>上传成功,点击重新选择图片 ");
+                    $("#userFileIdAVATAR").val(res.dataset.rows[0].id);
+                    $("#userFileIdAVATAR_filepath").val(res.dataset.rows[0].path);
+                    layer.msg(res.dataset.rows[0].message);
+
+                }
+            },
+            error: function () {
+                $("#imageSelectBtnAVATAR").html(" <i class=\"layui-icon\">&#xe67c;</i>上传失败,请重新选择图片 ");
+            }
+        });
+        //监听提交
+        form.on('submit()', function (data) {
+            var datas = data.field;
+            // datas["editor"] = editor.txt.html().replace(/(\n)/g, "");
+            datas["editor"] = editor.txt.html();
+            var ajax = new Ajax("xxfb/save", function (data) {
+                if (judgeRight(data)) {
+                    parent.layer.alert("操作成功!", {icon: 1}, function () {
+                        if (parent.tableIns != null && parent.tableIns != "" && parent.tableIns != undefined) {
+                            parent.tableIns.reload({where: {"type": "1"}});
+                        }
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        //监听指定开关
+        form.on('switch(switchext)', function(data){
+            var val = this.value;
+            var isCheck=this.checked ? '1' : '0';
+            if(isCheck=='1') {
+                $("#extno").attr("style","display:none;");
+                $("#ext").attr("style","display:block;");
+            }else{
+                $("#ext").attr("style","display:none;");
+                $("#extno").attr("style","display:block;");
+            }
+
+        });
+
+
+    })
+    function mySubmit() {
+        $("#tj").click();
+    }
+
+
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    // 或者 var editor = new E( document.getElementById('editor') );
+    // 配置服务器端地址
+    // editor.customConfig.uploadImgServer = 'http://192.168.30.248:8088/xfgl/file/editor';
+    editor.customConfig.uploadImgServer = 'http://218.93.115.158:8088/xfgl/file/editor';
+    //配置指定文件名
+    editor.customConfig.uploadFileName = 'file';
+    //如果图片不大，可以用base64存储
+    // editor.customConfig.uploadImgShowBase64 = true;
+
+    editor.customConfig.uploadImgHooks = {
+        // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+        // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
+        customInsert : function(insertImg, result, editor) {
+            // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+            // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+            // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+            var url = result.msg;
+            insertImg(url);
+            // result 必须是一个 JSON 格式字符串！！！否则报错
+        }
+    }
+
+    editor.create();
+    function copyText() {
+        console.log(editor.txt.html())
+        alert(editor.txt.html())
+    }
+
+
+
+
+</script>
+</body>
+</html>

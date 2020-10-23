@@ -1,0 +1,98 @@
+<div id="content">
+    <div class="modal-header" style="background-color: #5090C1;">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title lighter white no-margin">
+            关联用户
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <form id="account_form" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            关联用户 </label>
+
+                        <div class="col-sm-10">
+                            <select id="user_id" name="user_id" class="chosen-select form-control"
+                                    data-placeholder="请选择用户">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-sm btn-success" onclick="_save();">
+            <i class="ace-icon fa fa-floppy-o"></i>
+            保存
+        </button>
+        &nbsp;
+        <button class="btn btn-sm btn-inverse" onclick="closeModel();">
+            <i class="ace-icon fa fa-ban"></i>
+            关闭
+        </button>
+    </div>
+
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+        var _id = "${id}";
+        var form_selector = "#account_form";
+        jQuery(function ($) {
+            //如果是编辑，则要那一下数据否则只要初始化一些控件
+            initUser();
+            //页面验证初始化（除必填项以外的验证）
+        });
+
+
+        function initUser() {
+            var ajax = new Ajax('account/getBindUser', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    var html = '';
+                    for (var i = 0; i < ret.dataset.rows.length; i++) {
+                        html += '<option value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].USERNAME + '</option>';
+                    }
+                    $("#user_id").append(html);
+                    $("#user_id").chosen({allow_single_deselect: true, width: "460px"});
+
+                }
+            });
+            ajax.setMessage(false);
+            ajax.submit();
+        }
+
+        function _save() {
+            var _user_id = $("#user_id").val();
+            if (_user_id == "") {
+                bootbox.alert({title: "信息", message: "未选择任何用户！"});
+                return;
+            }
+            var ajax = new Ajax('account/bind', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    bootbox.alert({title: "信息", message: "保存成功"});
+
+                    //刷新grid等一些需要刷新的控件
+                    $(grid_selector).trigger("reloadGrid");
+                    //关闭模态窗口
+                    closeModel();
+                }
+            });
+            ajax.setMessage(true);
+            ajax.add("account_id", _id);
+            ajax.add("user_id", _user_id);
+            ajax.submit();
+
+        }
+    </script>
+</div>
+

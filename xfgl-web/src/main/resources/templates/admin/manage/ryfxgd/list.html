@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>人员分析归档</title>
+</head>
+<body class="layui-layout-body">
+<div style="padding: 15px;">
+    <div class="extList-search">
+        <!--按钮区域-->
+        <div class="layui-btn-group" style="height: 35px;">
+        </div>
+        <div class="layui-form-item extList-search-box">
+            <div class="layui-inline extList-search-item">
+                <label class="layui-form-label extList-search-label">关键字：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="key_name" id="key_name" placeholder="请输入关键字" >
+                </div>
+            </div>
+            <!--工具栏区域-->
+            <div class="layui-inline extList-sm-icon" title="搜索" onclick="search()"><i class="layui-icon layui-icon-search"></i></div>
+            <div class="layui-inline extList-sm-icon" title="刷新" onclick="refreshPage()"><i class="layui-icon layui-icon-refresh"></i></div>
+        </div>
+
+
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script>
+    initBtns();
+    var table, form, tableIns, openType = 1, layer;
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    layui.use('table', function(){
+        table = layui.table;
+        var pageHeight = $(window).height() - $("#search_layout").height() - 50;
+        tableIns = table.render({
+            id:"tab_list"
+            ,elem: '#tab_dg'
+            ,height: pageHeight
+            ,limit: Math.floor(pageHeight/40-2)
+            ,url:Apps.ContextPath+ 'ryfxgd/list' //数据接口
+            ,page: true //开启分页
+            ,where:{"v":Date.parse(new Date())}
+            ,autoSort: false
+            ,cols: [[ //表头
+                {type:'checkbox', fixed: 'left',checkbox: false}
+                ,{title: '序号',width:50, align: 'center',type: 'numbers', fixed: 'left',hide:true, unresize: true}
+                ,{field: 'CZR', title: '提交人', width: 100, align: 'center', templet: function(res){
+                        return '<a href="#" class="layui-table-link" onclick="viewOne('+res.ID+')">'+res.CZR+'</a>';
+                    }}
+                ,{field: 'UPDATE_TIME', title: '提交时间', width: 190, align: 'center',templet: function (res) {
+                        return showTime(res.UPDATE_TIME);
+                    }}
+                ,{field: 'DWMC_NAME', title: '单位名称', width:150, align: 'center'}
+                ,{field: 'NAME', title: '消防员姓名', width:150, align: 'center'}
+                ,{field: 'CZWT', title: '存在问题', width:200, align: 'center'}
+                ,{field: 'DCFX', title: '对策分析', width: 200, align: 'center'}
+                ,{field: 'STATUS', title: '归档状态', width: 200, align: 'center',templet:function (res) {
+                        var status = "";
+                        if(res.STATUS ==1){
+                            return "已归档";
+                        }else {
+                            return "未归档";
+                        }
+                    }}
+                ,{field: 'RYSTATUS', title: '人员状态', width: 200, align: 'center',templet:function (res) {
+                        if(res.RYSTATUS ==1){
+                            return "<span class='label label-success' style='background: #00cc33'>正常</span>";
+                        }else if (res.RYSTATUS ==2) {
+                            return "<span class='label label-success' style='background: #FF8C00'>阶段性</span>";
+                        }else if (res.RYSTATUS ==3) {
+                            return "<span class='label label-success' style='background: #FF4500'>重点观察</span>";
+                        }else {
+                            return "<span class='label label-success' style='background: #1E90FF'>请选择人员状态</span>";
+                        }
+
+                    }}
+
+            ]]
+            ,done: function(res, curr, count){
+
+            }
+        });
+
+    });
+    function buttonEvents(type){
+        var check = table.checkStatus('tab_list');
+        var param = {
+            type: 2,
+            area: ['750px', '80%'],
+            title:'详情页面',
+            btn:[],
+            fixed: false, //不固定
+            content: Apps.ContextPath+"ryfxtj/add/",
+            tabIndex: tabIndex
+        };
+        if(check.data.length!=1 && type=='gd'){
+            layer.msg("请选择一行数据！",function (){})
+        }else if (type=='gd'){
+            param.content=Apps.ContextPath+'ryfxgd/add/'+check.data[0].ID;
+            openPage(openType,type,param);
+        }
+
+    }
+
+    function viewOne(id){
+        //用于判断为查看详情还是编辑的状态
+        var type='edit';
+        var param = {
+            type: 2,
+            area: ['600px', '80%'],
+            title:'详情页面',
+            fixed: false, //不固定
+            btn:[],
+            content: Apps.ContextPath+'ryfxgd/add/'+id+"?isView=true"
+        };
+        openPage(openType,type,param);
+    }
+
+    function search(){
+        tableIns.reload({
+            where:{"key_name":$("#key_name").val()},
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        })
+    }
+    //表格时间显示
+    function showTime(time){
+        var d = new Date(time);
+        var year = d.getFullYear();
+        var month = d.getMonth();
+        month++;
+        var day = d.getDate();
+        var hour = d.getHours();
+        var minute = d.getMinutes();
+        var second = d.getSeconds();
+        var date = year+"/"+month+"/"+day+" "+hour+":"+minute;
+        return date;
+    }
+    // 表格高度变换重载
+    window.onresize=function(){
+        var reloadHeight = $(window).height() - $("#search_layout").height() - 50;
+        table.reload('tab_list', {
+            height: reloadHeight
+        });
+    }
+
+
+    //回车搜索
+    $(document).keyup(function(event){
+        if(event.keyCode ==13){
+            tableIns.reload({
+                where:{"key_name":$("#key_name").val()},
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>

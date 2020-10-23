@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/dev.iml" filepath="$PROJECT_DIR$/dev.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xfgl-framework/xfgl-framework.iml" filepath="$PROJECT_DIR$/xfgl-framework/xfgl-framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xfgl-support/xfgl-support.iml" filepath="$PROJECT_DIR$/xfgl-support/xfgl-support.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xfgl-web/xfgl-web.iml" filepath="$PROJECT_DIR$/xfgl-web/xfgl-web.iml" />
+    </modules>
+  </component>
+</project>

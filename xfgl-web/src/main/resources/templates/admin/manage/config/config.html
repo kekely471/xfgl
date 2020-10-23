@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/ztree/js/opentree.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/kindeditor/kindeditor.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
+    <link href="${ctx.contextPath}/layui/commons/css/formSelects.css" rel="stylesheet"/>
+    <title>Title</title>
+</head>
+<style>
+    .layui-form-label {
+        width: 90px;
+    }
+
+    .layui-input-block {
+        margin-left: 120px;
+    }
+
+</style>
+<body style="background: #f2f2f2;">
+<div class="contentBox">
+    <div class="formBox" style="padding: 10px 150px 10px 30px;">
+        <form class="layui-form" action="">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>系统配置</legend>
+            </fieldset>
+
+            <div id="showConfig">
+            </div>
+
+            <div id="btnDiv">
+                <button id="tj" lay-submit lay-filter="*" class="layui-btn">保存</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form
+            , layer = layui.layer
+
+        var ajax = new Ajax("config/getConfigList", function (ret) {
+            if (ret.code && ret.code < 0) {
+                layer.alert(ret.msg, {icon: 1});
+                return;
+            }
+            $.each(ret.dataset.rows, function (index, value) {
+                  var html = '';
+                  html += '<div id="data_'+index+'" style="width: 100%;height: 100px;" >' +
+                      '<div class="layui-form-item layui-td-3"><input name="key" value="'+value.KEY+'" type="hidden">' +
+                      '<label class="layui-form-label">' +
+                      '<span class="redLabel">*</span>'+value.KEY+'</label>' +
+                      '<div class="layui-input-block"> ' +
+                      '<input type="text" name="value" lay-verify="required" placeholder="请输入" value="'+value.VALUE+'" autocomplete="off" class="layui-input">' +
+                      '</div>' +
+                      '</div>'+
+                      '<div class="layui-form-item layui-td-3">' +
+                      '<label class="layui-form-label">' +
+                      '<span class="redLabel">*</span>code值</label>' +
+                      '<div class="layui-input-block"> ' +
+                      '<input type="text" name="code" lay-verify="required" placeholder="请输入" value="'+value.CODE+'" autocomplete="off" class="layui-input">' +
+                      '</div>' +
+                      '</div>'+
+                      '<div class="layui-form-item layui-td-3">' +
+                      '<label class="layui-form-label">' +
+                      '<span class="redLabel">*</span>备注</label>' +
+                      '<div class="layui-input-block"> ' +
+                      '<input type="text" name="remark" lay-verify="required" placeholder="请输入" value="'+value.REMARK+'" autocomplete="off" class="layui-input">' +
+                      '</div>' +
+                      '</div></div>'
+                  $("#showConfig").append(html);
+            });
+        });
+        ajax.setMessage(false);
+        ajax.setAsync(false);
+        ajax.submit();
+
+        //监听提交
+        form.on('submit()', function (data) {
+            var datas = data.field;
+            //重新封装code值
+            var code = [];
+            var codes = $("input[name='code']");
+            codes.each(function(){
+                var me = $(this);
+                code.push(me.val());//保存value到一个数组中
+            });
+            //重新封装value值
+            var value = [];
+            var values = $("input[name='value']");
+            values.each(function(){
+                var me = $(this);
+                value.push(me.val());//保存value到一个数组中
+            });
+            //重新封装value值
+            var remark = [];
+            var remarks = $("input[name='remark']");
+            remarks.each(function(){
+                var me = $(this);
+                remark.push(me.val());//保存value到一个数组中
+            });
+            //重新封装key值
+            var key = [];
+            var keys = $("input[name='key']");
+            keys.each(function(){
+                var me = $(this);
+                key.push(me.val());//保存value到一个数组中
+            });
+            var ajax = new Ajax("config/newAddConfig", function (data) {
+                if (judgeRight(data)) {
+                    layer.alert("操作成功!", {icon: 1}, function () {
+                        closeTabAndRefreshPreTab(tabIndex, preTabIndex);
+                        layer.closeAll();
+                    });
+                }
+            });
+            ajax.add("codes",JSON.stringify(code));
+            ajax.add("values", JSON.stringify(value));
+            ajax.add("remarks", JSON.stringify(remark));
+            ajax.add("keys", JSON.stringify(key));
+            ajax.submit();
+            return false;
+        });
+
+    })
+    ;
+</script>
+</body>
+
+</html>

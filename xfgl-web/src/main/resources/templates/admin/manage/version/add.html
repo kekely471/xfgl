@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>版本管理（新增、编辑）页面</title>
+</head>
+
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-1" hidden>
+                <label class="layui-form-label"><span class="redLabel">*</span>序列</label>
+                <div class="layui-input-block">
+                    <input type="text" id="index" name="id" placeholder="请输入版本序列" value="${(VERSION.ID?c)!''}"
+                           autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>版本名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="versionname" lay-verify="required" placeholder="请输入版本名称"
+                           value="${VERSION.VERSIONNAME}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>版本号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="versioncode" lay-verify="required|versionNumberJudge" placeholder="请输入版本号"
+                           value="${VERSION.VERSIONCODE}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1" id="versionUploadOuter">
+                <label class="layui-form-label">版本上传</label>
+                <div class="layui-input-block" id="versionUpload">
+                    <button type="button" class="layui-btn layui-btn-primary" id="versionUploadBtn"><i
+                            class="layui-icon">&#xe67c;</i>选择上传版本
+                    </button>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">下载地址</label>
+                <div class="layui-input-block">
+                    <input type="text" name="downloadurl" id="downloadurl" placeholder="版本上传后自动录入下载地址"
+                           value="${VERSION.DOWNLOADURL}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">字节(MB)</label>
+                <div class="layui-input-block">
+                    <input type="text" name="filesize" id="filesize" placeholder="版本上传后自动录入字节大小"
+                           value="${VERSION.FILESIZE}"  autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>版本状态</label>
+                <div class="layui-input-block">
+                    <select name="versionstate" id="versionstate" lay-verify="required"
+                            selectValue="${VERSION.VERSIONSTATE}">
+                        <option value="">请选择版本状态</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">更新说明</label>
+                <div class="layui-input-block">
+                    <textarea type="text" name="remark" maxlength="200" placeholder="请输入（最多200个字）"
+                              autocomplete="off" class="layui-textarea">${VERSION.REMARK}</textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>使用平台</label>
+                <div class="layui-input-block">
+                    <select name="useplatform" id="useplatform" lay-verify="required"
+                            selectValue="${VERSION.USEPLATFORM}">
+                        <option value="">请选择平台</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var index = parent.layer.getFrameIndex(window.name);
+    var _id = "${id}";
+
+    layui.use(['form', 'layer', 'upload'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var upload = layui.upload;
+        initSelectBox("versionstate", 'common/dict/business', '{"type_code":"sfqz"}', 'VALUE', 'NAME');
+        initSelectBox("useplatform", 'common/dict/business', '{"type_code":"platform"}', 'VALUE', 'NAME');
+        var downloadurl = "${VERSION.DOWNLOADURL}"
+        if (downloadurl != null && downloadurl.trim() != "") {
+            $("#versionUploadBtn").html(" <i class=\"layui-icon\">&#xe67c;</i>已上传,点击后重新上传版本 ");
+        }
+        if ("${isView}") {
+            $('input,select,textarea').prop('disabled', "disabled");
+            $("#versionUploadOuter").remove();
+        }
+        form.render();
+        //监听提交
+        form.on('submit()', function (data) {
+            var id = $("#index").val();
+            var url = "version/addInfo";
+            if (id != null && id.trim() != "") {
+                url = "version/updateInfo";
+            }
+            var param = data.field;
+            var bbid = $("#downloadurl").val();
+            if(bbid==''){
+                layer.alert("请上传版本文件!", {icon: 2});
+                return false;
+            }
+            var ajax = new Ajax(url, function (data) {
+                if (judgeRight(data)) {
+                    parent.layer.alert("操作成功!", {icon: 1}, function () {
+                        parent.tableIns.reload({where: {"v": Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(param);
+            ajax.submit();
+            return false;
+        });
+
+        form.verify({
+            //版本号验证
+            versionNumberJudge: function (value) {
+                if (value.trim() != null && value.trim() != '') {
+                    var judge = /^[0-9]*$/;
+                    if (!judge.test(value)) {
+                        return '版本号只包含数字';
+                    }
+                }
+            }
+        });
+        var loadIndex;
+        var uploadInst = upload.render({
+            elem: '#versionUploadBtn',
+            url: Apps.ContextPath + '/version/upload',
+            accept: 'file',
+            before: function (obj) {
+                loadIndex = layer.load();
+                $("#versionUploadBtn").attr("disabled", "true");
+            },
+            done: function (res) {
+                if (res.code == 1) {
+                    $("#versionUploadBtn").html(" <i class=\"layui-icon\">&#xe67c;</i>上传成功,点击后重新上传版本 ");
+                    $("#versionUploadBtn").removeAttr("disabled");
+                    $("#downloadurl").val(res.dataset.rows[0].path.replace(/\\/g, "/"));
+                    $("#filesize").val(res.dataset.rows[0].size);
+                    layer.close(loadIndex);
+                } else {
+                    $("#versionUploadBtn").html(" <i class=\"layui-icon\">&#xe67c;</i>上传失败,请重新上传版本 ");
+                    $("#versionUploadBtn").removeAttr("disabled");
+                    layer.close(loadIndex);
+                }
+            },
+            error: function () {
+                $("#versionUploadBtn").html(" <i class=\"layui-icon\">&#xe67c;</i>上传失败,请重新上传版本 ");
+                $("#versionUploadBtn").removeAttr("disabled");
+                layer.close(loadIndex);
+            }
+        });
+    });
+
+    function mySubmit() {
+        $("#tj").click();
+    }
+</script>
+</body>
+
+</html>

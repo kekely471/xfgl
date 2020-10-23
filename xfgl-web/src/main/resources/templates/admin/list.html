@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="xfgl/layui/commons/js/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+<body class="layui-layout-body">
+<div style="padding: 15px;">
+    <div class="layui-btn-group">
+        <button class="layui-btn" id="add">增加</button>
+        <button class="layui-btn" id="edit">编辑</button>
+        <button class="layui-btn" id="del">删除</button>
+        <button class="layui-btn" id="binding">菜单绑定</button>
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script type="text/html" id="indexTpl">
+    {{d.LAY_TABLE_INDEX+1}}
+</script>
+<script>
+    var table;
+    var tableIns;
+    $(function(){
+        $("#add").click(function(){
+            top.tab.tabAdd('demo', {
+                title: '新选项'+ (Math.random()*1000|0) //用于演示
+                ,content: '内容'+ (Math.random()*1000|0)
+                ,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+            })
+            /*var index = layer.open({
+                type: 2,
+                area: ['400px', '300px'],
+                fixed: false, //不固定
+                content: '/role/roleForm',
+                btn:['保存','取消'],
+                yes:function(index,layero){
+                    layero.find('iframe')[0].contentWindow.mySubmit();
+                },
+                btn2:function(index,layero){
+
+                }
+            });*/
+        });
+
+        $("#edit").click(function(){
+            var check = table.checkStatus('tab_list');
+            if(check.data.length!=1){
+                layer.msg("请选择一行数据！",function (){})
+            }else {
+                var index = layer.open({
+                    type: 2,
+                    area: ['400px', '300px'],
+                    fixed: false, //不固定
+                    content: '/role/roleForm?id='+check.data[0].id,
+                    btn: ['保存', '取消'],
+                    yes: function (index, layero) {
+                        layero.find('iframe')[0].contentWindow.mySubmit();
+                    },
+                    btn2: function (index, layero) {
+
+                    }
+                });
+            }
+        })
+
+        $("#del").click(function () {
+            var check = table.checkStatus('tab_list');
+            if(check.data.length==0){
+                layer.msg("请至少选择一行数据！",function (){})
+            }else{
+                layer.confirm('你确定删除所选数据吗?', function(index) {
+                    var dataes = check.data;
+                    var ids = "";
+                    for (j = 0; j < dataes.length; j++) {
+                        var id = dataes[j].id;
+                        ids = ids + "," + id
+                    }
+                    var ajax = new Ajax("ROLE_DELETE",function(data){
+                        if(data.code==0){
+                            layer.close(index);
+                            layer.alert('删除成功！', {icon: 1,});
+                            tableIns.reload({where:{"v":Date.parse(new Date())}});
+                        }
+                    })
+                    ajax.add("ids",ids);
+                    ajax.submit();
+                })
+            }
+        })
+
+        $("#binding").click(function () {
+            var check = table.checkStatus('tab_list');
+            if(check.data.length!=1){
+                layer.msg("请选择一行数据！",function (){})
+            }else {
+                var index = parent.layer.open({
+                    type: 2,
+                    area: ['300px', '450px'],
+                    fixed: false, //不固定
+                    content: '/role/menuTree?id='+check.data[0].id,
+                    btn: ['保存', '取消'],
+                    yes: function (index, layero) {
+                        layero.find('iframe')[0].contentWindow.mySubmit(index);
+                    },
+                    btn2: function (index, layero) {
+
+                    }
+                });
+            }
+        });
+    });
+    layui.use('table', function(){
+        table = layui.table;
+        //第一个实例
+        var pageHeight = $(window).height()-30-38;
+        tableIns = table.render({
+            id:"tab_list"
+            ,elem: '#tab_dg'
+            ,height: pageHeight
+            ,limit: Math.floor(pageHeight/40-2)
+            ,url: 'dict/business/list' //数据接口
+            ,page: true //开启分页
+            ,where:{"v":Date.parse(new Date())}
+            ,cols: [[ //表头
+                {type:'checkbox', fixed: 'left',checkbox: false}
+                ,{title: '序号',width:70, align: 'center',templet: '#indexTpl', fixed: 'left', unresize: true}
+                ,{field: 'ID', title: '编号', width:80, align: 'center'}
+                ,{field: 'NAME', title: '字典名称', width: 130, align: 'left'}
+                ,{field: 'VALUE', title: '字典值', width:80, align: 'center'}
+                ,{field: 'TYPENAME', title: '标识名称', width: 150, align: 'left'}
+                ,{field: 'TYPE_CODE', title: '字典标识', width:200, align: 'left', sort: true}
+                ,{field: 'CN', title: '字典简称', width: 177, align: 'center'}
+                ,{field: 'EXT1', title: '扩展一', width:120, align: 'left'}
+                ,{field: 'EXT2', title: '扩展二', width: 120, align: 'left'}
+                ,{field: 'EXT3', title: '扩展三', width: 120, align: 'left'}
+                ,{field: 'SORT', title: '排序号', width: 80, align: 'center'}
+                ,{field: 'STATUS', title: '状态', width: 80, align: 'center', templet: function(res){
+                    console.log(res);
+                    return '<em>111111'+ res.email +'</em>'
+                }}
+            ]]
+            ,done: function(res, curr, count){
+                $("[data-field='id']").css('display','none');
+            }
+        });
+    });
+
+    /*双击行，自动选中*/
+    $(document).on('dblclick', '.layui-table-body table.layui-table tbody tr', function () {
+        var obj = event ? event.target : event.srcElement;
+        var tag = obj.tagName;
+        var index = $(this).attr('data-index');
+        var tableBox = $(this).parents('.layui-table-box');
+//存在固定列
+        if (tableBox.find('.layui-table-fixed.layui-table-fixed-l').length > 0) {
+            tableDiv = tableBox.find('.layui-table-fixed.layui-table-fixed-l');
+        } else {
+            tableDiv = tableBox.find('.layui-table-body.layui-table-main');
+        }
+        var checkCell = tableDiv.find('tr[data-index=' + index + ']').find('td div.laytable-cell-checkbox div.layui-form-checkbox I');
+        if (checkCell.length> 0) {
+//if(tag == 'DIV') {
+            checkCell.click();
+//}
+        }
+    });
+    $(document).on('dblclick','td div.laytable-cell-checkbox div.layui-form-checkbox', function (e) {
+        e.stopPropagation();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+/**
+定义layui修复完善样式
+ */
+@font-face {font-family: "iconfont";
+    src: url('../layui/font_ext/iconfont.eot?t=1572426475725'); /* IE9*/
+    src: url('../layui/font_ext/iconfont.eot?t=1572426475725#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../layui/font_ext/iconfont.woff?t=1572426475725') format('woff'), /* chrome, firefox */
+    url('../layui/font_ext/iconfont.ttf?t=1572426475725') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('../layui/font_ext/iconfont.svg?t=1572426475725#iconfont') format('svg'); /* iOS 4.1- */
+}
+.layui-icon-ext {
+    font-family: "iconfont" !important;
+    font-size: 36px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.layui-icon-btn {
+    padding-left: 18px!important;
+}
+.icon-gudingqiangji:before {content: "\e60a";}
+.icon-danmuqiuji:before {content: "\e6cc";}
+.icon-shexiangtou:before {content: "\e605";}
+.icon-qiakouqiangji:before {content: "\e670";}
+.icon-banqiu:before {content: "\e67e";}
+.icon-yingyan:before {content: "\e67f";}
+.icon-yuntaiqiangji:before {content: "\e657";}
+.icon-shuangmuqiuji:before {content: "\e625";}
+.icon-export:before {content: "\eabf";}
+.icon-import:before {content: "\eac0";}
+.icon-export2:before {content: "\e608";}
+.icon-import2:before {content: "\e609";}
+.icon-unlock01:before {content: "\e607";}
+.icon-lock01:before {content: "\e62d";}
+.icon-lock02:before {content: "\e658";}
+.icon-unlock02:before {content: "\e659";}
+.icon-baoxiu01:before {content: "\e60c";}
+.icon-zuduan01:before {content: "\eac2";}
+
+
+
+.contentBox{margin: 15px;}
+.formBox {padding: 10px 30px; background: #fff;}
+
+.redLabel{color: red;margin: 5px;}
+
+.formBox .layui-form-item { box-sizing: border-box;float: left;  clear: inherit;margin-bottom: 20px;}
+.layui-td-1{width: 100%;}
+.layui-td-2{width: 50%;}
+.layui-td-3{width: 33.3333333333333%;}
+.layui-td-4{width: 25%;}
+.layui-td-5{width: 20%;}
+.layui-td-6{width: 16.6666666666666%;}
+.layui-td-10{width: 10%;}
+
+.label {color: #FFF;  display: inline-block;line-height: 1.15; height: 20px;font-size: 12px;padding: .3em .6em }
+.label.label-success {background-color: #82AF6F;}
+.label.label-danger {background-color: #ec6941;}
+.layui-tab-card>.layui-tab-title{background: #fff;}
+.layui-tab-card>.layui-tab-title .layui-this{background: #f6f6f6;border-bottom: 1px solid #f6f6f6;}
+html,body{color:#666;}
+
+.layui-layout-admin .layui-footer{background-color: #fff;padding: 10px 0;text-align: center;  box-shadow: 0 -1px 2px 0 rgba(0,0,0,.05)}
+
+.li_images{display:inline-block;position:relative;cursor:pointer;float:left;line-height: normal;margin:5px 8px 5px 0;font-size:12px;}
+.wjmc{max-width: 200px;overflow: hidden;display: inline-block;  text-overflow: ellipsis; white-space: nowrap;}
+.layui-upload-img{width: 115px; height: 90px; margin: 0 5px 5px 0;}
+.pic_del{cursor: pointer;color:#fff;text-align:center;position:absolute;right: 0;top:0;width: 13px; height: 13px;background:url('../images/menu/ts.png') 0 0 no-repeat;}
+.wj_del{margin-left:4px;color:#569ae3;cursor: pointer;}
+.viewer{margin-top:10px;}
+.li_file{background:url('../images/menu/hxz.png') 0 center no-repeat;padding-left:15px;margin-bottom:10px;}
+.file_name{color:#666;}
+.layui_input_search{background:url(../images/menu/search.png) right center no-repeat;padding-right:20px;cursor:pointer;}
+.label.label-yellow{background-color: #dea62e;}
+.label.label-blue{background-color:#01AAED;}
+.label.label-cszt{background-color:#5bb9be;}
+/*表单导航栏样式*/
+.extList-search{margin-bottom: 5px;}
+.extList-btn-group{height: 35px}
+.extList-more-btn-group{display: inline-block;position: relative;}
+.extList-more-btn-list{display: none;position: absolute;left: 0;top: 32px;min-width: 100%;line-height: 36px;padding: 5px 0;font-size: 14px;text-align: center;box-shadow: 0 2px 4px rgba(0,0,0,.12);border: 1px solid #d2d2d2;background-color: #fff;z-index: 100;border-radius: 2px;white-space: nowrap;}
+.extList-search-box{float: right;margin-bottom: 0;clear: inherit!important;}
+.extList-search-item{margin: 0px!important;}
+.extList-search-label{padding: 5px 0px;width: auto;}
+.extList-sm-icon{margin: 0px 5px!important;padding: 5px;border: 1px solid #999;cursor: pointer;}
+.extList-more-search{display: none;margin-top: 5px;width: 100%;box-shadow: 0 2px 4px rgba(0,0,0,.12);border: 1px solid #d2d2d2;background-color: #fff;height: 150px;}
+.extList-more-search-btn{position: relative;}
+.extList-more-search-btn::before{position: absolute;content: "";width: 83px;height: 7px;background: #fff;left: -1px;bottom: -7px;border-left: 1px #d2d2d2 solid;border-right: 1px #d2d2d2 solid;}
+.extList-more-search-btn:hover{border-color: #d2d2d2!important;}

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>新增请假</title>
+</head>
+
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-1">
+                <div class='wxts' style="margin-left: 48px;">
+                    <span style="color: red;font-size:15px;font-weight: 700;">温馨提示：</span><span id='qjts'></span>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="NAME" placeholder="" value="${QJMK.NAME}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">籍贯</label>
+                <div class="layui-input-block">
+                    <input type="text" name="NATIVE_PLACE" placeholder="" value="${QJMK.NATIVE_PLACE}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">消防街</label>
+                <div class="layui-input-block">
+                    <input type="text" name="JOB" placeholder="" value="${QJMK.JOB}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">警街</label>
+                <div class="layui-input-block">
+                    <input type="text" name="POLICERANK" placeholder="" value="${QJMK.POLICERANK}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">入伍年月</label>
+                <div class="layui-input-block">
+                    <input type="text" name="RWNY" placeholder="" value="${QJMK.RWNY}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">部职级</label>
+                <div class="layui-input-block">
+                    <input type="text" name="DWMC" placeholder="" value="${QJMK.DWMC}" autocomplete="off" class="layui-input" readonly>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>请假类型</label>
+                <div class="layui-input-block">
+                    <select name="LEAVE_TYPE" id="LEAVE_TYPE" lay-verify="required" lay-search>
+                        <option value="">请选择请假类型</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>请假时间</label>
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" name="START_TIME" id="START_TIME" lay-verify="required" placeholder="点击选择开始时间" value="${VIEW.START_TIME}">
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-inline">-</label>
+                </div>
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" name="END_TIME" id="END_TIME" lay-verify="required" placeholder="点击选择结束时间" value="${VIEW.END_TIME}">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>请假地点</label>
+                <div class="layui-input-block">
+                    <textarea name="LEAVE_SPACE" lay-verify="" maxlength="100" placeholder="请输入请假地点" autocomplete="off" class="layui-textarea">${VIEW.LEAVE_SPACE}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>请假事由</label>
+                <div class="layui-input-block">
+                    <textarea name="REASON" lay-verify="" maxlength="100" placeholder="请输入请假事由" autocomplete="off" class="layui-textarea">${VIEW.REASON}</textarea>
+                </div>
+            </div>
+            <div id="sprli" class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>审批人</label>
+                <div class="layui-input-block">
+                    <select name="SPR" id="SPR" lay-verify="required" lay-search>
+                        <option value="">请选择审批人</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-layout-admin">
+                <div class="layui-input-block">
+                    <div class="layui-footer" style="left: 0;">
+                        <button class="layui-layer-btn0" id="tj" style="height: 28px;padding: 0px 15px;border-radius: 2px;margin: 5px 5px 0px;border-style: solid;bottom:0;" lay-submit lay-filter="censorship">送审</button>
+                        <button class="layui-layer-btn0" id="tj1" style="height: 28px;padding: 0px 15px;border-radius: 2px;margin: 5px 5px 0px;border-style: solid;bottom:0;" lay-submit lay-filter="save">保存</button>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var userId = "${userId}";//修改操作id
+    var istrue;
+    var businessid ="${id}";
+    layui.use(['form', 'layer','laydate'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+
+        var start_time = laydate.render({
+            elem: '#START_TIME'
+            ,type: 'datetime'
+            ,trigger: 'click'
+            ,done: function(value, date, endDate){
+                $("#SPR").empty().append("<option value=''>请选择审批人</option>");
+                form.render();
+                $("#END_TIME").val('');
+                end_time.config.min = {
+                    year: date.year,
+                    month: date.month-1,
+                    date: date.date,
+                    hours: date.hours,
+                    minutes:date.minutes,
+                    seconds:date.seconds+1
+                }
+            }
+        });
+
+        var end_time = laydate.render({
+            elem: '#END_TIME'
+            ,type: 'datetime'
+            ,trigger: 'click'
+            ,min:$("#START_TIME").val()+1
+            ,done: function(value, date, endDate){
+                $("#SPR").empty().append("<option value=''>请选择审批人</option>");
+                initSelectBox('SPR','api/v1/user/get/leavesjperson', '{"userId":"' + userId + '","START_TIME":"' + $("#START_TIME").val() + '","END_TIME":"' + value + '"}','ID','NAME');
+                initsprinit($("#START_TIME").val(),value,'')
+
+            }
+        });
+        initSelectBox('SPR','api/v1/user/get/leavesjperson', '{"userId":"' + userId + '","START_TIME":"' + $("#START_TIME").val() + '","END_TIME":"' + $("#END_TIME").val() + '"}','ID','NAME');
+        initsprinit($("#START_TIME").val(), $("#END_TIME").val(),businessid);
+        $("#SPR").val("${VIEW.SPR}");
+        initSelectBox('LEAVE_TYPE','common/dict/business','{"type_code":"qjlx"}','VALUE','NAME');
+        $("#LEAVE_TYPE").val("${VIEW.LEAVE_TYPE}");
+
+        form.render();
+        //判断战备状态
+        initleave_zbzt();
+        initts();//初始化温馨提示
+        //监听提交
+        form.on('submit(censorship)', function (datas) {
+            var start_time=datas.field.START_TIME;
+            var end_time=datas.field.END_TIME;
+            var time=compareTime(start_time,end_time);
+            if(!time){
+                layer.alert('请假结束时间不得小于请假开始时间！');
+                return false;
+            }
+
+
+            comparisonTime(start_time,end_time,'');
+            if(istrue=="true"){
+                layer.confirm('本次请假和之前请假的时间有冲突，请核查后再提交', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    var index = layer.load();
+                    var ajax = new Ajax("api/v1/user/leavesave",function (data) {
+                        if(data.code>0){
+                            parent.layer.alert("送审成功!", {icon: 1}, function () {
+                                if (parent.tableIns != null && parent.tableIns != "" && parent.tableIns != undefined) {
+                                    parent.tableIns.reload({where: {"type": "1"}});
+                                }
+                                parent.location.reload();
+                                parent.layer.closeAll();
+                            });
+                        }else{
+                            layer.close(index);
+                            layer.alert(data.msg);
+                        }
+                    });
+                    ajax.add(datas.field);
+                    ajax.add("COMPLETE",1);
+                    ajax.add("LEAVE_ID",0);
+                    ajax.add("userId",userId);
+                    ajax.add("BUSINESSID",businessid);
+                    ajax.add("RETURNSTR",1);
+                    ajax.submit();
+                }, function(){
+
+                });
+            }else{
+                var index = layer.load();
+                var ajax = new Ajax("api/v1/user/leavesave",function (data) {
+                    if(data.code>0){
+                        parent.layer.alert("送审成功!", {icon: 1}, function () {
+                            if (parent.tableIns != null && parent.tableIns != "" && parent.tableIns != undefined) {
+                                parent.tableIns.reload({where: {}});
+                            }
+                            parent.location.reload();
+                            parent.layer.closeAll();
+                        });
+                    }else{
+                        layer.close(index);
+                        layer.alert(data.msg);
+                    }
+                });
+                ajax.add(datas.field);
+                ajax.add("COMPLETE",1);
+                ajax.add("LEAVE_ID",0);
+                ajax.add("userId",userId);
+                ajax.add("BUSINESSID",businessid);
+                ajax.add("RETURNSTR",1);
+                ajax.submit();
+            }
+
+
+
+            return false;
+        });
+        //监听提交
+        form.on('submit(save)', function (datas) {
+            var start_time=datas.field.START_TIME;
+            var end_time=datas.field.END_TIME;
+
+
+
+            var time=compareTime(start_time,end_time);
+
+            if(!time){
+                layer.alert('请假结束时间不得小于请假开始时间！');
+                return false;
+            }
+
+            comparisonTime(start_time,end_time,'');
+            if(istrue=="true"){
+                layer.confirm('本次请假和之前请假的时间有冲突，请核查后再提交？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    var index = layer.load();
+                    var ajax = new Ajax("api/v1/user/leavesave",function (data) {
+                        if(data.code>0){
+                            parent.layer.alert("保存成功!", {icon: 1}, function () {
+                                if (parent.tableIns != null && parent.tableIns != "" && parent.tableIns != undefined) {
+                                    parent.tableIns.reload({where: {"type": "1"}});
+                                }
+                                parent.location.reload();
+                                parent.layer.closeAll();
+                            });
+                        }else{
+                            layer.close(index);
+                            layer.alert(data.msg);
+                        }
+                    });
+                    ajax.add(datas.field);
+                    ajax.add("COMPLETE",0);
+                    ajax.add("userId",userId);
+                    ajax.add("BUSINESSID",businessid);
+                    ajax.add("RETURNSTR",1);
+                    ajax.submit();
+                }, function(){
+
+                });
+            }else{
+                var index = layer.load();
+                var ajax = new Ajax("api/v1/user/leavesave",function (data) {
+                    if(data.code>0){
+                        parent.layer.alert("保存成功!", {icon: 1}, function () {
+                            if (parent.tableIns != null && parent.tableIns != "" && parent.tableIns != undefined) {
+                                parent.tableIns.reload({where: {"type": "1"}});
+                            }
+                            parent.location.reload();
+                            parent.layer.closeAll();
+                        });
+                    }else{
+                        layer.close(index);
+                        layer.alert(data.msg);
+                    }
+                });
+                ajax.add(datas.field);
+                ajax.add("COMPLETE",0);
+                ajax.add("userId",userId);
+                ajax.add("BUSINESSID",businessid);
+                ajax.add("RETURNSTR",1);
+                ajax.submit();
+            }
+
+            return false;
+        });
+    });
+
+    function compareTime(date1,date2){
+        var oodate1 = date1.replace('-','').replace(' ','').replace(':','').replace('-','');
+        var oodate2 = date2.replace('-','').replace(' ','').replace(':','').replace('-','');
+        if(oodate1 >= oodate2){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //比较时间
+    function comparisonTime(START_TIME,END_TIME,BUSINESSID){
+        var ajax = new Ajax("api/v1/user/leavebefore",function (data) {
+            if(judgeRight(data)){
+                istrue = data.dataset.rows[0].auth;
+            }
+        });
+        ajax.setAsync(false);
+        if(START_TIME!='' && END_TIME!=''){
+            ajax.add('START_TIME',START_TIME);
+            ajax.add('END_TIME',END_TIME);
+        }
+        if(BUSINESSID!='')
+            ajax.add('BUSINESSID',BUSINESSID);
+        ajax.add("userId",userId);
+        ajax.submit();
+    }
+
+    //判断战备状态
+    function initleave_zbzt() {
+        var ajax = new Ajax("api/v1/user/getleavezbzt",function (data) {
+            if(judgeRight(data)){
+                var per=data.dataset.rows[0].zbzt;
+                if(per=='1'){
+                    layer.confirm('请注意,当前一级战备状态,无法请假！', {
+                        btn: ['确定'] //按钮
+                    }, function(){
+                        initleave_person();
+                    })
+
+                    // $(".foot_content").css('display','none');
+                }else if(per=='2'){
+                    layer.confirm('请注意,当前二级战备状态！', {
+                        btn: ['确定'] //按钮
+                    }, function(){
+                        initleave_person();
+                    })
+                }else{
+                    initleave_person();
+                }
+            }
+        });
+        ajax.add("userId",userId);
+        ajax.submit();
+    }
+
+
+    function initsprinit(START_TIME,END_TIME,BUSINESSID) {
+        var ajax = new Ajax("api/v1/user/get/leavesprinit",function (data) {
+            if(judgeRight(data)){
+                var sprdisplay=data.dataset.rows[0].sprdisplay;
+                if (!sprdisplay){
+                    $("#sprli").css('display','none');
+                    $('#SPR').removeAttr('lay-verify','required');
+                }else{
+                    $("#sprli").css('display','block');
+                    $('#SPR').attr('lay-verify', 'required');
+
+                }
+            }
+        });
+        ajax.add("START_TIME",START_TIME);
+        ajax.add("END_TIME",END_TIME);
+        if (BUSINESSID != '') {
+            ajax.add('BUSINESSID', BUSINESSID);
+        }
+        ajax.setAsync(false);
+        ajax.add("userId",userId);
+        ajax.submit();
+    }
+
+
+    //初始化温馨提示
+    function initts(){
+
+        var ajax = new Ajax("api/v1/user/get/leavehistorycount",function (data) {
+            if(judgeRight(data)){
+                var leavehistorycount=data.dataset.rows["0"].leavehistorycount;
+                $("#qjts").html(leavehistorycount);
+            }
+        });
+        ajax.add("userId",userId);
+        ajax.submit();
+    }
+
+    //判断人员是否有请假
+    function initleave_person() {
+        var ajax = new Ajax("api/v1/user/getleaveauth",function (data) {
+            if(judgeRight(data)){
+                var per=data.dataset.rows[0].auth;
+                if(per==1){
+
+                }else{
+                    layer.alert('该功能暂未对您开放');
+                    // $(".foot_content").css('display','none');
+                }
+            }
+        });
+        ajax.add("userId",userId);
+        ajax.submit();
+    }
+
+
+    function mySubmit() {
+        $("#tj").click();
+    }
+
+
+</script>
+</body>
+
+</html>

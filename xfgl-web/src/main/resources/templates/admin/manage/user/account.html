@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+
+<body >
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">新建账号</li>
+            <li>绑定已有账号</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="contentBox" >
+                <div class="formBox" >
+                    <form class="layui-form" action="">
+                        <div class="layui-tab-item layui-show" id="newTab">
+                            <div class="layui-form-item layui-td-1">
+                                <label class="layui-form-label"><span class="redLabel">*</span>登录账号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="loginname" lay-verify="loginname"  maxlength="50" placeholder="请输入登录账号"   autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-td-1">
+                                <label class="layui-form-label"><span class="redLabel">*</span>密码</label>
+                                <div class="layui-input-block">
+                                    <input type="password" name="password" id="password" lay-verify="password" maxlength="50" placeholder="请输入密码"   autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-td-1">
+                                <label class="layui-form-label"><span class="redLabel">*</span>密码确认</label>
+                                <div class="layui-input-block">
+                                    <input type="password" name="password2" lay-verify="password2" maxlength="50" placeholder="请再次输入密码"   autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-td-1">
+                                <label class="layui-form-label"><span class="redLabel">*</span>角色</label>
+                                <div class="layui-input-block">
+                                    <select name="role" id="role" lay-verify="role">
+                                        <option value="">请选择角色</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-td-1">
+                            <label class="layui-form-label">是否启用</label>
+                            <div class="layui-input-block" style="border: 0px solid #e6e6e6;padding-left: 10px;">
+                                <input type="checkbox" checked="checked" name="status" lay-skin="switch" lay-filter="switchTest" title="开关" readonly>
+                            </div>
+                        </div>
+                        <div class="layui-tab-item" id="oldTab">
+                            <div class="layui-form-item layui-td-1">
+                                <label class="layui-form-label"><span class="redLabel">*</span>绑定账号</label>
+                                <div class="layui-input-block">
+                                    <select name="old_loginname" id="old_loginname" lay-verify="old_loginname">
+                                        <option value="">请选择登录账号</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+                        <div class="clear"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    var _id = "${id}";
+    var type = "new";
+    var index = parent.layer.getFrameIndex(window.name);
+    layui.use(['form','layer','element'], function() {
+        var form = layui.form;
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        var element = layui.element;
+        $('.layui-tab-content .layui-tab-item').height($(window).height()-$(".layui-tab-title").height()-50);
+        $(".layui-tab-title>li").each(function(index,item){
+            $(this).unbind().click(function(){
+                if(index==0){
+                   type = "new";
+                   $("#newTab").addClass("layui-show");
+                   $("#oldTab").removeClass("layui-show");
+                } else if(index==1) {
+                    type = "old";
+                    $("#newTab").removeClass("layui-show");
+                    $("#oldTab").addClass("layui-show");
+                }
+            });
+        });
+        //初始化下拉框 傳值為name
+        initSelectBox("role", 'common/list/role','');
+        initSelectBox("old_loginname", 'account/getBind','','ID','LOGINNAME');
+
+        form.verify({
+            //固定电话
+            loginname: function (value,item) {
+                if(type == 'new'){
+                    if(!/\S/.test(value))
+                    {
+                        return "登录账号不能为空";
+                    }
+                }
+            },
+            password: function (value,item) {
+                if(type == 'new'){
+                    if(!/\S/.test(value))
+                    {
+                        return "密码不能为空";
+                    }
+                }
+            },
+            password2: function (value,item) {
+                if(type == 'new'){
+                    if(!/\S/.test(value))
+                    {
+                        return "密码不能为空";
+                    }
+                    if($('#password').val() != value){
+                        return '两次密码必须保持一致';
+                    }
+                }
+            },
+            role: function (value,item) {
+                if(type == 'new'){
+                    if(!/\S/.test(value))
+                    {
+                        return "请选择角色";
+                    }
+                }
+            },
+            old_loginname: function (value,item) {
+                if(type == 'old'){
+                    if(!/\S/.test(value))
+                    {
+                        return "请选择账号";
+                    }
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit()', function(data) {
+            if (type == "old") {
+                var ajax = new Ajax("account/bind", function (data) {
+                    if(judgeRight(data)){
+                        layer.alert("操作成功!", {icon: 1}, function () {
+                            parent.tableIns.reload({where: {"v": Date.parse(new Date())}});
+                            parent.layer.close(index);
+                        });
+                    }
+                });
+                ajax.add("user_id", _id);
+                ajax.add("account_id", $("#old_loginname").val());
+                ajax.submit();
+                return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+            }else{
+                var datas = data.field;
+                var ajax = new Ajax("account/save", function (data) {
+                    if(judgeRight(data)){
+                        layer.alert("操作成功!", {icon: 1}, function () {
+                            parent.tableIns.reload({where: {"v": Date.parse(new Date())}});
+                            parent.layer.close(index);
+                        });
+                    }
+                });
+                ajax.add("user_id", _id);
+                ajax.add("role", $("#role").val());
+                ajax.add(datas);
+                ajax.submit();
+                return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+            }
+        });
+    });
+
+    function mySubmit(){
+        $("#tj").click();
+    }
+
+</script>
+
+</body>

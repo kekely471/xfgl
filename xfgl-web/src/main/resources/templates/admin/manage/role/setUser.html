@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+    <style>
+        html,body{height:100%;}
+        .settingsBox{padding: 0 2px;height:99%;border: 2px #e6e6e6 solid;}
+        .settingsBox .left{width:35%;height:100%; float: left;overflow: hidden;border-right: 2px #e6e6e6 solid;}
+        .settingsBox .right{width:35%;height:100%; float: right;border-left: 2px #e6e6e6 solid}
+        .settingsBox .middle{margin-left:40%;margin-right:40%;height:100%;  }
+        .settingsBox .left .box,.settingsBox .right .box,.middle .box{width: 100%;height: 100%;position: relative;}
+        .settingsBox .left .box .top,.settingsBox .right .box .top{width: 100%;height:60px;position: absolute; /*background: #ffaa33;*/}
+        .settingsBox .left .box .bottom,.settingsBox .right .box .bottom{width: 100%;position: absolute;top:50px;bottom: 0; border-top:2px #e6e6e6 solid;}
+        .middle .box .buttonArea{width: 100%;height:200px;position: absolute;margin-top: -100px;top:50%;}
+        .buttonArea .layui-row{text-align: center;margin-bottom: 10px;}
+        .bottom ul{height:100%;overflow: auto;}
+        .bottom ul li{line-height: 25px;margin: 5px;font-size: 16px;text-align: center;cursor: pointer;}
+        .black {background: #01AAED}
+    </style>
+</head>
+
+<body>
+    <div class="settingsBox">
+        <div class="left ">
+            <div class="box">
+                <div class="top">
+                    <div class="layui-input-inline" style="width: 190px;margin: 5px 5px 0;">
+                        <input type="text" class="layui-input" id="key_name1"  style="width: 190px;">
+                    </div>
+                    <div class="layui-input-inline" style="width: 64px;margin-top: 5px;">
+                        <button class="layui-btn layui-btn_search"  onclick="search_left()">查询</button>
+                    </div>
+                </div>
+                <div class="bottom layui-form">
+                    <ul id="left_account_list">
+                    </ul>
+                    <!--<select id="left_account_list" class="">
+
+                    </select>-->
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="box">
+                <div class="top">
+                    <div class="layui-input-inline" style="width: 190px;margin: 5px 5px 0;">
+                        <input type="text" class="layui-input" id="key_name2"  style="width: 190px;">
+                    </div>
+                    <div class="layui-input-inline" style="width: 64px;margin-top: 5px;">
+                        <button class="layui-btn layui-btn_search"  onclick="search_right()">查询</button>
+                    </div>
+                </div>
+                <div class="bottom layui-form">
+                     <ul id="right_account_list">
+                     </ul>
+                </div>
+            </div>
+        </div>
+        <div class="middle">
+            <div class="box">
+                <div class="buttonArea">
+                    <div class="layui-row">
+                        <div class="layui-btn-group">
+                            <button class="layui-btn layui-icon-btn" id="add" onclick="buttonEvents('add')"><i class="layui-icon layui-icon-add-1"></i>全部增加</button>
+                        </div>
+                    </div>
+                    <div class="layui-row">
+                        <div class="layui-btn-group">
+                            <button class="layui-btn layui-icon-btn layui-btn-prominent" id="del" onclick="buttonEvents('del')"><i class="layui-icon layui-icon-delete"></i>全部删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+<script type="text/javascript">
+    var index = parent.layer.getFrameIndex(window.name);
+    var _id = '${id}';
+    //初始化账户列表
+
+    $(function () {
+        //初始化关联账户列表
+        initAccountList(_id);
+        bindFun();
+    });
+
+    function bindFun(){
+        //单个数据左右切换
+        $("#right_account_list li").unbind("click").bind("click",function(){
+            $(this).remove();
+            $("#left_account_list").append(this);
+            bindFun();
+        });
+
+        $("#left_account_list li").unbind("click").bind("click",function(){
+            $(this).remove();
+            $("#right_account_list").append(this);
+            bindFun();
+        });
+    }
+
+    function initAccountList(id) {
+        var ajax = new Ajax('role/AccountList', function (ret) {
+            if (ret.code && ret.code < 0) {
+                layer.msg(ret.msg);
+            }
+            if (ret.code && ret.code > 0) {
+                var left_html = '';
+                var right_html = '';
+                for (var i = 0; i < ret.dataset.rows.length; i++) {
+                    if (ret.dataset.rows[i].SELECTED == "1") {
+                        //right_html += '<li value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].LOGINNAME + '</li>';
+                        right_html += '<li value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].LOGINNAME + '</li>';
+                    } else {
+                        left_html += '<li value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].LOGINNAME + '</li>';
+                    }
+                }
+                $("#left_account_list").html(left_html);
+                $("#right_account_list").html(right_html);
+
+                layui.use('form',function () {
+                    var form = layui.form;
+                    form.render('select');
+                })
+            }
+        });
+        ajax.setMessage(false);
+        ajax.add("id", id);
+        ajax.setAsync(false);
+        ajax.submit();
+    }
+
+    //数据的保存
+    function mySubmit() {
+        var accountids = "";
+        var right_lis = $("#right_account_list li");
+        for(var i = 0;i < right_lis.length;i++){
+            //account_ids += $(right_lis[i]).val() +",";
+            i== right_lis.length -1 ? accountids += $(right_lis[i]).val() :   accountids += $(right_lis[i]).val() +",";
+        }
+
+        var ajax = new Ajax('role/saveSetUser', function (ret) {
+            if (ret.code && ret.code < 0) {
+                layer.msg(ret.msg);
+            }
+            if (ret.code && ret.code > 0) {
+                parent.layer.close(index);
+            }
+        });
+        ajax.setMessage(true);
+        ajax.add("id", _id);
+        ajax.add("accountids", accountids.toString());
+        ajax.submit();
+    }
+
+    //全部数据的切换
+    function  buttonEvents(type){
+
+        if(type == 'add'){
+            var left_lis = $("#left_account_list li");
+            for(var i = 0;i < left_lis.length;i++){
+                $(left_lis[i]).remove();
+                $("#right_account_list").append(left_lis[i]);
+            }
+        }else if(type == 'del'){
+            var right_lis = $("#right_account_list li");
+            for(var i = 0;i < right_lis.length;i++){
+                $(right_lis[i]).remove();
+                $("#left_account_list").append(right_lis[i]);
+            }
+        }
+        bindFun();
+    }
+    //过滤
+    function search_left() {
+        var key_name1 = $("#key_name1").val();
+        var left_lis = $("#left_account_list li");
+
+        if(key_name1){
+
+            for(var i = 0;i < left_lis.length;i++){
+                var str = $(left_lis[i]).text();
+                if(str.indexOf(key_name1) < 0){
+                    $(left_lis[i]).hide();
+                }
+            }
+        }else{
+            left_lis.show();
+        }
+    }
+    function search_right() {
+
+        var key_name2 = $("#key_name2").val();
+        var right_lis = $("#right_account_list li");
+
+        if(key_name2){
+            for(var i = 0;i < right_lis.length;i++){
+                var str = $(right_lis[i]).text();
+                if(str.indexOf(key_name2) < 0){
+                    $(right_lis[i]).hide();
+                }
+            }
+        }else{
+            right_lis.show();
+        }
+    }
+</script>
+</body>
+
+</html>

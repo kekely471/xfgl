@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+
+<body>
+<div class="contentBox">
+        <form class="layui-form" action="">
+            <input type="hidden" name="ID" value="${important.ID}">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="20%" align="center">
+                    <col width="30%">
+                    <col width="20%" align="center">
+                    <col width="30%">
+                </colgroup>
+                <tr>
+                    <td bgcolor="#F2F2F2">登记人员</td>
+                    <td>${important.USERNAME}</td>
+                    <td bgcolor="#F2F2F2">登记时间</td>
+                    <td>${important.CREATETIME}</td>
+                </tr>
+                <tr>
+                    <td bgcolor="#F2F2F2">要事类型</td>
+                    <td>${important.TYPENAME}</td>
+                    <td bgcolor="#F2F2F2">探亲休假</td>
+                    <td>${important.GOHOMENUMBER}</td>
+                </tr>
+                <tr>
+                    <td bgcolor="#F2F2F2">在位人数</td>
+                    <td>${important.REIGNNUMBER}</td>
+                    <td bgcolor="#F2F2F2">请假外出</td>
+                    <td>${important.LEAVENUMBER}</td>
+                </tr>
+                <tr>
+
+                    <td bgcolor="#F2F2F2">要事说明</td>
+                    <td colspan="3">${important.IMPORTANTCONTENT}</td>
+                </tr>
+
+
+                <tr>
+                    [#if flag == 'gd']
+                        <td bgcolor="#F2F2F2">归档意见</td>
+                    [#else]
+                        <td bgcolor="#F2F2F2">审核意见</td>
+                    [/#if]
+                    <td colspan="3">
+                        <textarea id="AUDIT_OPINION" name="AUDIT_OPINION"  placeholder="请输入"  maxlength="200"  class="layui-textarea"></textarea>
+                    </td>
+                </tr>
+            </table>
+            <button id="gd" style="display: none" lay-submit lay-filter="gd">归档</button>
+            <button id="tg" style="display: none" lay-submit lay-filter="tg">通过</button>
+            <button id="th" style="display: none" lay-submit lay-filter="th">退回</button>
+        </form>
+</div>
+
+
+<script>
+
+    layui.use(['form','layer'], function() {
+        var form = layui.form;
+        var layer = layui.layer;
+        form.on('submit(tg)', function(data) {
+            var datas = data.field;
+            datas.STATUS= 3  //审核通过
+            var ajax = new Ajax("importantHandler/auditImportant",function(data){
+                if(judgeRight(data)){
+                    parent.layer.alert("操作成功!",{icon:1},function(){
+                        parent.tableIns.reload({where:{"v":Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+        //监听提交
+        form.on('submit(th)', function(data) {
+            var datas = data.field;
+            datas.STATUS= 4 //审核退回
+            var ajax = new Ajax("importantHandler/auditImportant",function(data){
+                if(judgeRight(data)){
+                    parent.layer.alert("操作成功!",{icon:1},function(){
+                        parent.tableIns.reload({where:{"v":Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+        //归档
+        form.on('submit(gd)', function(data) {
+            var datas = data.field;
+            datas.STATUS= 5  //归档通过
+            var ajax = new Ajax("importantHandler/auditImportant",function(data){
+                if(judgeRight(data)){
+                    parent.layer.alert("操作成功!",{icon:1},function(){
+                        parent.tableIns.reload({where:{"v":Date.parse(new Date())}});
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    });
+    function mySubmitTg(){
+        $("#tg").click();
+    }
+    function mySubmitTh(){
+        $("#th").click();
+    }
+    function mySubmitGd(){
+        $("#gd").click();
+    }
+</script>
+</body>
+
+</html>

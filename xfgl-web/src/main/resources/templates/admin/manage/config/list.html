@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>配置管理</title>
+</head>
+<body class="layui-layout-body">
+<div style="padding: 15px;">
+    <div class="extList-search">
+        <!--按钮区域-->
+        <div class="layui-btn-group" style="height: 35px;">
+        </div>
+        <div class="layui-form-item extList-search-box">
+            <form class="layui-form" style="display: inline-block;">
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label">关键字：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="key_name" id="key_name" placeholder="请输入属性名称" >
+                    </div>
+                </div>
+            </form>
+
+            <!--工具栏区域-->
+            <div class="layui-inline extList-sm-icon" title="搜索" onclick="search()"><i class="layui-icon layui-icon-search"></i></div>
+            <div class="layui-inline extList-sm-icon" title="刷新" onclick="refreshPage()"><i class="layui-icon layui-icon-refresh"></i></div>
+        </div>
+
+
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script>
+    initBtns();
+    var table, tableIns, openType = 1;
+    layui.use('table', function () {
+        table = layui.table;
+        var pageHeight = $(window).height() - 30 - 38;
+        tableIns = table.render({
+            id: "tab_list"
+            , elem: '#tab_dg'
+            , height: pageHeight
+            , limit: Math.floor(pageHeight / 40 - 2)
+            , url: Apps.ContextPath + '/config/configManageList'
+            , page: true //开启分页
+            , autoSort: false
+            , cols: [[ //表头
+                {type: 'checkbox', fixed: 'left', checkbox: false}
+                , {title: '序号', width: 70, align: 'center', type: 'numbers', fixed: 'left', unresize: true}
+                , {field: 'ID', title: '编号', width: 80, align: 'center', hide: true}
+                , {
+                    field: 'KEY', title: '属性名', align: 'left', templet: function (res) {
+                        return "<a href='#' class='layui-table-link' onclick=\"viewOne('" + res.ID + "')\">" + res.KEY + "</a>";
+                    }
+                }
+                , {field: 'CODE', title: '属性代码', align: 'center'}
+                , {field: 'VALUE', title: '属性值', align: 'center'}
+                , {field: 'REMARK', title: '备注', align: 'center'}
+                , {field: 'CREATENAME', title: '创建人', align: 'center'}
+                , {field: 'CREATE_TIME', title: '创建时间', align: 'center'}
+            ]]
+            , done: function (res, curr, count) {
+                $("[data-field='id']").css('display', 'none');
+            }
+        });
+    });
+
+
+    function buttonEvents(type) {
+        var check = table.checkStatus('tab_list');
+        //用于判断为查看详情还是编辑的状态
+        var param = {
+            type: 2,
+            area: ['600px', '60%'],
+            title: '配置管理表单',
+            fixed: false,
+            content: Apps.ContextPath + "config/addOrUpdateConfigManage",
+        };
+        if (type == "add") {
+            openPage(openType, type, param);
+        } else if (check.data.length != 1 && type == 'edit') {
+            layer.msg("请选择一行数据！", function () {
+            })
+        } else if (type == "edit") {
+            param.content = Apps.ContextPath + 'config/addOrUpdateConfigManage/'+ check.data[0].ID;
+            openPage(openType, type, param);
+        } else if (type == 'realDel') {
+            rowsDel("config/relDeleteConfigByIdList", check.data, "彻底删除数据后无法恢复，确定要彻底删除所选数据?");
+        }
+    }
+
+    function viewOne(id) {
+        var type = 'edit';
+        //用于判断为查看详情还是编辑的状态
+        var param = {
+            type: 2,
+            area: ['600px', '60%'],
+            title: '配置管理表单',
+            fixed: false, //不固定,
+            btn:["取消"],
+            content: Apps.ContextPath + 'config/addOrUpdateConfigManage/'+ id+"?isView=true"
+        };
+        openPage(openType, type, param);
+    }
+
+    function search() {
+        tableIns.reload({
+            where: {"key_name": $("#key_name").val()},
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        })
+    }
+
+    //回车搜索
+    $('.layui-input').on('keyup', function (event) {
+        if (event.keyCode == 13){
+            tableIns.reload({
+                where:{"key_name":$("#key_name").val()},
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            })
+        }
+    });
+</script>
+</body>
+</html>

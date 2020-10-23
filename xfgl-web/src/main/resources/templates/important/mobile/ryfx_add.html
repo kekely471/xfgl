@@ -1,0 +1,154 @@
+<html lang="en" style="font-size: 60.1333px;"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>新增人员分析</title>
+    <link rel="stylesheet" href="../../../static/layui/commons/css/base.css">
+    <link rel="stylesheet" href="../../../static/layui/commons/layui/css/mui.min.css">
+    <link rel="stylesheet" href="../../../static/layui/commons/layui/css/layui.css">
+    <!--<link rel="stylesheet" href="../common/popup/css/style.css">-->
+    <link rel="stylesheet" href="../../../static/layui/commons/layui/css/mui.picker.css">
+    <link href="../../../static/layui/commons/layui/css/mui.poppicker.css" rel="stylesheet">
+    <link href="../../../static/layui/commons/layui/css/mui.dtpicker.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/rygl/add.css">
+    <script type="text/javascript" src="../../../static/layui/commons/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../../static/layui/commons/js/base.js"></script>
+    <script type="text/javascript" src="../../../static/layui/commons/layui/layui.js"></script>
+    <script type="text/javascript" src="../../../static/layui/js/commons.js"></script>
+    <script src="../../../static/layui/commons/js/mui.min.js"></script>
+    <script src="../../../static/layui/commons/js/mui.picker.js"></script>
+    <script src="../../../static/layui/commons/js/mui.poppicker.js"></script>
+    <script src="../../../static/layui/commons/js/mui.dtpicker.js"></script>
+    <script src="../js/add_list.js"></script>
+
+
+    <!--<script src="../../../static/layui/commons/js/popups.js"></script>-->
+    <script src="../../../static/layui/commons/js/web.ajax.js"></script>
+    <script src="../../../static/layui/commons/js/web.ajax.js"></script>
+    <!--<script type="text/javascript" src="../js/leave/leave_add.js"></script>-->
+
+    <link id="layuicss-layer" rel="stylesheet" href="file:///C:/Users/wwd/Desktop/xf/common/layui/css/modules/layer/default/layer.css?v=3.1.1" media="all"></head>
+<style>
+    .leave_content ul>li>div{
+        color:#333;
+    }
+</style>
+<body class="">
+
+<div class="topBox">
+    <div class="wxts" style="text-align: center">
+        新增人员分析<span id="xzryfx"></span>
+    </div>
+
+</div>
+<form class="layui-form">
+    <div class="leave_content">
+        <ul>
+            <li>
+                <lable>单位名称</lable>
+                <div>
+                <select name="DWMC" id="DWMC"   lay-search>
+                    <!--<option value="">请选择</option>-->
+                </select>
+                </div>
+                <!--</div>-->
+            </li>
+            <li>
+                <lable>姓名</lable>
+                <div >
+                    <input  id="NAME"class="layui-input" >
+                </div>
+                <div class="tbsysj" lay-submit="" >同步上月数据</div>
+            </li>
+
+            <li>
+                    <label class="layui-form-label">性别</label>
+                    <div >
+                        <select name="SEX" id="SEX"   lay-search>
+                            <!--<option value="">请选择</option>-->
+                        </select>
+                    </div>
+            </li>
+            <li>
+                <lable>年龄</lable>
+                <div style="float: right">
+                    <input  id="NL" class="layui-input">
+                </div>
+            </li>
+
+            <li>
+                <lable>名族</lable>
+                <div style="float: right">
+                    <input id="MZ" class="layui-input">
+                </div>
+
+            </li>
+            <li>
+                <lable>职级</lable>
+                <div style="float: left">
+                    <select name="ZJ" id="ZJ"   lay-search>
+                        <!--<option value="">请选择</option>-->
+                    </select>
+                </div>
+            </li>
+            <li>
+                <lable>身高</lable>
+                <div >
+                    <input id="SG"class="layui-input">
+                </div>
+
+            </li>
+
+            <li>
+                <lable>基本资料</lable>
+
+                <div>
+                    <textarea type="text" name="JBZL" id="JBZL" lay-vertype="tips" placeholder="点击填写基本资料" autocomplete="off" class="layui-input1" style="resize: none; height: 100px;"></textarea>
+                </div>
+            </li>
+            <li>
+                <lable>个人成长史</lable>
+
+                <div>
+                    <textarea type="text" name="GRCZS" id="GRCZS" lay-vertype="tips"  placeholder="点击填写个人成长史" autocomplete="off" class="layui-input1" style="resize: none; height: 100px;"></textarea>
+                </div>
+            </li>
+            <li>
+                <lable>精神状态</lable>
+
+                <div>
+                    <textarea type="text" name="JSZT" id="JSZT" lay-vertype="tips"  placeholder="点击填写精神状态" autocomplete="off" class="layui-input1" style="resize: none; height: 100px;"></textarea>
+                </div>
+            </li>
+            <li>
+                <lable>身体状态</lable>
+
+                <div>
+                    <textarea type="text" name="STZT" id="STZT" lay-vertype="tips"  placeholder="点击填写身体状态" autocomplete="off" class="layui-input1" style="resize: none; height: 100px;"></textarea>
+                </div>
+            </li>
+            <li>
+                <lable>社会功能</lable>
+
+                <div>
+                    <textarea type="text" name="SHGN" id="SHGN" lay-vertype="tips"  placeholder="点击填写社会功能" autocomplete="off" class="layui-input1" style="resize: none; height: 100px;"></textarea>
+                </div>
+            </li>
+            <li>
+                <lable>征信情况</lable>
+
+                <div>
+                    <textarea type="text" name="GRZXQK" id="GRZXQK" lay-vertype="tips"  placeholder="点击填写个人征信情况" autocomplete="off" class="layui-input1" style="resize: none; height: 100px;"></textarea>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+    <div class="foot_content">
+        <div class="foot">
+            <div class="censorship" lay-submit="*" lay-filter="censorship">提交</div>
+            <div class="save" lay-submit="#" lay-filter="save">保存</div>
+        </div>
+    </div>
+</form>

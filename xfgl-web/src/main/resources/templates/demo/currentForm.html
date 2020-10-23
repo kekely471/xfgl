@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义表单</title>
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/ztree/js/opentree.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/kindeditor/kindeditor.js" type="text/javascript"></script>
+    <script src="${ctx.contextPath}/layui/commons/kindeditor/lang/zh_CN.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-1" style="">
+                <label class="layui-form-label"><span class="redLabel">*</span>角色编号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="id" placeholder="请输入角色编号"  value="${ROLE.ID}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+    layui.config({
+        base:'${ctx.contextPath}/layui/layui_extends/'
+    });
+
+    layui.use(['form','currentF'], function() {
+        var form = layui.form;
+        var currentF = layui.currentF;
+
+        var tagIns2 = currentF({
+            //候选数据【必填】
+            data: "formFrame/extendTableList?formType=01"
+        });
+    });
+
+</script>
+</html>

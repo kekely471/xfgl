@@ -1,0 +1,19 @@
+.nocopy{-moz-user-select: none; -khtml-user-select: none; user-select: none;}
+.mapBox{width: 95%;height: 600px;margin: 0px auto 30px;position: relative;}
+.whiteBox{width:305px;height:360px;position: absolute;z-index: 5;background:#fff;overflow: auto;margin-top: 30px;margin-left: 25px;box-shadow:#ccc 0 0 12px;}
+#l-map{width: 100%;height: 568px;margin: 0px;border: 2px solid #dbdbdb;position: absolute;z-index: 1;}
+
+.hide{display: none;}
+#line-result{overflow-x: hidden;}
+#line-result .list{height:40px;line-height:40px;border-bottom: 1px solid #1e9fff;padding:0 17px;}
+#line-result .list .item{width:40px;height:41px;cursor:pointer;text-align: right;color:#25282b;font-size:12px;margin:0 22px 0 12px;position: relative;float: left;}
+#line-result .list .item.active{color:#1e9fff;background: url("../images/map/bg.png") bottom center no-repeat;}
+
+#line-result .list .gj{background: url("../images/map/gj-wxz.png") left center no-repeat;}
+#line-result .list .active .gj{background: url("../images/map/gj-xz.png") left center no-repeat;}
+#line-result .list .jc{background: url("../images/map/jc-wxz.png") left center no-repeat;}
+#line-result .list .active .jc{background: url("../images/map/jc-xz.png") left center no-repeat;}
+#line-result .list .bx{background: url("../images/map/bx-wxz.png") left center no-repeat;}
+#line-result .list .active .bx{background: url("../images/map/bx-xz.png") left center no-repeat;}
+#line-result .list .qx{background: url("../images/map/qc-wxz.png") left center no-repeat;}
+#line-result .list .active .qx{background: url("../images/map/qc-xz.png") left center no-repeat;}

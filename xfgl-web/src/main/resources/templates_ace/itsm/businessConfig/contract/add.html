@@ -1,0 +1,262 @@
+<div id="content">
+    <div class="modal-header" style="background-color: #5090C1">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title lighter white no-margin">合同表单</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <form id="contract_form" class="form-horizontal" enctype="multipart/form-data" role="form">
+                    <div class="form-group" hidden>
+                        <label class="col-sm-2 control-label no-padding-right">
+                            合同编号 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="id" name="id" placeholder="合同编号"
+                                   class="form-control" style="width: 460px;" value="${CONTRACT.ID}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            签订部门 </label>
+
+                        <div class="col-sm-10">
+                            <select id="dept_id" name="dept_id" class="chosen-select form-control"
+                                    data-placeholder="请选择签订部门">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            *合同名称 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="contractname" name="contractname" placeholder="合同名称" maxlength="50"
+                                   required="required"
+                                   class="form-control" style="width: 460px;" value="${CONTRACT.CONTRACTNAME}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            *合同编码 </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="contractno" name="contractno" placeholder="合同编码" maxlength="20"
+                                   required="required"
+                                   class="form-control" style="width: 460px;" value="${CONTRACT.CONTRACTNO}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            *签订时间 </label>
+
+                        <div class="col-sm-10">
+                            <div class="input-group" style="width: 460px;">
+                                <input class="form-control date-picker" required="required" id="sign_time"
+                                       name="sign_time"
+                                       placeholder="获取时间" type="text" data-date-format="yyyy-mm-dd"
+                                       value="${CONTRACT.SIGN_TIME}">
+                                <span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+						</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            合同状态 </label>
+                        <div class="col-sm-10">
+                            <select id="status" name="status" class="chosen-select form-control"
+                                    data-placeholder="请选择合同状态">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            合同期限 </label>
+
+                        <div class="col-sm-10">
+                            <div class="input-daterange input-group" style="width: 460px">
+                                <input type="text" class="input-sm form-control" placeholder="合同开始日期"
+                                       data-date-format="yyyy-mm-dd" name="contract_sdate" id="contract_sdate"
+                                       value="${CONTRACT.CONTRACT_SDATE}"/>
+                                <span class="input-group-addon">
+							    <i class="fa fa-long-arrow-right"></i>
+                            </span>
+                                <input type="text" class="input-sm form-control" placeholder="合同结束日期"
+                                       data-date-format="yyyy-mm-dd" name="contract_edate" id="contract_edate"
+                                       value="${CONTRACT.CONTRACT_SDATE}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            甲方签约人 </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="sign_user" name="sign_user" placeholder="甲方签约人" maxlength="20"
+                                   class="form-control" style="width: 460px;" value="${CONTRACT.SIGN_USER}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            乙方签约人 </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="besign_user" name="besign_user" placeholder="乙方签约人" maxlength="20"
+                                   class="form-control" style="width: 460px;" value="${CONTRACT.BESIGN_USER}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            合同详情 </label>
+                        <div class="col-sm-10">
+                            <textarea type="text" id="contractdescr" name="contractdescr" placeholder="合同详情"
+                                      class="form-control limited" maxlength="500" style="height: 60px;width: 460px;">${CONTRACT.CONTRACTDESCR}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            备注 </label>
+
+                        <div class="col-sm-10">
+                        <textarea type="text" id="remark" name="remark" placeholder="备注"
+                                  class="form-control limited" maxlength="500" style="height: 60px;width: 460px;">${CONTRACT.REMARK}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            附件 </label>
+
+                        <div class="col-sm-10">
+                            <button id="file_upload" class="btn btn-app btn-purple btn-sm no-radius">
+                                <i class="ace-icon fa fa-cloud-upload bigger-200"></i>
+                                上传
+                            </button>
+                            <ul id="fileContainer" class="list-unstyled spaced" style="width: 400px;">
+                            </ul>
+                            <input type="text" id="file_ids" style="display: none"/>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+
+    <div class="modal-footer">
+
+        <button class="btn btn-success" onclick="_save();">
+            <i class="ace-icon fa fa-floppy-o"></i>
+            保存
+        </button>
+        &nbsp;
+        <button class="btn btn-inverse" onclick="closeModel();">
+            <i class="ace-icon fa fa-ban"></i>
+            关闭
+        </button>
+    </div>
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+        var _id = "${id}";
+        var _treeId = "${treeId}";
+        var form_selector = "#contract_form";
+        var file_uploader;
+        jQuery(function ($) {
+            //如果是编辑，则要那一下数据否则只要初始化一些控件
+            initChosenSelect("#status", 'business_contract_status', 1, "460px");
+            $('#sign_time').datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+            $('#contract_sdate').datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+            $('#contract_edate').datepicker({
+                autoclose: true,
+                todayHighlight: true
+            });
+            //部门选项初始化
+            initPDept();
+            //排序号初始化
+            initSort('#sort');
+            //附件上传
+            file_uploader = initFileUploader('file_upload', 'fileContainer', 'file_ids');
+            //页面验证初始化（除必填项以外的验证）
+            $(form_selector).validate({
+                rules: {
+                    contractname: {
+                        maxlength: 50
+                    },
+                    contractno: {
+                        maxlength: 50
+                    }
+                }
+            });
+
+            if (_id != "") {
+                initFileContainer('fileContainer', 'file_ids', _id, 'business_contract_file', 'contract_id');
+            }
+        });
+
+
+        function initPDept() {
+            var ajax = new Ajax('common/list/dept', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    var html = '';
+                    for (var i = 0; i < ret.dataset.rows.length; i++) {
+                        html += '<option value="' + ret.dataset.rows[i].ID + '">' + ret.dataset.rows[i].NAME2 + '</option>';
+                    }
+                    $("#dept_id").append(html);
+                    $("#dept_id").chosen({allow_single_deselect: true, width: "460px"});
+                    if (_treeId == "0") {
+                        var parentId = '${CONTRACT.DEPT_ID}';
+                        if (parentId == "") {
+                            $("#dept_id").val('1');
+                            $("#dept_id").trigger("chosen:updated");
+                        } else {
+                            $("#dept_id").val(parentId);
+                            $("#dept_id").trigger("chosen:updated");
+                        }
+                    } else {
+                        $("#dept_id").val(_treeId);
+                        $("#dept_id").trigger("chosen:updated");
+                    }
+                }
+            });
+            ajax.setMessage(false);
+            ajax.submit();
+        }
+
+        function _save() {
+            if ($(form_selector).valid()) {
+                var ajax = new Ajax('contract/save', function (ret) {
+                    if (ret.code && ret.code < 0) {
+                        bootbox.alert({title: "警告", message: ret.msg});
+                        return;
+                    }
+                    if (ret.code && ret.code > 0) {
+                        bootbox.alert({title: "信息", message: "保存成功"});
+
+                        //刷新grid等一些需要刷新的控件
+                        $(grid_selector).trigger("reloadGrid");
+                        $(tree_selector).find("li:not([data-template])").remove();
+                        $(tree_selector).tree('render');
+
+                        //关闭模态窗口
+                        closeModel();
+                    }
+                });
+                ajax.setMessage(true);
+                ajax.add(formSerialize(form_selector));
+                ajax.add("file_ids", getFileIds("file_ids"));
+                ajax.submit();
+            }
+        }
+    </script>
+</div>
+

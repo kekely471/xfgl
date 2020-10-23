@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>表单管理（新增、编辑、详情）</title>
+</head>
+
+<body>
+<div class="contentBox">
+    <div class="formBox">
+        <form class="layui-form" action="">
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>上级目录</label>
+                <div class="layui-input-block">
+                    <select name="parentId" id="parentId" lay-verify="required" selectValue="${Form.PARENTID}"
+                            lay-filter="parentId" lay-search>
+                        <option value="">请选择上级目录</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label"><span class="redLabel">*</span>名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" lay-verify="required" placeholder="请输入名称"
+                           value="${Form.NAME}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div id="onlyCodeDiv"></div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">排序号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="sort" id="sort" placeholder="请输入排序号" lay-verify="sortRule"
+                           value="${(Form.SORT?c)!''}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">是否启用</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="status" id="status" lay-skin="switch"
+                           lay-filter="switchTest" lay-text="启用|禁用" value="${Form.STATUS}">
+                </div>
+            </div>
+            <div class="layui-form-item layui-td-1">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea name="remark" placeholder="请输入备注(最多200个字)" maxlength="200" class="layui-textarea">${Form.REMARK}</textarea>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="${(Form.ID?c)!''}" autocomplete="off" class="layui-input">
+            <button id="tj" style="display: none" lay-submit lay-filter="*">提交</button>
+            <div class="clear"></div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var index = parent.layer.getFrameIndex(window.name);
+    var _id = "${Form.ID}";
+    var parentIdSelected = "${Form.PARENTID}";
+    var onlyCodeDivHTML = '<div class="layui-form-item layui-td-1">\n' +
+        '                <label class="layui-form-label">唯一编码</label>\n' +
+        '                <div class="layui-input-block">\n' +
+        '                    <select name="onlyCode" id="onlyCode" selectValue="${Form.ONLYCODE}" lay-filter="onlyCode">\n' +
+        '                        <option value="">请选择唯一编码(系统字典中配置，务必确保唯一性)</option>\n' +
+        '                    </select>\n' +
+        '                </div>\n' +
+        '            </div>';
+    layui.use(['form', 'layer', 'jquery'], function () {
+        var form = layui.form;
+        var layer = layui.layer;
+        var $ = layui.$;
+        //初始化下拉框 傳值為name
+        if ("${Form.PARENTID}" == "") {
+            $("select[name='parentId']").attr("selectValue", "${treeId}");
+            if("${treeId}"==1){
+                emptyAndInitOnlyCode();
+            }
+        }
+        initSelectBox("parentId", 'form/parentDirectoryList', '', 'ID', 'NAME');
+        //是否启用
+        if (_id) {
+            isUse('status', $("#status").val());
+        } else {
+            isUse('status', 1);
+        }
+        if ("${isView}") {
+            $('input,select,textarea').prop('disabled', "disabled");
+        }
+        if (parentIdSelected == 1) {
+            emptyAndInitOnlyCode();
+        }
+        form.render();
+        //监听提交
+        form.on('submit()', function (data) {
+            var datas = data.field;
+            var ajax = new Ajax("form/addOrUpdate", function (data) {
+                if (judgeRight(data)) {
+                    parent.layer.alert("操作成功!", {icon: 1}, function () {
+                        if (parent.tableIns != null && parent.tableIns != "" && parent.tableIns != undefined) {
+                            parent.tableIns.reload();
+                            parent.initTree();
+                        }
+                        parent.layer.closeAll();
+                    });
+                }
+            });
+            ajax.add(datas);
+            ajax.submit();
+            return false;
+        });
+        //上级目录选中回调（选中根目录后填写唯一编码）
+        form.on('select(parentId)', function (data) {
+            if (data.value == 1) {
+                emptyAndInitOnlyCode();
+                form.render();
+            } else {
+                $("#onlyCodeDiv").empty();
+            }
+        });
+
+        form.verify({
+            sortRule: function (value) {
+                if (value.trim() != null && value.trim() != '') {
+                    // var judge = /^([1-9]\d*|[0]{1,1})$/;
+                    var judge = /^0*[1-9]\d*$/;
+                    if (!judge.test(value.trim()) || value.trim() == 0) {
+                        return '排序号必须为正整数';
+                    }
+                }
+            }
+        });
+    });
+
+    function mySubmit() {
+        $("#tj").click();
+    }
+
+    function emptyAndInitOnlyCode() {
+        $("#onlyCodeDiv").empty();
+        $("#onlyCodeDiv").html(onlyCodeDivHTML);
+        onlyCodeInitSelectBox("onlyCode", 'common/dict/system', '{"type_code":"bdwybm"}', 'VALUE', 'NAME');
+    }
+
+    //涉及到选项禁用，重写common.js中的initSelectBox()方法
+    function onlyCodeInitSelectBox(name, url, typename_value, resid, resname) {
+        if (typename_value != undefined && typename_value != '' && typename_value != null) {
+            typename_value = JSON.parse(typename_value);
+        }
+        var ajax = new Ajax(url, function (ret) {
+            if (ret.code && ret.code < 0) {
+                layer.alert(ret.msg, {icon: 1});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                var html = '';
+                var disabled = "";
+                var disUrl = "form/onlyCodeDisList";
+                if (_id) {
+                    disUrl = "form/onlyCodeDisList/" + _id;
+                }
+                var onlyCodeDisList = [];
+                var ajaxDisUrl = new Ajax(disUrl, function (retDis) {
+                    if (retDis.code && retDis.code < 0) {
+                        layer.alert(retDis.msg, {icon: 1});
+                        return;
+                    }
+                    if (retDis.code && retDis.code > 0) {
+                        onlyCodeDisList = retDis.dataset.rows;
+                    }
+                });
+                ajaxDisUrl.setMessage(false);
+                ajaxDisUrl.setAsync(false);
+                ajaxDisUrl.submit();
+            }
+            for (var i = 0; i < ret.dataset.rows.length; i++) {
+                for (var j = 0; j < onlyCodeDisList.length; j++) {
+                    if (onlyCodeDisList[j].ONLYCODE == ret.dataset.rows[i][resid]) {
+                        disabled = "disabled";
+                    }
+                }
+                html += '<option value="' + ret.dataset.rows[i][resid] + '"' + disabled + ' >' + ret.dataset.rows[i][resname] + '</option>';
+                disabled = "";
+            }
+            $("select[name='" + name + "']").append(html);
+            $("select[name='" + name + "']").val($("select[name='" + name + "']").attr("selectValue"));
+            layui.form.render('select');
+        });
+        ajax.setMessage(false);
+        ajax.setAsync(false);
+        for (var i in typename_value) {
+            ajax.add(i, typename_value[i]);
+        }
+        ajax.submit();
+    }
+</script>
+</body>
+
+</html>

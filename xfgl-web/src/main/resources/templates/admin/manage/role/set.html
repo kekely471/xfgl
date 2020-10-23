@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <!-- zTree -->
+    <link rel="stylesheet"
+          href="${ctx.contextPath}/layui/commons/ztree/css/metroStyle/metroStyle.css"
+          type="text/css">
+    <script type="text/javascript"
+            src="${ctx.contextPath}/layui/commons/ztree/js/jquery.ztree.core.min.js"></script>
+     <script type="text/javascript"
+             src="${ctx.contextPath}/layui/commons/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <title>Title</title>
+</head>
+
+<body>
+<div class="layui-layout-body">
+    <div id="zTree" class="ztree"></div>
+</div>
+<script>
+    var _id = '${id}';
+    var zTreeObj;
+    var index = parent.layer.getFrameIndex(window.name);
+
+    $(function () {
+        initTree();
+
+        //已有权限
+        if(_id){
+
+        }
+    });
+
+    var setting = {
+        check: {
+            enable: true
+        },
+        data : {
+            simpleData : {
+                enable : true,
+                idKey : "ID",
+                pIdKey : "PID"
+            },
+            key : {
+                name : "NAME",
+                checked:"CHECKED"
+            }
+        }
+    };
+    //初始化树
+    function initTree() {
+        var ajax = new Ajax("common/ztree/menu", function (data) {
+            if(judgeRight(data)){
+                var zNodes = data.dataset.rows;
+                //ZTree控件不支持大写参数  暂时先自己循环赋值显示  带控件问题版本修正删除
+                zTreeObj =  $.fn.zTree.init($("#zTree"), setting, zNodes);
+                zTreeObj.expandAll(true);
+            }
+        });
+        ajax.setAsync(false);
+        ajax.add('rid',_id);
+        ajax.submit();
+    }
+
+    function mySubmit() {
+        //获取点选的menuids   现获取zTreeObj
+        var zTreeObj =  $.fn.zTree.getZTreeObj("zTree");
+        var nodes = zTreeObj.getCheckedNodes(true);
+
+        var menus = "";
+        for(var i = 1;i < nodes.length; i++){
+            i == nodes.length -1 ? menus += nodes[i].ID :  menus += nodes[i].ID + ",";
+        }
+
+        var ajax = new Ajax('role/saveSet', function (ret) {
+            if (ret.code && ret.code < 0) {
+                parent.layer.alert(ret.msg,{icon:0});
+                return;
+            }
+            if (ret.code && ret.code > 0) {
+                parent.layer.close(index);
+            }
+        });
+
+        ajax.add("menus", menus);
+        ajax.add("id", _id);
+        ajax.submit();
+    }
+</script>
+</body>
+
+</html>

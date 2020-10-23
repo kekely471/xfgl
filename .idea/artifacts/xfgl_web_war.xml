@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="xfgl-web:war">
+    <output-path>$PROJECT_DIR$/xfgl-web/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>xfgl-web</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="xfgl.war">
+      <element id="artifact" artifact-name="xfgl-web:war exploded" />
+    </root>
+  </artifact>
+</component>

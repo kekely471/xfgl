@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+<body class="layui-layout-body">
+<div style="padding: 15px;">
+    <div class="extList-search">
+        <!--按钮区域-->
+        <div class="layui-btn-group" style="height: 35px;">
+        </div>
+        <div class="layui-form-item extList-search-box">
+            <form class="layui-form" style="display: inline-block;">
+            <div class="layui-inline extList-search-item">
+                <label class="layui-form-label extList-search-label">学生姓名：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="studentname" id="studentname" placeholder="请输入学生姓名" style="width: 160px;">
+                </div>
+            </div>
+            <div class="layui-inline extList-search-item">
+                <label class="layui-form-label extList-search-label">学校名称：</label>
+                <div class="layui-input-inline">
+                    <select name="schoolname" id="schoolname" lay-search  class="layui-select">
+                        <option value="">请选择学校</option>
+                    </select>
+                </div>
+            </div>
+
+            </form>
+            <div class="layui-inline extList-search-item">
+                <button class="layui-btn layui-btn-sm layui-btn-primary" onclick="moreSearchList(this)"><i class="layui-icon-ext icon-double-down"></i>高级查询</button>
+            </div>
+            <!--工具栏区域-->
+            <div class="layui-inline extList-sm-icon" title="搜索" onclick="search()"><i class="layui-icon layui-icon-search"></i></div>
+            <div class="layui-inline extList-sm-icon" title="刷新" onclick="refreshPage()"><i class="layui-icon layui-icon-refresh"></i></div>
+            <!--<div class="layui-inline extList-sm-icon" title="导出"><i class="layui-icon layui-icon-export"></i></div>-->
+            <!--<div class="layui-inline extList-sm-icon" title="打印"><i class="layui-icon layui-icon-print"></i></div>-->
+        </div>
+        <!--更多查询区域-->
+        <div class="extList-more-search" id="extListMoreSearch">
+            <form class="layui-form">
+            <div class="layui-form-item" style="padding: 10px;margin-bottom: 0;">
+
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">学校所属：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <select name="schoolss" id="schoolss" lay-search=""    style="width: 160px;">
+                            <option value="">请选择学校所属</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">性别：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <select name="sex" id="sex"  lay-search="" class="layui-select" style="width: 160px;">
+                            <option value="">请选择性别</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">民族：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <select name="nation" id="nation" lay-search="" class="layui-select" style="width: 160px;">
+                            <option value="">请选择民族</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">班级：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <input type="text" class="layui-input" name="class" placeholder="请输入班级" style="width: 160px;">
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">学段：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <select name="nd" id="nd" lay-search="" class="layui-select" style="width: 160px;">
+                            <option value="">请选择学段</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">身份证号：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <input type="text" class="layui-input" name="idcard" id="idcard" placeholder="请输入身份证号" style="width: 160px;">
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">户籍所在省市：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <input type="text" name="hjszss" id="hjszss" class="layui-input" placeholder="请输入户籍所在省市" style="width: 160px;">
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">社会助学项目：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <select name="shzxxm" id="shzxxm" lay-search="" class="layui-select" style="width: 160px;">
+                            <option value="">请选择社会助学项目</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">大学性质：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <select name="dxxz" id="dxxz" lay-search="" class="layui-select" style="width: 160px;">
+                            <option value="">请选择大学性质</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">手机号：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <input type="text" name="phonenumber" id="phonenumber" class="layui-input" placeholder="请输入手机号" style="width: 160px;">
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">捐助人编号：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <input type="text" name="dncjzrbh" id="dncjzrbh" class="layui-input" placeholder="请输入捐助人编号" style="width: 160px;">
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">学生编号：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <input type="text" name="bianhao" id="bianhao" class="layui-input" placeholder="请输入学生编号" style="width: 160px;">
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">捐助人姓名：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <input type="text" name="dncjzrxm" id="dncjzrxm" class="layui-input" placeholder="请输入捐助人姓名" style="width: 160px;">
+                    </div>
+                </div>
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label" style="width: 100px;margin: 3px;">捐助成功时间：</label>
+                    <div class="layui-input-inline" style="width: 160px;">
+                        <input type="text" name="dncjzcgsj" id="dncjzcgsj" class="layui-input" placeholder="请输入捐助成功时间" style="width: 160px;">
+                    </div>
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script>
+    initBtns();
+    var table,form,tableIns, openType=1, layer = 1,action='zzShFundAction',method='ListData';exportParams = [];
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    layui.use(['table','laydate'], function () {
+        var laydate = layui.laydate;
+        //学校
+        initSelectBox('schoolname','common/school/list',undefined,'NAME','NAME');
+        //学校所属
+        initSelectBox('schoolss','common/schoolss/list',undefined,'AREA','AREA');
+        //民族
+        initSelectBox('nation','common/nation/list',undefined,'NAME','NAME');
+        //年段
+        initSelectBox('nd','common/nd/list',undefined,'NAME','NAME');
+        //项目性质
+        initSelectBox('xmxz','common/xmxz/list',undefined,'NAME','NAME');
+        //项目名称
+        initSelectBox('xmmc','common/xmmc/list',undefined,'NAME','NAME');
+        //大学性质
+        initSelectBox('dxxz','common/dxxz/list',undefined,'NAME','NAME');
+        //性别
+        initSelectBox('sex','common/sex/list',undefined,'NAME','NAME');
+        //社会助学项目
+        initSelectBox('shzxxm','common/shzxxm/list',undefined,'NAME','NAME');
+
+        laydate.render({
+            elem: '#dncjzcgsj',
+            trigger: 'click'
+        });
+        table = layui.table;
+        var pageHeight = $(window).height() - 30 - 38;
+        tableIns = table.render({
+            id: "tab_list"
+            , elem: '#tab_dg'
+            , height: pageHeight
+            , limit: Math.floor(pageHeight / 40 - 2)
+            , url: Apps.ContextPath + 'shfund/ListData'
+            , page: true //开启分页
+            , where: {"v": Date.parse(new Date())}
+            , autoSort: false
+            , totalRow: true
+            , cols: [[ //表头
+                {type: 'checkbox', fixed: 'left', checkbox: false}
+                ,{title: '序号',width:47, align: 'center',type: 'numbers', fixed: 'left', unresize: true, totalRowText: '合计'}
+
+                , {field: 'SHZXJE', title: '社会助学金额', width: 180, align: 'center',fixed: 'left', unresize: true,totalRow: true}
+
+                , {field: 'SCHOOLBH', title: '学校编号', width: 120, align: 'center'}
+                , {field: 'SCHOOLNAME', title: '学校名称', width: 220, align: 'center'}
+                , {field: 'SCHOOLSS', title: '学校所属', width: 120, align: 'center'}
+                , {field: 'STUDENTNAME', title: '姓名', width: 120, align: 'center'}
+                , {field: 'SEX', title: '性别', width: 120, align: 'center'}
+                , {field: 'BIRTHDAY', title: '出生日期', width: 120, align: 'center'}
+                , {field: 'NATION', title: '民族', width: 150, align: 'center'}
+                , {field: 'RXNF', title: '入学年份', width: 150, align: 'center'}
+                , {field: 'ND', title: '学段', width: 120, align: 'center'}
+                , {field: 'BIANHAO', title: '编号', width: 120, align: 'center'}
+
+                , {field: 'GRADE', title: '年级', width: 130, align: 'center'}
+                , {field: 'CLASS', title: '班级', width: 130, align: 'center'}
+                , {field: 'IDCARDTYPE', title: '身份证件类型', width: 150, align: 'center'}
+                , {field: 'IDCARD', title: '学生本人身份证号码', width: 150, align: 'center'}
+
+                , {field: 'STUDENTCODE', title: '学籍号', width: 150, align: 'center'}
+                , {field: 'HJSZSS', title: '户籍所在省市（市县）', width: 150, align: 'center'}
+                , {field: 'PHONENUMBER1', title: '联系电话1', width: 150, align: 'center'}
+                , {field: 'PHONENUMBER2', title: '联系电话2', width: 150, align: 'center'}
+                , {field: 'GXPZSHZTXXZK', title: '个性品质生活态度学习状况', width: 200, align: 'center'}
+                , {field: 'XDJMS', title: '兄弟姐妹数', width: 120, align: 'center'}
+                , {field: 'DQJTZZ', title: '请输入当前家庭住址', width: 250, align: 'center'}
+                , {field: 'GRTC', title: '个人特长', width: 200, align: 'center'}
+                , {field: 'GKZF', title: '高考总分', width: 100, align: 'center'}
+                , {field: 'NTBDXMCJZYMC', title: '拟填报大学名称及专业名', width: 200, align: 'center'}
+                , {field: 'DXXZ', title: '大学性质', width: 150, align: 'center'}
+                , {field: 'DXXNNF', title: '大学学年学费', width: 150, align: 'center'}
+                , {field: 'SHZXXM', title: '社会助学项目', width: 150, align: 'center'}
+                , {field: 'DNCSQTYSHZXXM', title: '第N次申请同一社会助学项目', width: 200, align: 'center'}
+                , {field: 'DNCJZRXM', title: '捐助人姓名', width: 150, align: 'center'}
+                , {field: 'DNCJZRXB', title: '捐助人性别', width: 100, align: 'center'}
+                , {field: 'DNCJZRSJHM', title: '捐助人手机号码', width: 150, align: 'center'}
+                , {field: 'DNCJZCGSJ', title: '捐助成功时间', width: 100, align: 'center'}
+                , {field: 'DNCJZRBH', title: '请输入捐助人编号', width: 150, align: 'center'}
+            ]]
+            , done: function (res, curr, count) {
+                $("[data-field='id']").css('display', 'none');
+            }
+        });
+        //监听排序事件
+        table.on('sort(test)', function (obj) { //实现服务端排序
+            table.reload('tab_list', {
+                initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                    field: obj.field //排序字段
+                    , order: obj.type //排序方式
+                }
+            });
+        });
+        table.on('tool(test)', function(obj){
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+            var param = {
+                type: 2,
+                area: ['600px', '90%'],
+                title: '社会助学表单',
+                fixed: false, //不固定
+                content: Apps.ContextPath + "shfund/add/",
+            };
+
+            if(layEvent === 'detail'){ //查看
+                alert("查看");
+            } else if(layEvent === 'del'){ //删除
+                alert("删除");
+                layer.confirm('真的删除行么', function(index){
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                    //向服务端发送删除指令
+                });
+            } else if(layEvent === 'edit'){ //编辑
+                alert("编辑");
+                param.content = Apps.ContextPath + 'shfund/add/'+ data.ID,
+                    openPage(openType, layEvent, param);
+
+                //do something
+
+                //同步更新缓存对应的值
+                // obj.update({
+                //     SCHOOLNAME: '123'
+                //     ,STUDENNAME: 'xxx'
+                // });
+            }
+
+        })
+
+        table.on('edit(test)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            console.log(obj.value); //得到修改后的值
+            console.log(obj.field); //当前编辑的字段名
+            console.log(obj.data); //所在行的所有相关数据
+        });
+        table.on('row()', function(obj){
+            var rowIndex = obj.tr.attr("data-index");
+            if(reloadData){
+                var fields = reloadData[rowIndex];
+                obj.update(fields);
+                console.log(fields.ID);
+            }else{
+                console.log(obj.data.ID);
+            }
+        });
+    });
+
+    function search() {
+        tableIns.reload({
+            where:{
+                "studentname":$("#studentname").val(),
+                "schoolname":$("#schoolname").val(),
+                "schoolss":$("#schoolss").val(),
+                "sex":$("#sex").val(),
+                "nation":$("#nation").val(),
+                "nd":$("#nd").val(),
+                "idcard":$("#idcard").val(),
+                "hjszss":$("#hjszss").val(),
+                "shzxxm":$("#shzxxm").val(),
+                "phonenumber":$("#phonenumber").val(),
+                "xmxz":$("#xmxz").val(),
+                "class":$("#class").val(),
+                "dxxz":$("#dxxz").val(),
+                "dncjzrbh":$("#dncjzrbh").val(),
+                "bianhao":$("#bianhao").val(),
+                "dncjzrxm":$("#dncjzrxm").val(),
+                "dncjzcgsj":$("#dncjzcgsj").val()
+            },
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        })
+    }
+
+    var reloadData;
+    function reloadTable(){
+        var ajax = new Ajax("dict/type/list",function(data){
+            if(judgeRight(data)){
+                reloadData = data.dataset.rows;
+                for(var index in reloadData){
+                    $(".relodName:eq("+index+")").html(reloadData[index].NAME);
+                    $(".relodId:eq("+index+")").html("1");
+                }
+            }
+        });
+        ajax.submit();
+    }
+
+    //操作
+    function buttonEvents(type) {
+        var check = table.checkStatus('tab_list');
+        //用于判断为查看详情还是编辑的状态
+        var param = {
+            type: 2,
+            area: ['600px', '90%'],
+            title: '社会助学表单',
+            fixed: false, //不固定
+            content: Apps.ContextPath + "shfund/add/"
+        };
+        if (type == "add") {
+            openPage(openType, type, param);
+        } else if (check.data.length != 1 && (type == 'edit' || type == 'copy')) {
+            layer.msg("请选择一行数据！", function () {
+            })
+        } else if (type == 'copy') {
+            param.content = Apps.ContextPath + 'shfund/add/'+ check.data[0].ID + "/true";
+            openPage(openType, type, param);
+        } else if (type == "edit") {
+            param.content = Apps.ContextPath + 'shfund/add/'+ check.data[0].ID;
+            openPage(openType, type, param);
+        } else if (type == "del") {
+            rowsDel("shfund/del", check.data, "你确定删除所选数据吗?");
+        } else if (type == "export") {
+            var param = {
+                type: 2,
+                area: ['800px', '500px'],
+                title:'导出表单',
+                fixed: false,
+                content: Apps.ContextPath+"demo/export"
+            };
+            obj = {name: "studentname",value: $("#studentname").val()};
+            exportParams.push(obj);
+            obj = {name: "schoolname",value: $("#schoolname").val()};
+            exportParams.push(obj);
+            obj = {name: "sex",value: $("#sex").val()};
+            exportParams.push(obj);
+            var obj = {name: "nd", value: $("#nd").val()};
+            exportParams.push(obj);
+            openPage(openType,null,param);
+
+        }
+    }
+</script>
+</body>
+</html>

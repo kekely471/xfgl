@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>发票管理</title>
+</head>
+<body class="layui-layout-body">
+<div style="padding: 15px;">
+    <div style="overflow: hidden;">
+        <div class="layui-form-item" style="float:right;margin-bottom: 0;">
+            <div class="layui-inline" style="margin-bottom:5px;margin-right:0;">
+                <label class="layui-form-label">关键字：</label>
+                <div class="layui-input-inline" style="width: 160px;">
+                    <input type="text" class="layui-input" id="key_name" style="width: 160px;">
+                </div>
+                <div class="layui-input-inline" style="width: 64px;margin-right: 0;">
+                    <button class="layui-btn layui-btn_search" id="query" onclick="search()">查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-btn-group">
+            <!--<button class="layui-btn layui-btn-add" id="add" onclick="buttonEvents('add')">增加</button>
+            <button class="layui-btn layui-btn-edit" id="edit" onclick="buttonEvents('edit')">编辑</button>
+            <button class="layui-btn layui-btn-del" id="del" onclick="buttonEvents('del')">删除</button>
+            <button class="layui-btn layui-btn-realDel" id="realDel" onclick="buttonEvents('realDel')">彻底删除</button>-->
+        </div>
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+<script>
+    initBtns();
+    var table, tableIns, openType = 1;
+    //获取当前tab Id
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");
+    layui.use('table', function () {
+        table = layui.table;
+        var pageHeight = $(window).height() - 30 - 38;
+        tableIns = table.render({
+            id: "tab_list",
+            elem: '#tab_dg',
+            height: pageHeight,
+            limit: Math.floor(pageHeight / 40 - 2),
+            url: Apps.ContextPath + 'invoice/tableList',
+            page: true,
+            autoSort: false,
+            cols: [[
+                {type: 'checkbox', fixed: 'left', checkbox: false},
+                {title: '序号', width: 70, align: 'center', type: 'numbers', fixed: 'left', unresize: true},
+                {field: 'ID', title: '编号', width: 80, align: 'center', hide: true},
+                {
+                    field: 'INVOICENAME',
+                    title: '发票名称',
+                    width: 180,
+                    align: 'center',
+                    fixed: 'left',
+                    templet: function (res) {
+                        return '<a href="#" class="layui-table-link" onclick="viewOne(' + res.ID + ')">' + res.INVOICENAME + '</a>';
+                    }
+                },
+                {
+                    field: 'INVOICETYPE', title: '发票类型', width: 130, align: 'center', templet: function (res) {
+                        var _source = getSSourceDate("fplx", 1);
+                        return init_rows(_source, res.INVOICETYPE);
+                    }
+                },
+                {field: 'DRAWER', title: '开票人', width: 120, align: 'center'},
+                {field: 'BILLINGTIME', title: '开票时间', width: 160, align: 'left'},
+                {field: 'SHOPDEPTNAME', title: '购货单位名称', width: 160, align: 'left'},
+                {field: 'SHOPDEPTPOSITION', title: '购货单位地址', width: 160, align: 'left'},
+                {field: 'SHOPDEPTPHONE', title: '购货单位电话', width: 160, align: 'center'},
+                {field: 'SHOPDEPTBANKCODE', title: '购货单位开户行账号', width: 160, align: 'center'},
+                {field: 'SELLDEPTNAME', title: '销贷单位名称', width: 160, align: 'left'},
+                {field: 'SELLDEPTPOSITION', title: '销货单位地址', width: 160, align: 'left'},
+                {field: 'SELLDEPTPHONE', title: '销货单位电话', width: 160, align: 'center'},
+                {field: 'SELLDEPTBANKCODE', title: '销货单位开户行账号', width: 160, align: 'center'},
+                {field: 'GOODSORSERVICENAME', title: '货物或应税劳务名称', width: 160, align: 'left'},
+                {field: 'SPECIFICATIONTYPE', title: '规格型号', width: 120, align: 'center'},
+                {field: 'UNTI', title: '单位', width: 90, align: 'center'},
+                {field: 'GOODSNUMBER', title: '数量', width: 90, align: 'center'},
+                {field: 'SINGLEPRICE', title: '单价', width: 90, align: 'center'},
+                {field: 'TAXRATE', title: '税率', width: 90, align: 'center'},
+                {field: 'PAYEE', title: '收款人', width: 120, align: 'center'},
+                {field: 'REVIEWER', title: '复核人', width: 120, align: 'center'},
+                {field: 'CREATE_ID', title: '创建人', width: 120, align: 'center'},
+                {field: 'CREATE_TIME', title: '创建时间', width: 160, align: 'left'},
+                {field: 'UPDATE_ID', title: '修改人', width: 120, align: 'center'},
+                {field: 'UPDATE_TIME', title: '修改时间', width: 160, align: 'left'}
+            ]],
+            done: function (res, curr, count) {
+                $("[data-field='ID']").css('display', 'none');
+            }
+        });
+    });
+
+
+    function buttonEvents(type) {
+        var check = table.checkStatus('tab_list');
+        //用于判断为查看详情还是编辑的状态
+        var isView = false;
+        var param = {
+            type: 2,
+            area: ['600px', '80%'],
+            title: '发票管理（新增）',
+            fixed: false,
+            content: Apps.ContextPath + "invoice/add/" + isView + "?preTabIndex=" + tabIndex,
+        };
+        if (type == "add") {
+            openType = 2;
+            openPage(openType, type, param);
+        } else if (check.data.length != 1 && type == 'edit') {
+            layer.msg("请选择一行数据！", function () {
+            })
+        } else if (type == "edit") {
+            param.title = '发票管理（编辑）';
+            param.content = Apps.ContextPath + 'invoice/add/' + isView + '/' + check.data[0].ID + "?preTabIndex=" + tabIndex;
+            openType = 2;
+            openPage(openType, type, param);
+        } else if (type == "del") {
+            rowsDel("invoice/del", check.data, "你确定删除所选数据吗?");//刪除事件
+        } else if (type == 'realDel') {
+            rowsDel("invoice/realDel", check.data, "彻底删除数据后无法恢复，确定要彻底删除所选数据?");
+        }
+    }
+
+    function viewOne(id) {
+        //用于判断为查看详情还是编辑的状态
+        var isView = true;
+        var type = 'edit';
+        var param = {
+            type: 2,
+            area: ['600px', '80%'],
+            title: '发票详情',
+            fixed: false, //不固定
+            btn: ["取消"],
+            content: Apps.ContextPath + 'invoice/add/' + isView + '/' + id + "?preTabIndex=" + tabIndex
+        };
+        openType = 2;
+        openPage(openType, type, param);
+    }
+
+    function search() {
+        tableIns.reload({
+            where: {"key_name": $("#key_name").val()},
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        })
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<div id="content">
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a href="#">配置</a>
+                    </li>
+
+                    <li>
+                        <a href="#">工作流配置</a>
+                    </li>
+                    <li class="active">步骤配置</li>
+                </ul><!-- /.breadcrumb -->
+            </div>
+
+            <div class="page-content">
+
+
+                <div class="row">
+                    <div class="col-xs-6 col-sm-2" style="min-width: 188px;">
+
+                        <div class="widget-box widget-color-blue2">
+                            <div class="widget-header">
+                                <h4 class="widget-title lighter smaller">
+                                    流程树
+                                </h4>
+                            </div>
+
+                            <div class="widget-body">
+                                <div class="widget-main padding-8">
+                                    <ul id="tree_table"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-10">
+                        <div class="page-header">
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <input id="key_name" type="text" placeholder="关键字"
+                                           class="col-xs-3"/>
+                                    &nbsp;
+                                    <button type="button" class="btn btn-purple btn-sm" onclick="_query();">
+                                        <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+                                        查询
+                                    </button>
+                                    <button type="button" class="btn btn-grey btn-sm" onclick="_reset();">
+                                        <span class="ace-icon fa fa-cog icon-on-right bigger-110"></span>
+                                        重置
+                                    </button>
+                                </div>
+                                <div class="col-xs-4" style="text-align: right;">
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="_add();">
+                                        <span class="ace-icon fa fa-plus icon-on-right bigger-110"></span>
+                                        新增
+                                    </button>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="_edit();">
+                                        <span class="ace-icon fa fa-pencil-square-o icon-on-right bigger-110"></span>
+                                        修改
+                                    </button>
+                                    <button type="button" class="btn btn-grey btn-sm" onclick="_del();">
+                                        <span class="ace-icon fa fa-trash-o icon-on-right bigger-110"></span>
+                                        删除
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="_realdel();">
+                                        <span class="ace-icon fa fa-trash-o icon-on-right bigger-110"></span>
+                                        彻底删除
+                                    </button>
+                                </div>
+                            </div>
+                        </div><!-- /.page-header -->
+
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table id="grid-table"></table>
+                                <div id="grid-pager"></div>
+                                <div class="row">
+                                    <br class="col-xs-12">
+                                    备注：若步骤类型选择“自由流程”，则只需配置开始步骤即可，会有流程中人自主选择是否关闭流程；</br >
+                                    若步骤类型选择“固定流程”，则系统会根据最后一个节点信息自动关闭流程；</br >
+                                    若步骤类型选择“会签流程”，则系统会根据最后一个处理人的信息自动关闭流程。
+                                </div>
+                            </div>
+                            <!-- 模态框（Modal） -->
+                            <div id="my-form" class="modal fade" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PAGE CONTENT ENDS -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.page-content -->
+    </div>
+    <script type="text/javascript">
+        var grid_selector = "#grid-table";
+        var pager_selector = "#grid-pager";
+        var tree_selector = "#tree_table";
+        var select_treeId;
+        jQuery(function ($) {
+            //初始化Grid
+            initGridTable();
+            //初始化左侧树
+            initTreeTable();
+        });
+
+        function initGridTable() {
+            var parent_column = $(grid_selector).closest('[class*="col-"]');
+            //resize to fit page size
+            $(window).on('resize.jqGrid', function () {
+                $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+            });
+
+            //resize on sidebar collapse/expand
+            $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+                if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                    //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                    setTimeout(function () {
+                        $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                    }, 20);
+                }
+            });
+            //初始化Grid
+            jQuery(grid_selector).jqGrid({
+                caption: "部门列表",
+                url: Apps.RootPath + "STEP_LIST",
+                datatype: "json",
+                mtype: "POST",
+                width: '100%',
+                height: 'auto',
+                colNames: ['编号', '步骤名称','步骤类型', '所属流程', '上级步骤', '使用角色', '修改人', '修改时间', '排序号', '状态'],
+                colModel: [
+                    {name: 'id', width: 50},
+                    {name: 'step_name', width: 50},
+                    {name: 'step_type', width: 50, sortable: false, formatter: step_type_format},
+                    {name: 'flowName', width: 100, sortable: false},
+                    {name: 'pre_step_name', width: 100, sortable: false},
+                    {name: 'relRoles', width: 100, sortable: false},
+                    {name: 'mender', width: 50, sortable: false},
+                    {name: 'mendtime', width: 50},
+                    {name: 'sort', width: 30},
+                    {name: 'status', width: 30, sortable: false, formatter: status_format}
+                ],
+                viewrecords: true,
+                multiselect: true,
+                multiselectWidth: 50,
+                multiboxonly: true,
+                rownumbers: true,
+                rowNum: 10,
+                rowList: [10, 20, 50],
+                pager: pager_selector,
+                altRows: true,
+                sortname: 'sort',
+                sortorder: "asc",
+                loadComplete: function (xhr) {
+                    var table = this;
+                    setTimeout(function () {
+                        styleCheckbox(table);
+                        updatePagerIcons(table);
+                        enableTooltips(table);
+                    }, 0);
+                },
+                ondblClickRow: function (rowid, iRow, iCol, e) {
+                    _edit(rowid);
+                }
+            });
+            //设置Grid的宽度
+            $(window).triggerHandler('resize.jqGrid');
+            //去掉收缩箭头
+            $("[class='ui-jqgrid-titlebar-close HeaderButton ui-corner-all']").remove();
+            //设置全选checkbox居中
+            $("#jqgh_grid-table_cb").css('text-align', 'center')
+            //navButtons
+            jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                { 	//navbar options
+                    edit: false, add: false, del: false, search: false,
+                    refresh: true,
+                    refreshicon: 'ace-icon fa fa-refresh green'
+                }
+            );
+
+        }
+
+        //Tree初始化
+        function initTreeTable() {
+            $(tree_selector).ace_tree({
+                dataSource: remoteDateSource,
+                loadingHTML: '<div class="tree-loading"><i class="ace-icon fa fa-refresh fa-spin blue"></i></div>',
+                'open-icon': 'ace-icon fa fa-folder-open',
+                'close-icon': 'ace-icon fa fa-folder',
+                'itemSelect': true,
+                'folderSelect': true,
+                'multiSelect': false,
+                'selected-icon': null,
+                'unselected-icon': null,
+                'folder-open-icon': 'ace-icon tree-plus',
+                'folder-close-icon': 'ace-icon tree-minus',
+                cacheItems: false,
+            }).on('selected.fu.tree', function (e) {
+                var texts = "";
+                var ids = "";
+                var items = $(tree_selector).tree('selectedItems');
+                for (var i in items) if (items.hasOwnProperty(i)) {
+                    var item = items[i];
+                    ids += item.additionalParameters['id'] + ",";
+                    texts += item.text + ",";
+                }
+
+                ids = ids.substring(0, ids.lastIndexOf(","));
+                texts = texts.substring(0, texts.lastIndexOf(","));
+                select_treeId = ids;
+                _query(ids);
+            }).on('deselected.fu.tree', function (e) {
+                _query("");
+            });
+        }
+
+        //Tree数据初始化方法
+        function remoteDateSource(options, callback) {
+            var $data = null;
+            if (!("text" in options) && !("type" in options)) {
+                var ajax = new Ajax('FLOW_TREE', function (ret) {
+                    if (ret.code && ret.code < 0) {
+                        bootbox.alert({title: "警告", message: ret.msg});
+                        return;
+                    }
+                    if (ret.code && ret.code > 0) {
+                        callback({data: ret.dataset.rows});
+                    }
+                });
+                ajax.setMessage(false);
+                ajax.submit();
+                return;
+            }
+            else if ("type" in options && options.type == "folder") {
+                if ("additionalParameters" in options && "children" in options.additionalParameters)
+                    $data = options.additionalParameters.children;//点击父节点，加载子节点
+                else $data = {}//no data
+            }
+            if ($data != null)//this setTimeout is only for mimicking some random delay
+                setTimeout(function () {
+                    callback({data: $data});
+                }, parseInt(Math.random() * 500) + 200);
+        }
+
+        //Grid查询
+        function _query(_treeId) {
+            //此处可以添加对查询数据的合法验证
+            var key_name = $("#key_name").val();
+            //console.log(key_name);
+            $(grid_selector).jqGrid('setGridParam', {
+                datatype: 'json',
+                postData: {'key_name': key_name, 'pid': _treeId},
+                page: 1
+            }).trigger("reloadGrid");
+        }
+
+        function _reset() {
+            //刷新grid等一些需要刷新的控件
+            $(grid_selector).jqGrid('setGridParam', {
+                datatype: 'json',
+                postData: null,
+                page: 1
+            }).trigger("reloadGrid");
+            $(tree_selector).find("li:not([data-template])").remove();
+            $("#key_name").val('');
+            $(tree_selector).tree('render');
+        }
+
+        //Grid新增
+        function _add() {
+            $("#my-form").modal({
+                backdrop: 'static',
+                remote: "admin/setting/flow/step.add?_treeId=" + select_treeId
+            }).on("hidden.bs.modal", function () {
+                $(this).removeData("bs.modal");
+            });
+        }
+
+        //Grid编辑
+        function _edit(_id) {
+            var ids;
+            if (_id == undefined) {
+                ids = $(grid_selector).jqGrid('getGridParam', 'selarrrow');
+                if (ids.length != 1) {
+                    bootbox.alert({title: "警告", message: "请选择一条需要编辑的数据"});
+                    return;
+                }
+            } else {
+                ids = _id;
+            }
+            $("#my-form").modal({
+                backdrop: 'static',
+                remote: "admin/setting/flow/step.add?_id=" + ids
+            }).on("hidden.bs.modal", function () {
+                $(this).removeData("bs.modal");
+            });
+
+
+        }
+
+        //Grid删除
+        function _del() {
+            var ids = $(grid_selector).jqGrid('getGridParam', 'selarrrow');
+            if (ids.length == 0) {
+                bootbox.alert({title: "警告", message: "请选择需要删除的数据"});
+                return;
+            }
+            bootbox.confirm({
+                message: "确定要删除所选数据?",
+                buttons: {
+                    confirm: {
+                        label: '是',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: '否',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        //拼接
+                        var temp_id = ids[0];
+                        for (var i = 1; i < ids.length; i++) {
+                            temp_id = temp_id + "+" + ids[i];
+                        }
+
+                        var ajax = new Ajax('STEP_DEL', function (ret) {
+                            if (ret.code && ret.code < 0) {
+                                bootbox.alert({title: "警告", message: ret.msg});
+                                return;
+                            }
+                            if (ret.code && ret.code > 0) {
+                                bootbox.alert({title: "信息", message: "删除成功"});
+
+                                //刷新grid等一些需要刷新的控件
+                                $(grid_selector).trigger("reloadGrid");
+                                $(tree_selector).find("li:not([data-template])").remove();
+                                $(tree_selector).tree('render');
+                            }
+                        });
+                        ajax.setMessage(true);
+                        ajax.add("ids", temp_id);
+                        ajax.submit();
+                    }
+                }
+            });
+        }
+
+        //Grid删除
+        function _realdel() {
+            var ids = $(grid_selector).jqGrid('getGridParam', 'selarrrow');
+            if (ids.length == 0) {
+                bootbox.alert({title: "警告", message: "请选择需要彻底删除的数据"});
+                return;
+            }
+            bootbox.confirm({
+                message: "彻底删除数据后无法恢复，确定要彻底删除所选数据?",
+                buttons: {
+                    confirm: {
+                        label: '是',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: '否',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        //拼接
+                        var temp_id = ids[0];
+                        for (var i = 1; i < ids.length; i++) {
+                            temp_id = temp_id + "+" + ids[i];
+                        }
+
+                        var ajax = new Ajax('DEPT_REAL_DEL', function (ret) {
+                            if (ret.code && ret.code < 0) {
+                                bootbox.alert({title: "警告", message: ret.msg});
+                                return;
+                            }
+                            if (ret.code && ret.code > 0) {
+                                bootbox.alert({title: "信息", message: "彻底删除成功"});
+
+                                //刷新grid等一些需要刷新的控件
+                                $(grid_selector).trigger("reloadGrid");
+                                $(tree_selector).find("li:not([data-template])").remove();
+                                $(tree_selector).tree('render');
+                            }
+                        });
+                        ajax.setMessage(true);
+                        ajax.add("ids", temp_id);
+                        ajax.submit();
+                    }
+                }
+            });
+        }
+
+        //Grid导出
+        function _export() {
+            bootbox.alert({title: "信息", message: "敬请期待"});
+        }
+    </script>
+</div><!-- /.main-content -->
+</div>

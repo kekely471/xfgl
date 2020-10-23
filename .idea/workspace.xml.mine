@@ -1,0 +1,2041 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="4" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="daca6969-97b1-469a-a175-c26811589aaf" name="Default" comment="Excel 导出功能方法封装" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/framework/target/" />
+    <ignored path="$PROJECT_DIR$/support/target/" />
+    <ignored path="$PROJECT_DIR$/api/target/" />
+    <ignored path="$PROJECT_DIR$/web/target/" />
+    <ignored path="$PROJECT_DIR$/mobile/target/" />
+    <ignored path="$PROJECT_DIR$/task/target/" />
+    <ignored path="$PROJECT_DIR$/im/target/" />
+    <ignored path="$PROJECT_DIR$/xfgl-support/target/" />
+    <ignored path="$PROJECT_DIR$/xfgl-task/target/" />
+    <ignored path="$PROJECT_DIR$/xfgl-framework/target/" />
+    <ignored path="$PROJECT_DIR$/xfgl-mobile/target/" />
+    <ignored path="$PROJECT_DIR$/xfgl-web/target/" />
+    <ignored path="$PROJECT_DIR$/xfgl-im/target/" />
+    <ignored path="$PROJECT_DIR$/xfgl-api/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/dev$WebApplication.ic" NAME="WebApplication Coverage Results" MODIFIED="1548221655594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="xfgl" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/common/HttpUtil.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3743">
+              <caret line="222" selection-start-line="222" selection-end-line="222" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.7/commons-lang3-3.7-sources.jar!/org/apache/commons/lang3/StringUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5738">
+              <caret line="334" column="26" selection-start-line="334" selection-start-column="26" selection-end-line="334" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/app/itsm/action/ApiAction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4636">
+              <caret line="302" column="24" selection-start-line="302" selection-start-column="24" selection-end-line="302" selection-end-column="24" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/application.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="638">
+              <caret line="59" column="41" lean-forward="true" selection-start-line="59" selection-start-column="41" selection-end-line="59" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/YhLeaveAction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="513">
+              <caret line="59" column="49" lean-forward="true" selection-start-line="59" selection-start-column="49" selection-end-line="59" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/yhleave/list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="494">
+              <caret line="89" column="44" lean-forward="true" selection-start-line="89" selection-start-column="44" selection-end-line="89" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/yhleave/add.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1455" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/meeting/add.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="100">
+              <caret line="129" column="13" selection-start-line="129" selection-start-column="13" selection-end-line="129" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/message/myList.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="334">
+              <caret line="130" column="13" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/important/impl/RyfxMoblieServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="7790">
+              <caret line="425" selection-start-line="425" selection-end-line="425" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="HTML File" />
+        <option value="BpmnFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>ureport</find>
+      <find>ryfx/tb</find>
+      <find>messageForEvery</find>
+      <find>getHistoryByBussinessId</find>
+      <find>1q</find>
+      <find>.Stream</find>
+      <find>gzq</find>
+      <find>ByBussinessId</find>
+      <find>sendAllSpr</find>
+      <find>deletecomplete</find>
+      <find>getpageleaveByZDforH5</find>
+      <find>ryfx/save</find>
+      <find>Subject subject</find>
+      <find>SecurityUtils.getSubject()</find>
+      <find>UserEntity</find>
+      <find>selectLeaveHistory</find>
+      <find>Tqnxjts</find>
+      <find>gggl/</find>
+      <find>ytj/list</find>
+      <find>tb_leave</find>
+      <find>32小写</find>
+      <find>encryptToMD5</find>
+      <find>ajax</find>
+      <find>wgd/list</find>
+      <find>tb_</find>
+      <find>ygd/list</find>
+      <find>ryfx/qx</find>
+      <find>enum</find>
+      <find>重置</find>
+      <find>yhleave</find>
+    </findStrings>
+    <replaceStrings>
+      <replace />
+      <replace>//</replace>
+      <replace>and</replace>
+      <replace>yyyy-mm-dd hh24:mi</replace>
+      <replace>lq</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>D:\ideaTestWorkspace\xfgl\xfgl-web\src\main\resources\templates\admin\setting</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/activiti/common/DataGrid.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/rygl/add.html" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/impl/RyglServiceImpl.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/pojo/LeaveApply.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/pojo/LeaveTask.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/pojo/RunningProcess.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/pojo/PurchaseApply.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/pojo/HistoryProcess.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/test/java/com/tonbu/web/WebApplicationTests.java" />
+        <option value="$PROJECT_DIR$/xfgl-im/src/main/java/com/tonbu/im/java/action/UserAction.java" />
+        <option value="$PROJECT_DIR$/xfgl-im/src/main/java/com/tonbu/ImApplication.java" />
+        <option value="$PROJECT_DIR$/xfgl-im/src/main/java/com/tonbu/im/java/ws/LLWS.java" />
+        <option value="$PROJECT_DIR$/xfgl-support/src/main/java/com/tonbu/support/config/CorsFilter.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/test/java/com/tonbu/web/PrcoessTest.java" />
+        <option value="$PROJECT_DIR$/xfgl-api/src/main/java/com/tonbu/ApiApplication.java" />
+        <option value="$PROJECT_DIR$/xfgl-api/xfgl-api.iml" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/impl/CommonServiceImpl.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/BaseAction.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/RyglAction.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/rygl/list.html" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/app/itsm/service/impl/GzqServiceImpl.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/resources/static/layui/commons/css/login.css" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/DqService.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/impl/DqServiceImpl.java" />
+        <option value="$PROJECT_DIR$/xfgl-mobile/src/main/resources/static/layui/commons/css/login.css" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/app/itsm/action/ApiTestAction.java" />
+        <option value="$PROJECT_DIR$/xfgl-support/src/main/java/com/tonbu/support/config/ShiroConfig.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/LeaveAction.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/resources/templates/main.html" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/resources/log4j2-spring.xml" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/LoginAction.java" />
+        <option value="$PROJECT_DIR$/xfgl-framework/pom.xml" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/xxfb/list.html" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/impl/MenuServiceImpl.java" />
+        <option value="$PROJECT_DIR$/xfgl-support/src/main/java/com/tonbu/support/config/DefaultViewConfig.java" />
+        <option value="$PROJECT_DIR$/xfgl-framework/src/main/java/com/tonbu/framework/dao/DBHelper.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/impl/XxfbServiceImpl.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/leave/list.html" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/zcjd/list.html" />
+        <option value="$PROJECT_DIR$/xfgl-web/pom.xml" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/WebApplication.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/common/ImportExcelUtil.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/test/java/com/tonbu/web/MyTest.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/test/java/com/tonbu/web/LamdaTest.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/test/java/com/tonbu/web/LambdaTest.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/LeaveService.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/impl/LeaveServiceImpl.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/common/HttpUtil.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/app/itsm/action/ApiAction.java" />
+        <option value="$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/important/impl/RyfxMoblieServiceImpl.java" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\apache-maven\Repositorytonbu" />
+        <option name="mavenHome" value="D:/apache-maven/apache-maven-3.6.0" />
+        <option name="userSettingsFile" value="D:\apache-maven\apache-maven-3.6.0\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="dev" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="xfgl-framework" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="xfgl-framework" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="xfgl-support" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="xfgl-support" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="xfgl-web" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="xfgl-web" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="33" />
+    <option name="y" value="75" />
+    <option name="width" value="1452" />
+    <option name="height" value="912" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+    <ConfirmationsSetting value="2" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="tonbu" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="tonbu" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="tonbu" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="tonbu" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="action" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="tonbu" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="tonbu" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="itsm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="tonbu" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="itsm" type="462c0819:PsiDirectoryNode" />
+              <item name="action" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="manage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="manage" type="462c0819:PsiDirectoryNode" />
+              <item name="meeting" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="manage" type="462c0819:PsiDirectoryNode" />
+              <item name="message" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xfgl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xfgl" type="462c0819:PsiDirectoryNode" />
+              <item name="xfgl-web" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="manage" type="462c0819:PsiDirectoryNode" />
+              <item name="yhleave" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder5" value="5" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="413" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="413" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="413" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="413" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="413" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="413" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5" value="5" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="413" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="413" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="413" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="413" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="413" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth5" value="413" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://E:/framing/dev_oracle/web/src/main/java/com/tonbu/web/admin/service/impl/DictServiceImpl.java&#10;dict&#9;FILE&#9;file://E:/framing/dev_oracle/web/src/main/java/com/tonbu/web/admin/service/impl/DictServiceImpl.java&#10;login&#9;FILE&#9;file://E:/framing/dev_oracle/web/src/main/java/com/tonbu/web/admin/action/LoginAction.java&#10;main&#9;FILE&#9;file://E:/framing/dev_oracle/web/src/main/resources/templates/main.html&#10;add&#9;FILE&#9;file://E:/framing/dev_oracle/web/src/main/resources/templates/admin/setting/dict/business/add.html" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556271117597" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../0514_exam" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.tonbu.web" />
+      <recent name="com.tonbu" />
+      <recent name="com.tonbu.support" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\IdeaProjects\xfgl\xfgl-web\src\main\resources\static\layui\commons\images" />
+      <recent name="D:\ideaTestWorkspace\xfgl\xfgl-web\src\main\resources\process" />
+      <recent name="D:\ideaTestWorkspace\xfgl\xfgl-web\src\main\resources" />
+      <recent name="D:\ideaTestWorkspace\xfgl\xfgl-web\src\main\resources\processes" />
+      <recent name="D:\ideaTestWorkspace\xfgl\xfgl-web\src\main\java\com\tonbu\web\activiti" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.tonbu.web.app.itsm.action" />
+      <recent name="com.tonbu.web.admin.pojo" />
+      <recent name="com.tonbu.web.admin.service.impl" />
+      <recent name="com.tonbu.web.admin.service" />
+      <recent name="com.tonbu.web.activiti.common" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\framing\dev_oracle\web\src\main\resources\templates\admin\manage\dept" />
+      <recent name="E:\ideaspace\dev_oracle\web\src\main\resources\static\layui\commons" />
+      <recent name="E:\ideaspace\dev_oracle\web\src\main\resources\static\layui\js" />
+      <recent name="E:\ideaspace\dev_oracle\web\src\main\resources\static\layui" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+    <option name="contentProportion" value="0.16774891" />
+  </component>
+  <component name="RunManager" selected="Spring Boot.WebApplication">
+    <configuration name="LambdaQs" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.tonbu.web.LambdaQs" />
+      <module name="xfgl-web" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tonbu.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MyTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.tonbu.web.MyTest" />
+      <module name="xfgl-web" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tonbu.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PrcoessTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.tonbu.web.PrcoessTest" />
+      <module name="xfgl-web" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tonbu.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebApplicationTests.deletecomplete" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="xfgl-web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tonbu.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.tonbu.web" />
+      <option name="MAIN_CLASS_NAME" value="com.tonbu.web.WebApplicationTests" />
+      <option name="METHOD_NAME" value="deletecomplete" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebApplicationTests.historicactivityinstance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="xfgl-web" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tonbu.web.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.tonbu.web" />
+      <option name="MAIN_CLASS_NAME" value="com.tonbu.web.WebApplicationTests" />
+      <option name="METHOD_NAME" value="historicactivityinstance" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="xfgl-api" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.tonbu.ApiApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ImApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="xfgl-im" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.tonbu.ImApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MobileApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="xfgl-mobile" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.tonbu.MobileApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TaskApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="xfgl-task" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.tonbu.task.TaskApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="xfgl-web" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.tonbu.WebApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.PrcoessTest" />
+      <item itemvalue="Application.MyTest" />
+      <item itemvalue="Application.LambdaQs" />
+      <item itemvalue="JUnit.WebApplicationTests.deletecomplete" />
+      <item itemvalue="JUnit.WebApplicationTests.historicactivityinstance" />
+      <item itemvalue="Spring Boot.TaskApplication" />
+      <item itemvalue="Spring Boot.WebApplication" />
+      <item itemvalue="Spring Boot.MobileApplication" />
+      <item itemvalue="Spring Boot.ImApplication" />
+      <item itemvalue="Spring Boot.ApiApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MyTest" />
+        <item itemvalue="Application.LambdaQs" />
+        <item itemvalue="Application.PrcoessTest" />
+        <item itemvalue="JUnit.WebApplicationTests.deletecomplete" />
+        <item itemvalue="JUnit.WebApplicationTests.historicactivityinstance" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\keke\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+    <option name="FORCE_UPDATE" value="true" />
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaProjects\xfgl" />
+          <option name="myCopyRoot" value="D:\IdeaProjects\xfgl" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaProjects\xfgl\xfgl-api" />
+          <option name="myCopyRoot" value="D:\IdeaProjects\xfgl\xfgl-api" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaProjects\xfgl\xfgl-framework" />
+          <option name="myCopyRoot" value="D:\IdeaProjects\xfgl\xfgl-framework" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaProjects\xfgl\xfgl-im" />
+          <option name="myCopyRoot" value="D:\IdeaProjects\xfgl\xfgl-im" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaProjects\xfgl\xfgl-mobile" />
+          <option name="myCopyRoot" value="D:\IdeaProjects\xfgl\xfgl-mobile" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaProjects\xfgl\xfgl-support" />
+          <option name="myCopyRoot" value="D:\IdeaProjects\xfgl\xfgl-support" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaProjects\xfgl\xfgl-task" />
+          <option name="myCopyRoot" value="D:\IdeaProjects\xfgl\xfgl-task" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaProjects\xfgl\xfgl-web" />
+          <option name="myCopyRoot" value="D:\IdeaProjects\xfgl\xfgl-web" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\IdeaProjects\xfgl" />
+          <option name="myCopyRoot" value="D:\IdeaProjects\xfgl" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="daca6969-97b1-469a-a175-c26811589aaf" name="Default" comment="" />
+      <created>1548141281080</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1548141281080</updated>
+      <workItem from="1548141283787" duration="225000" />
+      <workItem from="1548141535024" duration="475000" />
+      <workItem from="1548142034730" duration="21381000" />
+      <workItem from="1548225218981" duration="1905000" />
+      <workItem from="1548231525208" duration="9343000" />
+      <workItem from="1548311417634" duration="10889000" />
+      <workItem from="1548378410737" duration="15379000" />
+      <workItem from="1548635968675" duration="8890000" />
+      <workItem from="1548722254824" duration="13288000" />
+      <workItem from="1548808242547" duration="558000" />
+      <workItem from="1548894827212" duration="11486000" />
+      <workItem from="1548914928537" duration="27741000" />
+      <workItem from="1549846513348" duration="1500000" />
+      <workItem from="1549872049134" duration="1413000" />
+      <workItem from="1549931845092" duration="1629000" />
+      <workItem from="1549952664220" duration="2342000" />
+      <workItem from="1549958723785" duration="2967000" />
+      <workItem from="1550037640153" duration="2049000" />
+      <workItem from="1550799479413" duration="3043000" />
+      <workItem from="1551141880062" duration="606000" />
+      <workItem from="1551417075008" duration="5868000" />
+      <workItem from="1551860770374" duration="3792000" />
+      <workItem from="1551918515003" duration="25000" />
+      <workItem from="1551943015075" duration="677000" />
+      <workItem from="1551949334491" duration="1298000" />
+      <workItem from="1552371442218" duration="215000" />
+      <workItem from="1552371989259" duration="2054000" />
+      <workItem from="1552380863291" duration="4000" />
+      <workItem from="1552445070464" duration="4880000" />
+      <workItem from="1552522920607" duration="2649000" />
+      <workItem from="1552530819478" duration="5743000" />
+      <workItem from="1552543600164" duration="360000" />
+      <workItem from="1552544147411" duration="1828000" />
+      <workItem from="1552893577869" duration="124000" />
+      <workItem from="1553044720023" duration="933000" />
+      <workItem from="1553071925753" duration="3617000" />
+      <workItem from="1553130399631" duration="238000" />
+      <workItem from="1553218473997" duration="646000" />
+      <workItem from="1553567294458" duration="1111000" />
+      <workItem from="1553676840520" duration="110000" />
+      <workItem from="1553827947782" duration="8882000" />
+      <workItem from="1553842605960" duration="681000" />
+      <workItem from="1554081915259" duration="635000" />
+      <workItem from="1554165693453" duration="1646000" />
+      <workItem from="1554167880150" duration="3658000" />
+      <workItem from="1554176618196" duration="739000" />
+      <workItem from="1554198465334" duration="1193000" />
+      <workItem from="1554251792128" duration="1402000" />
+      <workItem from="1554337849061" duration="1467000" />
+      <workItem from="1554340216017" duration="15508000" />
+      <workItem from="1554362503151" duration="2674000" />
+      <workItem from="1554683505745" duration="123000" />
+      <workItem from="1554701020696" duration="9006000" />
+      <workItem from="1554773181518" duration="1579000" />
+      <workItem from="1554789426896" duration="489000" />
+      <workItem from="1554971462568" duration="17000" />
+      <workItem from="1555029682385" duration="4762000" />
+      <workItem from="1555037997443" duration="403000" />
+      <workItem from="1555045950605" duration="1246000" />
+      <workItem from="1555462357295" duration="642000" />
+      <workItem from="1555547872757" duration="586000" />
+      <workItem from="1555636236494" duration="2058000" />
+      <workItem from="1556175049902" duration="1507000" />
+      <workItem from="1556238837735" duration="13183000" />
+      <workItem from="1556411670213" duration="683000" />
+      <workItem from="1575600581359" duration="3936000" />
+      <workItem from="1575612294064" duration="1674000" />
+      <workItem from="1575614132949" duration="1538000" />
+      <workItem from="1575851801300" duration="1196000" />
+      <workItem from="1575853181549" duration="9664000" />
+      <workItem from="1575876613603" duration="289000" />
+      <workItem from="1575876910714" duration="228000" />
+      <workItem from="1575877143787" duration="118000" />
+      <workItem from="1575877268156" duration="88000" />
+      <workItem from="1575877708841" duration="172000" />
+      <workItem from="1575879276211" duration="2777000" />
+      <workItem from="1575937693237" duration="2760000" />
+      <workItem from="1575940503669" duration="366000" />
+      <workItem from="1575940897672" duration="2678000" />
+      <workItem from="1575943997476" duration="17690000" />
+      <workItem from="1576023684626" duration="2093000" />
+      <workItem from="1576032537523" duration="97000" />
+      <workItem from="1576058296886" duration="1124000" />
+      <workItem from="1576071864893" duration="107000" />
+      <workItem from="1576112688803" duration="906000" />
+      <workItem from="1576129990067" duration="3905000" />
+      <workItem from="1576218602357" duration="327000" />
+      <workItem from="1576225646414" duration="734000" />
+      <workItem from="1576456221597" duration="14630000" />
+      <workItem from="1576548414774" duration="30000" />
+      <workItem from="1576567996624" duration="1907000" />
+      <workItem from="1576629199492" duration="16729000" />
+      <workItem from="1576715942319" duration="5575000" />
+      <workItem from="1576800829704" duration="7095000" />
+      <workItem from="1576808204959" duration="16541000" />
+      <workItem from="1576832622113" duration="1018000" />
+      <workItem from="1576909305942" duration="1045000" />
+      <workItem from="1576976821623" duration="1246000" />
+      <workItem from="1577061008752" duration="9453000" />
+      <workItem from="1577090675834" duration="4563000" />
+      <workItem from="1577149600122" duration="22196000" />
+      <workItem from="1577233008052" duration="25067000" />
+      <workItem from="1577320584496" duration="14888000" />
+      <workItem from="1577341424822" duration="11363000" />
+      <workItem from="1577363077135" duration="7486000" />
+      <workItem from="1577406336904" duration="25528000" />
+      <workItem from="1577584846507" duration="1140000" />
+      <workItem from="1577665867128" duration="31338000" />
+      <workItem from="1577751741547" duration="23321000" />
+      <workItem from="1577777872591" duration="1308000" />
+      <workItem from="1587863958475" duration="399000" />
+      <workItem from="1587864536314" duration="541000" />
+      <workItem from="1587865091462" duration="10868000" />
+      <workItem from="1587947306963" duration="1560000" />
+      <workItem from="1588134253070" duration="1150000" />
+      <workItem from="1588725476353" duration="10103000" />
+      <workItem from="1588742113220" duration="15114000" />
+      <workItem from="1588810304377" duration="11000" />
+      <workItem from="1588810653431" duration="398000" />
+      <workItem from="1588811447839" duration="211000" />
+      <workItem from="1588812356732" duration="800000" />
+      <workItem from="1588918418250" duration="2526000" />
+      <workItem from="1588927479610" duration="2077000" />
+      <workItem from="1588986077750" duration="10074000" />
+      <workItem from="1589007846966" duration="6681000" />
+      <workItem from="1589153546743" duration="208000" />
+      <workItem from="1589156560623" duration="1613000" />
+      <workItem from="1589183283426" duration="832000" />
+      <workItem from="1589187025306" duration="1184000" />
+      <workItem from="1589190012458" duration="243000" />
+      <workItem from="1589249333458" duration="7039000" />
+      <workItem from="1589268162768" duration="4842000" />
+      <workItem from="1589347270094" duration="2091000" />
+      <workItem from="1589415528484" duration="3537000" />
+      <workItem from="1589597594114" duration="291000" />
+      <workItem from="1589607550337" duration="441000" />
+      <workItem from="1589608857219" duration="179000" />
+      <workItem from="1589614278085" duration="558000" />
+      <workItem from="1589761192648" duration="1233000" />
+      <workItem from="1589769975306" duration="389000" />
+      <workItem from="1589780652723" duration="100000" />
+      <workItem from="1589783588686" duration="721000" />
+      <workItem from="1589848081465" duration="754000" />
+      <workItem from="1589852980939" duration="597000" />
+      <workItem from="1589856052673" duration="1801000" />
+      <workItem from="1590027802855" duration="851000" />
+      <workItem from="1590042781607" duration="3114000" />
+      <workItem from="1590392936343" duration="659000" />
+      <workItem from="1590396356650" duration="95000" />
+      <workItem from="1590732387318" duration="1138000" />
+      <workItem from="1590739444253" duration="2580000" />
+      <workItem from="1590746082560" duration="2227000" />
+      <workItem from="1590972193188" duration="2713000" />
+      <workItem from="1590996511697" duration="5674000" />
+      <workItem from="1591057482917" duration="15155000" />
+      <workItem from="1591104738052" duration="656000" />
+      <workItem from="1591146466905" duration="6441000" />
+      <workItem from="1591317836793" duration="22632000" />
+      <workItem from="1591347493242" duration="22000" />
+      <workItem from="1591580186548" duration="23736000" />
+      <workItem from="1591662262235" duration="2360000" />
+      <workItem from="1591666797471" duration="280000" />
+      <workItem from="1591752282382" duration="1029000" />
+    </task>
+    <task id="LOCAL-00016">
+      <created>1548917579380</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1548917579380</updated>
+    </task>
+    <task id="LOCAL-00017">
+      <created>1548918426688</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1548918426688</updated>
+    </task>
+    <task id="LOCAL-00018">
+      <created>1548921958168</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1548921958168</updated>
+    </task>
+    <task id="LOCAL-00019">
+      <created>1548992136461</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1548992136461</updated>
+    </task>
+    <task id="LOCAL-00020">
+      <created>1549007000598</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1549007000598</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Excel 导出功能方法封装">
+      <created>1553569720276</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1553569720276</updated>
+    </task>
+    <task id="LOCAL-00022" summary="修复导出excel  bug">
+      <created>1553842547924</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1553842547924</updated>
+    </task>
+    <task id="LOCAL-00023">
+      <created>1553843284337</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1553843284337</updated>
+    </task>
+    <task id="LOCAL-00024">
+      <created>1554170556637</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1554170556637</updated>
+    </task>
+    <task id="LOCAL-00025" summary="角色删除关联账号BUG">
+      <created>1554199631554</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1554199631554</updated>
+    </task>
+    <task id="LOCAL-00026">
+      <created>1554338236268</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1554338236268</updated>
+    </task>
+    <task id="LOCAL-00027" summary="BUG修复">
+      <created>1554361710653</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1554361710653</updated>
+    </task>
+    <task id="LOCAL-00028" summary="BUG修复">
+      <created>1554362668827</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1554362668827</updated>
+    </task>
+    <task id="LOCAL-00029" summary="BUG修复">
+      <created>1555034536621</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1555034536621</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Excel 导出功能方法封装">
+      <created>1575876962610</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1575876962610</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Excel 导出功能方法封装">
+      <created>1575877860011</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1575877860011</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Excel 导出功能方法封装">
+      <created>1575879352674</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1575879352674</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Excel 导出功能方法封装">
+      <created>1575939608792</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1575939608792</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Excel 导出功能方法封装">
+      <created>1575957698628</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1575957698628</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Excel 导出功能方法封装">
+      <created>1575962806102</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1575962806102</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Excel 导出功能方法封装">
+      <created>1576112794541</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1576112794541</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Excel 导出功能方法封装">
+      <created>1576130977425</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1576130977425</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Excel 导出功能方法封装">
+      <created>1576218851681</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1576218851681</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Excel 导出功能方法封装">
+      <created>1576457187104</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1576457187105</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Excel 导出功能方法封装">
+      <created>1576654708474</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1576654708474</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Excel 导出功能方法封装">
+      <created>1576803252815</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1576803252815</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Excel 导出功能方法封装">
+      <created>1576820670318</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1576820670318</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Excel 导出功能方法封装">
+      <created>1576822694744</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1576822694744</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Excel 导出功能方法封装">
+      <created>1576823316196</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1576823316196</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Excel 导出功能方法封装">
+      <created>1577234232140</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1577234232140</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Excel 导出功能方法封装">
+      <created>1577234357807</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1577234357807</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Excel 导出功能方法封装">
+      <created>1577325716333</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1577325716333</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Excel 导出功能方法封装">
+      <created>1577439061644</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1577439061644</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Excel 导出功能方法封装">
+      <created>1577698626331</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1577698626331</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Excel 导出功能方法封装">
+      <created>1577707192340</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1577707192341</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Excel 导出功能方法封装">
+      <created>1577707454169</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1577707454169</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Excel 导出功能方法封装">
+      <created>1587870867581</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1587870867581</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Excel 导出功能方法封装">
+      <created>1588728476840</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1588728476841</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Excel 导出功能方法封装">
+      <created>1588756813157</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1588756813157</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Excel 导出功能方法封装">
+      <created>1589008273974</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1589008273975</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Excel 导出功能方法封装">
+      <created>1589268847335</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1589268847336</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Excel 导出功能方法封装">
+      <created>1590747096299</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1590747096299</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Excel 导出功能方法封装">
+      <created>1590997803144</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1590997803144</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Excel 导出功能方法封装">
+      <created>1591060883725</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1591060883725</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Excel 导出功能方法封装">
+      <created>1591078713625</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1591078713625</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Excel 导出功能方法封装">
+      <created>1591083862035</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1591083862035</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Excel 导出功能方法封装">
+      <created>1591086003345</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1591086003345</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Excel 导出功能方法封装">
+      <created>1591344850140</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1591344850141</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Excel 导出功能方法封装">
+      <created>1591610848290</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1591610848290</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="WebApplicationTests_deployment - 2019.12.30 at 17h 10m 14s.xml">
+      <configuration name="WebApplicationTests.deployment" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="WebApplicationTests_deployment - 2019.12.30 at 17h 11m 19s.xml">
+      <configuration name="WebApplicationTests.deployment" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="WebApplicationTests_deletecomplete - 2019.12.30 at 17h 15m 26s.xml">
+      <configuration name="WebApplicationTests.deletecomplete" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="WebApplicationTests_historicactivityinstance - 2019.12.30 at 18h 45m 53s.xml">
+      <configuration name="WebApplicationTests.historicactivityinstance" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="WebApplicationTests_historicactivityinstance - 2019.12.30 at 18h 46m 47s.xml">
+      <configuration name="WebApplicationTests.historicactivityinstance" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="WebApplicationTests_historicactivityinstance - 2019.12.30 at 18h 50m 27s.xml">
+      <configuration name="WebApplicationTests.historicactivityinstance" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="WebApplicationTests_deletecomplete - 2019.12.31 at 08h 29m 47s.xml">
+      <configuration name="WebApplicationTests.deletecomplete" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="WebApplicationTests_deletecomplete - 2019.12.31 at 10h 39m 06s.xml">
+      <configuration name="WebApplicationTests.deletecomplete" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="WebApplicationTests_deletecomplete - 2019.12.31 at 10h 48m 42s.xml">
+      <configuration name="WebApplicationTests.deletecomplete" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="WebApplicationTests_deletecomplete - 2019.12.31 at 10h 49m 27s.xml">
+      <configuration name="WebApplicationTests.deletecomplete" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="740975000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="2575" height="1424" extended-state="7" />
+    <layout>
+      <window_info id="Designer" order="0" />
+      <window_info id="UI Designer" order="1" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Web" order="3" sideWeight="0.50163937" side_tool="true" weight="0.16577825" />
+      <window_info id="Favorites" order="4" sideWeight="0.50163937" side_tool="true" weight="0.16577825" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.45183715" visible="true" weight="0.22963846" />
+      <window_info id="Structure" order="7" sideWeight="0.5462598" side_tool="true" weight="0.23361145" />
+      <window_info id="BPMN Editor" order="8" sideWeight="0.43148357" weight="0.1966627" />
+      <window_info id="JRebel" order="9" sideWeight="0.5481629" side_tool="true" weight="0.1473977" />
+      <window_info anchor="bottom" id="Messages" order="0" sideWeight="0.47516885" weight="0.28999212" />
+      <window_info anchor="bottom" id="Java Enterprise" order="1" weight="0.32897604" />
+      <window_info anchor="bottom" id="Version Control" order="2" sideWeight="0.49900675" weight="0.25847125" />
+      <window_info anchor="bottom" id="Spring" order="3" weight="0.32897604" />
+      <window_info anchor="bottom" id="Run Dashboard" order="4" sideWeight="0.7342074" visible="true" weight="0.20094563" />
+      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.50099325" side_tool="true" weight="0.44759652" />
+      <window_info anchor="bottom" id="Message" order="6" />
+      <window_info anchor="bottom" id="Find" order="7" weight="0.18261826" />
+      <window_info anchor="bottom" id="Run" order="8" sideWeight="0.68851805" weight="0.3609141" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.3286052" />
+      <window_info anchor="bottom" id="Debug" order="10" sideWeight="0.49713466" weight="0.34751773" />
+      <window_info anchor="bottom" id="Cvs" order="11" weight="0.25" />
+      <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Inspection" order="13" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="14" weight="0.21985815" />
+      <window_info anchor="bottom" id="Docker" order="15" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Problems" order="16" weight="0.32781717" />
+      <window_info anchor="bottom" id="JRebel Executor" order="17" />
+      <window_info anchor="bottom" id="JRebel Console" order="18" sideWeight="0.50099325" side_tool="true" weight="0.19936958" />
+      <window_info anchor="bottom" id="MyBatis Log" order="19" />
+      <window_info anchor="right" id="Maven Projects" order="0" weight="0.3295129" />
+      <window_info anchor="right" id="Database" order="1" weight="0.32936034" />
+      <window_info anchor="right" id="Palette&#9;" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="right" id="Module Dependencies" order="4" weight="0.1673774" />
+      <window_info anchor="right" id="Bean Validation" order="5" weight="0.32942432" />
+      <window_info anchor="right" id="Coverage" order="6" sideWeight="0.50147927" side_tool="true" weight="0.122068234" />
+      <window_info anchor="right" id="Theme Preview" order="7" />
+      <window_info anchor="right" id="Commander" order="8" weight="0.4" />
+      <window_info anchor="right" id="Palette" order="9" />
+      <window_info anchor="right" id="Ant Build" order="10" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="11" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="12" visible="true" weight="0.06436234" />
+      <window_info anchor="right" id="Preview" order="13" />
+      <window_info anchor="right" id="BPMNPalette" order="14" weight="0.21136273" />
+      <window_info anchor="right" id="Word Book" order="15" side_tool="true" />
+      <window_info anchor="right" id="leetcode" order="16" side_tool="true" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="修复导出excel  bug" />
+    <MESSAGE value="角色删除关联账号BUG" />
+    <MESSAGE value="BUG修复" />
+    <MESSAGE value="Excel 导出功能方法封装" />
+    <option name="LAST_COMMIT_MESSAGE" value="Excel 导出功能方法封装" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/CommonAction.java</url>
+          <line>418</line>
+          <properties />
+          <option name="timeStamp" value="83" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/xfgl-web/src/test/java/com/tonbu/web/WebApplicationTests.java</url>
+          <line>47</line>
+          <properties />
+          <option name="timeStamp" value="163" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/xfgl-web/src/test/java/com/tonbu/web/WebApplicationTests.java</url>
+          <line>212</line>
+          <properties />
+          <option name="timeStamp" value="170" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/xfgl-web/src/test/java/com/tonbu/web/PrcoessTest.java</url>
+          <line>129</line>
+          <properties />
+          <option name="timeStamp" value="176" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/app/itsm/service/impl/GzqServiceImpl.java</url>
+          <line>145</line>
+          <properties />
+          <option name="timeStamp" value="182" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/xfgl-api/src/main/java/com/tonbu/api/oauth2/AuthExceptionEntryPoint.java</url>
+          <line>24</line>
+          <properties />
+          <option name="timeStamp" value="189" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="StringUtils.isNotEmpty(pid)" />
+        <watch expression="map.get(&quot;PARENTID&quot;).toString()" />
+        <watch expression="multipartfile.getName()" language="JAVA" />
+        <watch expression="multipartfile.getOriginalFilename()" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="watch">
+      <expression>
+        <expression-string>multipartfile.getOriginalFilename()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>multipartfile.getName()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>e</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>monthNum(date_year,0),ss_id</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>p</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>trimToEmpty(usermap.get(&quot;DWMC_TRUE&quot;))</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>c</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>r</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>u</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>u.getLoginname()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>usermap.get(&quot;JOB&quot;)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/important/RyfxMoblieService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-framework/src/main/java/com/tonbu/framework/data/UserEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8">
+          <caret line="83" column="18" selection-start-line="83" selection-start-column="18" selection-end-line="83" selection-end-column="18" />
+          <folding>
+            <element signature="e#1573#1574#0" expanded="true" />
+            <element signature="e#1604#1605#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-tx/5.0.7.RELEASE/spring-tx-5.0.7.RELEASE-sources.jar!/org/springframework/transaction/interceptor/TransactionAspectSupport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="304" selection-start-line="304" selection-end-line="304" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-tx/5.0.7.RELEASE/spring-tx-5.0.7.RELEASE-sources.jar!/org/springframework/transaction/interceptor/TransactionInterceptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="97" selection-start-line="97" selection-end-line="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.0.7.RELEASE/spring-aop-5.0.7.RELEASE-sources.jar!/org/springframework/aop/aspectj/MethodInvocationProceedingJoinPoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-support/src/main/java/com/tonbu/support/aop/ResultAspect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="836">
+          <caret line="64" selection-start-line="64" selection-end-line="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.0.7.RELEASE/spring-aop-5.0.7.RELEASE-sources.jar!/org/springframework/aop/aspectj/AbstractAspectJAdvice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="632" selection-start-line="632" selection-end-line="632" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.0.7.RELEASE/spring-aop-5.0.7.RELEASE-sources.jar!/org/springframework/aop/interceptor/ExposeInvocationInterceptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="91" selection-start-line="91" selection-end-line="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.0.7.RELEASE/spring-aop-5.0.7.RELEASE-sources.jar!/org/springframework/aop/framework/ReflectiveMethodInvocation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="755">
+          <caret line="184" selection-start-line="184" selection-end-line="184" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.0.7.RELEASE/spring-aop-5.0.7.RELEASE-sources.jar!/org/springframework/aop/framework/CglibAopProxy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="690" selection-start-line="690" selection-end-line="690" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/static/mobile/js/leave_add.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="485">
+          <caret line="114" column="20" lean-forward="true" selection-start-line="114" selection-start-column="20" selection-end-line="114" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-framework/pom.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-support/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="736">
+          <caret line="86" column="17" selection-start-line="86" selection-start-column="17" selection-end-line="86" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="75" column="20" selection-start-line="75" selection-start-column="20" selection-end-line="75" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/WebApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="8" column="48" selection-start-line="8" selection-start-column="48" selection-end-line="8" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/common/ImportExcelUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-304">
+          <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/app/activiti/JPushUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="677" column="7" selection-start-line="677" selection-start-column="7" selection-end-line="677" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/RyfxAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="50" column="25" lean-forward="true" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/XxfbAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3676">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/YdxfAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.0.7.RELEASE/spring-core-5.0.7.RELEASE.jar!/org/springframework/cglib/proxy/MethodProxy.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="103" selection-start-line="103" selection-end-line="103" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/context.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/LeaveAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="118" column="42" selection-start-line="118" selection-start-column="42" selection-end-line="118" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-framework/src/main/java/com/tonbu/framework/dao/support/Page.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
+          <folding>
+            <element signature="e#1101#1102#0" expanded="true" />
+            <element signature="e#1133#1134#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/activiti/activiti-engine/6.0.0/activiti-engine-6.0.0-sources.jar!/org/activiti/engine/history/HistoricActivityInstance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="54" column="9" selection-start-line="54" selection-start-column="9" selection-end-line="54" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/test/java/com/tonbu/web/LambdaTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/LeaveService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="54" column="42" selection-start-line="54" selection-start-column="42" selection-end-line="54" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/xxfb/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3686">
+          <caret line="194" column="29" selection-start-line="194" selection-start-column="29" selection-end-line="194" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/xxfb/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="34" column="47" lean-forward="true" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-support/src/main/java/com/tonbu/support/config/ShiroConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="125" column="53" lean-forward="true" selection-start-line="125" selection-start-column="53" selection-end-line="125" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-support/src/main/java/com/tonbu/support/shiro/CustomRealm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="62" column="26" selection-start-line="62" selection-start-column="16" selection-end-line="62" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/DqService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/LoginAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="97" column="22" selection-start-line="97" selection-start-column="12" selection-end-line="97" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/BaseAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/impl/GgglServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="36" column="61" lean-forward="true" selection-start-line="36" selection-start-column="61" selection-end-line="36" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/GgglAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="48" column="36" selection-start-line="48" selection-start-column="36" selection-end-line="48" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/important/RyfxMobileAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="183" column="45" selection-start-line="183" selection-start-column="45" selection-end-line="183" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/pojo/HistoryProcess.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-mobile/src/main/resources/static/layui/js/commons.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="108" column="80" lean-forward="true" selection-start-line="108" selection-start-column="80" selection-end-line="108" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/application-dev.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/impl/LeaveServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13205">
+          <caret line="728" column="43" selection-start-line="728" selection-start-column="43" selection-end-line="728" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/common/HttpUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3743">
+          <caret line="222" selection-start-line="222" selection-end-line="222" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.7/commons-lang3-3.7-sources.jar!/org/apache/commons/lang3/StringUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5738">
+          <caret line="334" column="26" selection-start-line="334" selection-start-column="26" selection-end-line="334" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/app/itsm/action/ApiAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4636">
+          <caret line="302" column="24" selection-start-line="302" selection-start-column="24" selection-end-line="302" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/service/important/impl/RyfxMoblieServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7790">
+          <caret line="425" selection-start-line="425" selection-end-line="425" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="638">
+          <caret line="59" column="41" lean-forward="true" selection-start-line="59" selection-start-column="41" selection-end-line="59" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/java/com/tonbu/web/admin/action/YhLeaveAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="59" column="49" lean-forward="true" selection-start-line="59" selection-start-column="49" selection-end-line="59" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/message/myList.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="130" column="13" selection-start-line="130" selection-start-column="13" selection-end-line="130" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/meeting/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="129" column="13" selection-start-line="129" selection-start-column="13" selection-end-line="129" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/yhleave/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1455" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xfgl-web/src/main/resources/templates/admin/manage/yhleave/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="89" column="44" lean-forward="true" selection-start-line="89" selection-start-column="44" selection-end-line="89" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>xfgl-web:war exploded</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Spring</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>JRebel|xfgl-web</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

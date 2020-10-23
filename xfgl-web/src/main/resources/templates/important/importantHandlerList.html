@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="${ctx.contextPath}/layui/commons/main.js" type="text/javascript"></script>
+    <title>Title</title>
+</head>
+<style>
+    .layui-icon-ext {
+        font-size: 18px;
+    }
+</style>
+<body class="layui-layout-body">
+<div style="padding: 15px;">
+    <div class="extList-search">
+        <!--按钮区域--><!--目前通过css隐藏-->
+        <div class="layui-btn-group" style="height: 35px; visibility: hidden">
+            <button class='layui-btn layui-btn-sm'  onclick=buttonEvents('add')>新增</button>
+            <button class='layui-btn layui-btn-sm'  onclick=buttonEvents('edit')>修改</button>
+            <button class='layui-btn layui-btn-sm'  onclick=buttonEvents('del')>删除</button>
+        </div>
+        <div class="layui-form-item extList-search-box">
+            <form class="layui-form" style="display: inline-block;">
+                <div class="layui-inline extList-search-item">
+                    <label class="layui-form-label extList-search-label">关键字：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="key_name" id="key_name" placeholder="请输入登录人员" >
+                    </div>
+                </div>
+            </form>
+
+            <!--工具栏区域-->
+            <div class="layui-inline extList-sm-icon" title="搜索" onclick="search()"><i class="layui-icon layui-icon-search"></i></div>
+            <div class="layui-inline extList-sm-icon" title="刷新" onclick="refreshPage()"><i class="layui-icon layui-icon-refresh"></i></div>
+        </div>
+
+
+    </div>
+    <table id="tab_dg" lay-filter="test" style="height: 100%"></table>
+</div>
+
+
+<script type="text/html" id="barDemo">
+    [#if ( status != 6 && status != 3)]
+        <a class="layui-btn layui-btn-xs" lay-event="audit_important">审核</a>
+    [/#if]
+
+    [#if ( status == 3 )]
+        {{#  if(d.STATUS != 5){ }}
+            <a class="layui-btn layui-btn-xs" lay-event="gd_important">归档</a>
+        {{#  } }}
+    [/#if]
+    <a class="layui-btn layui-btn-xs" lay-event="view">详情</a>
+</script>
+
+<script>
+    var statusDb = "${status}";
+    if (statusDb != ""){
+        if (statusDb =='3'){
+            statusDb= 3//待归档
+        }else{
+            statusDb = 6 //已审核
+        }
+    }else{
+        statusDb= 2 //待审核
+    }
+    var table,tableIns,openType=1;action='accountAction',method='list';
+    var tabIndex = top.$(".layui-tab-title li.layui-this").attr("lay-id");  //获取当前tab Id
+    layui.use('table', function(){
+        table = layui.table;
+        var pageHeight = $(window).height()-30-38;
+        tableIns = table.render({
+            id:"tab_list"
+            ,elem: '#tab_dg'
+            ,height: pageHeight
+            ,limit: Math.floor(pageHeight/40-2)
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度.
+            ,url:Apps.ContextPath+ 'importantHandler/list' //数据接口
+            ,page: true //开启分页
+            ,where:{status:statusDb,"v":Date.parse(new Date())}
+            ,autoSort: false
+            ,cols: [[ //表头
+                {type:'checkbox', fixed: 'left',checkbox: false}
+                ,{title: '序号',width:70, align: 'center',type: 'numbers', fixed: 'left', unresize: true}
+                ,{field: 'ID', title: '编号', width:0, align: 'center',hide:true}
+                ,{field: 'USERNAME', title: '登记人员', align: 'center', }
+                ,{field: 'CREATETIME', title: '登记时间', align: 'center'}
+                ,{field: 'REIGNNUMBER', title: '在位人数', align: 'center',width: 90}
+                ,{field: 'LEAVENUMBER', title: '外出人数',  align: 'center',width: 90}
+                ,{field: 'GOHOMENUMBER', title: '休假人数', align: 'center',width: 90}
+                ,{field: 'IMPORTANTCONTENT', title: '要事说明', width: 320, align: 'left'}
+                ,{field: 'TYPENAME', title: '要事类型', align: 'center'}
+                /*,{field: 'AUDITUSERNAME', title: '审核人员',  align: 'center'}*/
+                ,{field: 'STATUSNAME', title: '审核状态',  align: 'center',width: 90}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo' ,align: 'center',width: 120}
+            ]]
+            /*,done: function(res, curr, count){
+                $("[data-field='id']").css('display','none');
+            }*/
+
+        });
+        /*//监听行双击事件查看要事登记详情
+        table.on('rowDouble(test)', function(obj){
+        });*/
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            //审核记录
+            if(obj.event === 'audit_important'){
+                var index = layer.open({
+                    type: 2,
+                    area: ['600px', '80%'],
+                    title: '审核',
+                    fixed: false, //不固定
+                    content: Apps.ContextPath+"importantHandler/toAuditImportant/"+data.ID,
+                    btn: ['通过','退回','取消'],
+                    yes: function (index, layero) {
+                        layero.find('iframe')[0].contentWindow.mySubmitTg();//通过
+                        location.reload();
+                    },
+                    btn2: function (index, layero) {
+                        layero.find('iframe')[0].contentWindow.mySubmitTh();//退回
+                        location.reload();
+                    },
+                    btn3: function (index, layero) {// 默认关闭窗口
+                    }
+                });
+             // 归档
+            } else if (obj.event === 'gd_important'){
+                var index = layer.open({
+                    type: 2,
+                    area: ['600px', '80%'],
+                    title: '归档',
+                    fixed: false, //不固定
+                    content: Apps.ContextPath+"importantHandler/toGdImportant/"+data.ID,
+                    btn: ['归档','退回','取消'],
+                    yes: function (index, layero) {
+                        layero.find('iframe')[0].contentWindow.mySubmitGd();//归档
+                        location.reload();
+                    },
+                    btn2: function (index, layero) {
+                        layero.find('iframe')[0].contentWindow.mySubmitTh();//退回
+                        location.reload();
+                    },
+                    btn3: function (index, layero) {// 默认关闭窗口
+                    }
+                });
+
+
+            } else if(obj.event === 'view'){
+                var param = {
+                    type: 2,
+                    area: ['600px', '80%'],
+                    title:'详情',
+                    fixed: false, //不固定
+                    btn:["取消"],
+                    content: Apps.ContextPath+'important/view/'+data.ID
+                };
+                openPage(openType,"view",param);
+            }
+        });
+    });
+
+    function viewOne(id){
+        //用于判断为查看详情还是编辑的状态
+        var type='edit';
+        var param = {
+            type: 2,
+            area: ['600px', '80%'],
+            title:'用户表单',
+            fixed: false, //不固定
+            btn:["取消"],
+            content: Apps.ContextPath+'user/add/0/'+id+"?isView=true"
+        };
+        openPage(openType,type,param);
+    }
+
+
+    function buttonEvents(type){
+        var check = table.checkStatus('tab_list');
+        //用于判断为查看详情还是编辑的状态
+        var param = {
+            type: 2,
+            area: ['600px', '80%'],
+            title:'编辑',
+            fixed: false, //不固定
+            btns : ['保存','送审','取消'],
+            content: Apps.ContextPath+"important/add",
+        };
+        if(type=="add"){
+            addImportant(param);
+        }else if(check.data.length!=1 && (type=='edit')){
+            layer.msg("请选择一行数据！",function (){})
+        }else if(type=="edit"){
+            param.content=Apps.ContextPath+'important/add/'+check.data[0].ID;
+            addImportant(param);
+        }else if(type=="del"){
+            rowsDel("important/del",check.data,"你确定删除所选数据吗?");//刪除事件
+        }else if(type=='realDel'){
+            rowsDel("important/realDel",check.data,"彻底删除数据后无法恢复，确定要彻底删除所选数据?");
+        }else  if(type=='export'){//导出
+            _export();
+        }
+    }
+
+    
+    function addImportant(param) {
+        var index = layer.open({
+            type: 2,
+            area: param.area,
+            title: param.title,
+            fixed: false, //不固定
+            content: param.content,
+            btn: param.btns,
+            yes: function (index, layero) {
+                layero.find('iframe')[0].contentWindow.mySubmitBc();
+                location.reload();
+            },
+            btn2: function (index, layero) {
+                layero.find('iframe')[0].contentWindow.mySubmitTj();
+                location.reload();
+            },
+            btn3: function (index, layero) {// 默认关闭窗口
+            }
+        });
+    }
+    
+    function viewOne(id){
+        //用于判断为查看详情还是编辑的状态
+        var type='edit';
+        var param = {
+            type: 2,
+            area: ['600px', '80%'],
+            title:'账户信息表单',
+            fixed: false, //不固定
+            btn:["取消"],
+            content: Apps.ContextPath+'account/add/'+id+"?isView=true"
+        };
+        openPage(openType,type,param);
+    }
+    function search(){
+        tableIns.reload({
+            where:{"key_name":$("#key_name").val()},
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        })
+    }
+    function reset(){
+        $("#key_name").val("");
+        search();
+    }
+
+    function _export() {
+        var param = {
+            type: 2,
+            area: ['500px', '50%'],
+            title:'导出表单',
+            fixed: false, //不固定
+            content: Apps.ContextPath+"demo/export/"
+        };
+        openPage(openType,null,param);
+    }
+
+    //回车搜索
+    $(document).keyup(function(event){
+        if(event.keyCode ==13){
+            tableIns.reload({
+                where:{"key_name":$("#key_name").val()},
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            })
+        }
+    });
+
+</script>
+</body>
+</html>

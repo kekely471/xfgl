@@ -1,0 +1,206 @@
+<div id="content">
+    <div class="modal-header" style="background-color: #5090C1">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title lighter white no-margin">系统字典表单</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <form id="dict_form" class="form-horizontal" role="form">
+                    <div class="form-group" hidden>
+                        <label class="col-sm-2 control-label no-padding-right">
+                            字典编号 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="id" name="id" placeholder="字典编号"
+                                   class="form-control" style="width: 460px;" value="${SYSDICT.ID}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            *字典名称 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="name" name="name" placeholder="角色名称" maxlength="50"
+                                   required="required"
+                                   class="form-control" style="width: 460px;" value="${SYSDICT.NAME}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            类型标识 </label>
+
+                        <div class="col-sm-10">
+                            <select id="type_code" name="type_code" class="chosen-select form-control"
+                                    data-placeholder="请选类型标识">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            *字典值 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="value" name="value" placeholder="字典值" maxlength="50"
+                                   required="required"
+                                   class="form-control" style="width: 460px;" value="${SYSDICT.VALUE}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            简称 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="cn" name="cn" placeholder="简称" maxlength="50"
+                                   class="form-control" style="width: 460px;" value="${SYSDICT.CN}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            扩展一 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="ext1" name="ext1" placeholder="扩展一" maxlength="50"
+                                   class="form-control" style="width: 460px;" value="${SYSDICT.EXT1}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            扩展二 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="ext2" name="ext2" placeholder="扩展二" maxlength="50"
+                                   class="form-control" style="width: 460px;" value="${SYSDICT.EXT2}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            扩展三 </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="ext3" name="ext3" placeholder="扩展三" maxlength="50"
+                                   class="form-control" style="width: 460px;" value="${SYSDICT.EXT3}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            排序号 </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="sort" name="sort" maxlength="3" value="${SYSDICT.SORT?c}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">
+                            启用/禁用 </label>
+                        <div class="col-sm-10" style="margin-top: 5px;">
+                            [#if SYSDICT.STATUS==0 ]
+                            <input id="status" name="status" type="checkbox"
+                                   class="ace ace-switch ace-switch-4 btn-flat">
+                            [#else]
+                            <input id="status" name="status" type="checkbox"
+                                   class="ace ace-switch ace-switch-4 btn-flat" checked="checked">
+                            [/#if]
+                            <span class="lbl"></span>
+                        </div>
+                    </div>
+                </form>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div>
+
+    <div class="modal-footer">
+
+        <button class="btn btn-success" onclick="_save();">
+            <i class="ace-icon fa fa-floppy-o"></i>
+            保存
+        </button>
+        &nbsp;
+        <button class="btn btn-inverse" onclick="closeModel();">
+            <i class="ace-icon fa fa-ban"></i>
+            关闭
+        </button>
+    </div>
+
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+        var _id = "${id}";
+        var _type_code = "${type_code}";
+        var form_selector = "#dict_form";
+        jQuery(function ($) {
+            //如果是编辑，则要那一下数据否则只要初始化一些控件
+            //部门选项初始化
+            initDictType();
+            //排序号初始化
+            initSort('#sort');
+            //页面验证初始化（除必填项以外的验证）
+            $(form_selector).validate({
+                rules: {
+                    name: {
+                        maxlength: 50
+                    },
+                    value: {
+                        maxlength: 50
+                    }
+                }
+            });
+        });
+
+
+        function initDictType() {
+            var ajax = new Ajax('common/list/dictType', function (ret) {
+                if (ret.code && ret.code < 0) {
+                    bootbox.alert({title: "警告", message: ret.msg});
+                    return;
+                }
+                if (ret.code && ret.code > 0) {
+                    var html = '';
+                    for (var i = 0; i < ret.dataset.rows.length; i++) {
+                        html += '<option value="' + ret.dataset.rows[i].CODE + '">' + ret.dataset.rows[i].NAME + '</option>';
+                    }
+                    $("#type_code").append(html);
+                    $("#type_code").chosen({allow_single_deselect: true, width: "460px"});
+                    if (_type_code == "0") {
+                        var typeCode = '${SYSDICT.TYPE_CODE}';
+                        if (typeCode == "") {
+                            $("#type_code").val('user_type');
+                            $("#type_code").trigger("chosen:updated");
+                        } else {
+                            $("#type_code").val(typeCode);
+                            $("#type_code").trigger("chosen:updated");
+                        }
+                    } else {
+                        $("#type_code").val(_type_code);
+                        $("#type_code").trigger("chosen:updated");
+                    }
+                }
+            });
+            ajax.setMessage(false);
+            ajax.add("type", 0);
+            ajax.submit();
+        }
+
+        function _save() {
+            if ($(form_selector).valid()) {
+                var ajax = new Ajax('dict/sys/save', function (ret) {
+                    if (ret.code && ret.code < 0) {
+                        bootbox.alert({title: "警告", message: ret.msg});
+                        return;
+                    }
+                    if (ret.code && ret.code > 0) {
+                        bootbox.alert({title: "信息", message: "保存成功"});
+
+                        //刷新grid等一些需要刷新的控件
+                        $(grid_selector).trigger("reloadGrid");
+
+                        //关闭模态窗口
+                        closeModel();
+                    }
+                });
+                ajax.setMessage(true);
+                ajax.add(formSerialize(form_selector));
+                ajax.submit();
+            }
+        }
+    </script>
+</div>
